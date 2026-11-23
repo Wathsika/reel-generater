@@ -1,5 +1,7 @@
 # Clip Factory
 
+> **New here? → [SETUP.md](SETUP.md)** step-by-step setup and run guide.
+
 Fully automated, **rights-cleared** clipping pipeline. Runs 100% on GitHub's free
 hosted runners (public repo) — nothing downloads to your machine.
 

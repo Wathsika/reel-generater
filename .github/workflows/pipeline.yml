@@ -73,8 +73,8 @@ jobs:
       - name: Restore token store
         run: python -c "from pipeline import tokens; tokens.restore_from_env()"
 
-      - name: Configure auto-approve
-        if: inputs.auto_approve == false
+      - name: Configure auto-approve (manual dry run only)
+        if: github.event_name == 'workflow_dispatch' && inputs.auto_approve == false
         run: |
           python - <<'PY'
           import yaml, pathlib

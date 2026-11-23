@@ -9,7 +9,10 @@
 posting:
   max_clips_per_day: 6
   min_gap_minutes: 45          # spread posts out, account looks human
-  auto_approve: false          # true = skip the GitHub review issue (risky)
+  # true  = publish automatically (fully automated)
+  # false = render + upload to R2 but do NOT post; set back to true to publish
+  # For your first test run, use the workflow's "auto_approve" checkbox instead.
+  auto_approve: true
   post_times_utc: ["06:30", "13:00", "19:30"]   # best-effort slots
 
 platforms:
