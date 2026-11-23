@@ -6,8 +6,8 @@ Rules:
   * A source video is deleted once every clip cut from it has finished
     rendering/QA/upload/publish. If any clip failed, the source is kept so a
     re-run can retry it (use --force to delete anyway).
-  * A clip's local .mp4 is deleted once it has been uploaded to R2. Publishing
-    uses the R2 URL, so the local file is no longer needed.
+  * A clip's local .mp4 is deleted once it has been uploaded to storage.
+    Publishing uses the public URL, so the local file is no longer needed.
   * Per-day state files (queue/rendered/logs) older than --prune-days are
     deleted. Cumulative files (posted/performance/jobs) are never pruned.
 

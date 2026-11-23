@@ -210,7 +210,7 @@ function render(d){
   // health pills
   const health = [
     ["API keys", acct._llm_ok!==false && ((acct.llm&&acct.llm.groq)||(acct.llm&&acct.llm.gemini))],
-    ["R2 storage", acct.r2&&acct.r2.configured],
+    ["Storage", acct.storage_backend&&acct.storage_backend.configured],
     ["TikTok", acct.tiktok&&acct.tiktok.configured],
     ["Instagram", acct.instagram&&acct.instagram.configured]
   ];
@@ -265,8 +265,10 @@ function render(d){
     ["Mode", (d.accounts&&d.accounts.tiktok&&d.accounts.tiktok.draft_mode)?"draft":"direct post"],
     ["Posts today", posts.filter(p=>p.platform==="tiktok").length]
   ]));
-  cards.push(card("Storage (R2)", !!(acct.r2&&acct.r2.configured), [
-    ["Bucket", (acct.r2&&acct.r2.bucket)||"clips"],
+  const st = acct.storage_backend||{};
+  cards.push(card("Storage - "+(st.configured?(st.backend||"ready"):"not configured"), !!(st.configured), [
+    ["Bucket / folder", st.bucket||"-"],
+    ["Public URLs", st.public?"ready":"-"],
     ["Clips stored", r.filter(c=>c.r2_url).length],
     ["Local work", (d.storage&&d.storage.work_mb!=null)?d.storage.work_mb+" MB":"-"],
     ["Freed last run", (d.storage&&d.storage.freed_mb!=null)?d.storage.freed_mb+" MB":"-"]
@@ -377,8 +379,14 @@ def _accounts_snapshot() -> dict:
         snap = tokens.account_health()
     except Exception:
         snap = {}
-    snap.setdefault("r2", {})
-    snap["r2"]["bucket"] = config.env("R2_BUCKET", "clips")
+    # Storage backend (S3/MinIO, Nextcloud, or R2) - whichever is configured.
+    try:
+        from . import storage
+
+        snap["storage_backend"] = storage.status()
+    except Exception as exc:
+        snap["storage_backend"] = {"backend": "unknown", "configured": False,
+                                   "error": str(exc)[:200]}
     campaigns = config.campaigns()
     snap["campaigns"] = [c.get("id") for c in campaigns.get("campaigns", []) if c.get("enabled")]
     # Persist for the live-fetch mode on GitHub Pages

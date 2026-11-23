@@ -10,10 +10,19 @@ posting:
   max_clips_per_day: 6
   min_gap_minutes: 45          # spread posts out, account looks human
   # true  = publish automatically (fully automated)
-  # false = render + upload to R2 but do NOT post; set back to true to publish
+  # false = render + upload to storage but do NOT post; set back to true to publish
   # For your first test run, use the workflow's "auto_approve" checkbox instead.
   auto_approve: true
   post_times_utc: ["06:30", "13:00", "19:30"]   # best-effort slots
+
+# Where finished clips are stored. Chosen by env vars (see .env.example):
+#   s3        MinIO / any S3 on your own VPS   <- recommended for Oracle VPS
+#   nextcloud Nextcloud WebDAV + public shares
+#   r2        Cloudflare R2
+# Auto-detected from S3_ENDPOINT / NC_URL / R2_ACCOUNT_ID if STORAGE_BACKEND
+# is unset.
+storage:
+  backend: auto        # auto | s3 | nextcloud | r2
 
 platforms:
   instagram:

@@ -97,6 +97,97 @@
       "stage": "dashboard",
       "message": "completed (1 items)",
       "job_id": "dashboard-1795436334-20d1e8"
+    },
+    {
+      "t": "2026-11-23T12:55:32+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795438532-ec0853"
+    },
+    {
+      "t": "2026-11-23T12:59:20+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (0 items)",
+      "job_id": "discover-1795438760-acd81c"
+    },
+    {
+      "t": "2026-11-23T12:59:20+00:00",
+      "level": "warn",
+      "stage": "discover",
+      "message": "no enabled campaigns in config/campaigns.yaml"
+    },
+    {
+      "t": "2026-11-23T12:59:21+00:00",
+      "level": "info",
+      "stage": "transcribe",
+      "message": "completed (0 items)",
+      "job_id": "transcribe-1795438760-96779e"
+    },
+    {
+      "t": "2026-11-23T12:59:21+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "completed (0 items)",
+      "job_id": "select-1795438761-f4a422"
+    },
+    {
+      "t": "2026-11-23T12:59:21+00:00",
+      "level": "info",
+      "stage": "render",
+      "message": "completed (0 items)",
+      "job_id": "render-1795438761-f05e59"
+    },
+    {
+      "t": "2026-11-23T12:59:21+00:00",
+      "level": "info",
+      "stage": "qa",
+      "message": "completed (0 items)",
+      "job_id": "qa-1795438761-a02ccc"
+    },
+    {
+      "t": "2026-11-23T12:59:21+00:00",
+      "level": "info",
+      "stage": "upload",
+      "message": "completed (0 items)",
+      "job_id": "upload-1795438761-cf04a8"
+    },
+    {
+      "t": "2026-11-23T12:59:21+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "completed (0 items)",
+      "job_id": "publish-1795438761-993be7"
+    },
+    {
+      "t": "2026-11-23T12:59:21+00:00",
+      "level": "info",
+      "stage": "analytics",
+      "message": "completed (0 items)",
+      "job_id": "analytics-1795438761-0b57af"
+    },
+    {
+      "t": "2026-11-23T12:59:21+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "completed (0 items)",
+      "job_id": "cleanup-1795438761-599e37"
+    },
+    {
+      "t": "2026-11-23T12:59:21+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "freed 0.0 MB across 0 file(s)",
+      "sources": 0,
+      "state_files": 0
+    },
+    {
+      "t": "2026-11-23T12:59:22+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795438762-e63248"
     }
   ]
 }

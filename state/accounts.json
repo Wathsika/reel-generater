@@ -14,13 +14,15 @@
     "open_id": false,
     "last_refresh": null
   },
-  "r2": {
-    "configured": false,
-    "bucket": "clips"
-  },
   "llm": {
     "groq": false,
     "gemini": false
+  },
+  "storage_backend": {
+    "backend": "Cloudflare R2",
+    "bucket": "clips",
+    "configured": false,
+    "public": false
   },
   "campaigns": []
 }

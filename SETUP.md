@@ -9,7 +9,7 @@ Clean, step-by-step. Total time: ~45 minutes plus waiting on app approvals.
 | # | Service | Link | What you get |
 |---|---|---|---|
 | 1 | **Groq** | console.groq.com | free Whisper + Llama keys |
-| 2 | **Cloudflare** | dash.cloudflare.com | R2 storage (10 GB free) |
+| 2 | **Storage** | your existing **Oracle VPS** (MinIO or Nextcloud) — or dash.cloudflare.com | public HTTPS URL for clips |
 | 3 | **Whop / Content Rewards** | contentrewards.com | clipping campaigns that pay you |
 | 4 | **Meta developer** | developers.facebook.com | Instagram + Facebook publishing |
 | 5 | **TikTok developer** | developers.tiktok.com | TikTok publishing |
@@ -31,17 +31,165 @@ git push -u origin main
 
 ---
 
-## Part 3 — Cloudflare R2 (clip storage)
+## Part 3 — Clip storage (pick ONE)
+
+Meta and TikTok download each clip **themselves**, so the URL must be:
+
+- public **HTTPS** with a valid certificate
+- the **raw file** — no login, no HTML page, no redirect
+- `Content-Type: video/mp4`
+
+Three backends are supported. Set `STORAGE_BACKEND` (or leave it blank and let
+the pipeline auto-detect from which variables are present).
+
+---
+
+### Option A — MinIO on your Oracle VPS (recommended)
+
+MinIO speaks the S3 API, so it plugs in directly and is far more reliable than
+a Nextcloud share link. It runs comfortably on the free-tier ARM instance.
+
+```bash
+# 1) install minio + mc on the VPS
+curl -O https://dl.min.io/server/minio/release/linux-arm64/minio
+curl -O https://dl.min.io/client/mc/release/linux-arm64/mc
+sudo install -m755 minio /usr/local/bin/minio
+sudo install -m755 mc    /usr/local/bin/mc
+
+# 2) data dir + service user
+sudo mkdir -p /srv/minio/data
+sudo useradd -r minio-user 2>/dev/null || true
+sudo chown -R minio-user:minio-user /srv/minio
+
+# 3) systemd unit  /etc/systemd/system/minio.service
+```
+
+```ini
+[Unit]
+Description=MinIO
+After=network-online.target
+
+[Service]
+User=minio-user
+Environment="MINIO_ROOT_USER=clipadmin"
+Environment="MINIO_ROOT_PASSWORD=CHANGE-THIS-LONG-PASSWORD"
+ExecStart=/usr/local/bin/minio server /srv/minio/data --address 127.0.0.1:9000 --console-address 127.0.0.1:9001
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now minio
+sudo systemctl status minio --no-pager
+
+# 4) create the bucket and allow anonymous GET (public read)
+mc alias set local http://127.0.0.1:9000 clipadmin CHANGE-THIS-LONG-PASSWORD
+mc mb --ignore-existing local/clips
+mc anonymous set download local/clips
+```
+
+5. **Publish it over HTTPS.** MinIO stays on `127.0.0.1:9000`; put [Caddy](https://caddyserver.com)
+   in front so it gets a free certificate (point an `A` record for
+   `clips.yourdomain.com` at the VPS, open ports 80 + 443 in the Oracle
+   security list, then `/etc/caddy/Caddyfile`):
+
+```
+clips.yourdomain.com {
+    reverse_proxy 127.0.0.1:9000
+}
+```
+
+6. **Verify before adding secrets:**
+
+```bash
+mc cp some.mp4 local/clips/probe.mp4
+curl -sI https://clips.yourdomain.com/clips/probe.mp4 | grep -Ei "HTTP/|content-type|content-length"
+# expect: HTTP/2 200, content-type: video/mp4, no "location:" header
+```
+
+Secrets for this option:
+
+```
+STORAGE_BACKEND          = s3
+S3_ENDPOINT              = https://clips.yourdomain.com
+S3_ACCESS_KEY_ID         = clipadmin
+S3_SECRET_ACCESS_KEY     = CHANGE-THIS-LONG-PASSWORD
+S3_BUCKET                = clips
+S3_REGION                = us-east-1
+S3_PATH_STYLE            = true
+S3_PUBLIC_BASE           = https://clips.yourdomain.com/clips
+```
+
+> Oracle free-tier egress is 10 TB/month. Uploads from GitHub are *ingress*
+> (free); only the platform fetching a clip counts, and a 10 MB clip has to be
+> viewed ~1 million times to matter.
+
+---
+
+### Option B — Your existing Nextcloud
+
+Works, but it is the **least reliable** of the three: Nextcloud's normal share
+link (`/s/TOKEN`) is an HTML page and `/download` returns a **302 redirect**,
+and Meta is picky about both. The pipeline therefore uploads over WebDAV and
+returns Nextcloud's **public DAV** URL (`/public.php/dav/files/TOKEN`), which
+serves the raw bytes directly.
+
+Secrets:
+
+```
+STORAGE_BACKEND      = nextcloud
+NC_URL               = https://cloud.yourdomain.com
+NC_USER              = your-nextcloud-user
+NC_APP_PASSWORD      = <Settings -> Security -> Create app password>
+NC_FOLDER            = Clips
+# optional overrides - see below
+# NC_DIRECT_TEMPLATE = {url}/public.php/dav/files/{token}
+```
+
+Requirements in Nextcloud:
+
+- **Files → Sharing** enabled and "Allow users to share via link" allowed
+- app password used (not your login password — 2FA would break login auth)
+- the `Clips` folder must be writable by that user
+
+Verify a real upload with:
+
+```bash
+curl -sI "<the URL the pipeline returned>" | grep -Ei "HTTP/|content-type|location"
+# must be HTTP 200 + content-type: video/mp4, and NO location:
+```
+
+If your Nextcloud version serves single-file shares differently, set
+`NC_DIRECT_TEMPLATE` to the working form — placeholders available:
+`{url}`, `{token}`, `{share}`, `{name}`. For a **folder** share use:
+
+```
+NC_DIRECT_TEMPLATE = {url}/public.php/dav/files/{token}/{name}
+```
+
+> If you cannot get a redirect-free 200 out of Nextcloud, use Option A on the
+> same VPS. It is ~15 minutes of work and removes this whole class of failure.
+
+---
+
+### Option C — Cloudflare R2
 
 1. **R2 → Create bucket** → name it `clips`
-2. **R2 → Manage R2 API Tokens → Create token**
-   - Permission: **Object Read & Write**
-   - Copy: `Access Key ID`, `Secret Access Key`, and your **Account ID** (top of the R2 page)
+2. **R2 → Manage R2 API Tokens → Create token** → *Object Read & Write*
 3. **Bucket → Settings → Public access** → enable the **r2.dev** URL
-   - Copy that URL — it looks like `https://pub-abc123.r2.dev`
 
-You now have: `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`,
-`R2_BUCKET=clips`, `R2_PUBLIC_BASE`.
+```
+STORAGE_BACKEND        = r2
+R2_ACCOUNT_ID          = ...
+R2_ACCESS_KEY_ID       = ...
+R2_SECRET_ACCESS_KEY   = ...
+R2_BUCKET              = clips
+R2_PUBLIC_BASE         = https://pub-abc123.r2.dev
+```
+
+R2 has a free tier but requires a card on file — that is why Option A/B exist.
 
 ---
 
@@ -101,13 +249,13 @@ Repo → **Settings → Secrets and variables → Actions → New repository sec
 | Secret | From |
 |---|---|
 | `GROQ_API_KEY` | Part 1 |
-| `R2_ACCOUNT_ID` | Part 3 |
-| `R2_ACCESS_KEY_ID` | Part 3 |
-| `R2_SECRET_ACCESS_KEY` | Part 3 |
-| `R2_BUCKET` | `clips` |
-| `R2_PUBLIC_BASE` | Part 3 (the r2.dev URL) |
+| **one storage set** | Part 3 — Option A (`S3_*`), B (`NC_*`) or C (`R2_*`) |
 | `IG_USER_ID` | Part 4 |
 | `IG_ACCESS_TOKEN` | Part 4 |
+
+Storage example (Option A / MinIO):
+`STORAGE_BACKEND`, `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`,
+`S3_BUCKET`, `S3_REGION`, `S3_PATH_STYLE`, `S3_PUBLIC_BASE`.
 
 ### Add when ready
 
@@ -170,8 +318,8 @@ campaigns:
 | `limit` | `1` |
 | `auto_approve` | **unchecked** |
 
-This renders and uploads but does **not** post. Check the clips in R2 and the
-dashboard, then re-run with `auto_approve` **checked** to publish.
+This renders and uploads but does **not** post. Check the clips in your storage
+bucket/folder and the dashboard, then re-run with `auto_approve` **checked** to publish.
 
 ### Normal runs
 
@@ -186,7 +334,7 @@ Nothing to do — it runs automatically at **05:00 and 17:00 UTC**.
    - Accounts cards show OK
    - Published table fills in after posting
 2. **Actions tab** → open the latest run → red steps show the exact error
-3. **R2 bucket** → your clips should be there
+3. **Storage bucket/folder** → your clips should be there
 
 ---
 
@@ -215,7 +363,7 @@ from picking good campaigns and good hooks.
 | Symptom | Fix |
 |---|---|
 | `no enabled campaigns` | set `enabled: true` in `config/campaigns.yaml` |
-| `R2 credentials not set` | add the 3 R2 secrets |
+| `R2 credentials not set` / `S3 backend not configured` | add the storage secrets (Part 3) |
 | `Instagram not configured` | `IG_USER_ID` + `IG_ACCESS_TOKEN` |
 | `TikTok not authorised` | run Part 6, save `STATE_TOKENS` |
 | `ffmpeg failed` | check the Actions log; usually a bad source URL |

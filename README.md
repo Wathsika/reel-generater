@@ -39,10 +39,16 @@ Push this to a **public** GitHub repo, then add these under
 - `GROQ_API_KEY` — [console.groq.com](https://console.groq.com) (free; Whisper + Llama)
 - `GEMINI_API_KEY` — optional fallback
 
-**Storage (Cloudflare R2)**
-- `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`
-- `R2_PUBLIC_BASE` — public URL Meta/TikTok can fetch (custom domain, or an
-  R2.dev public domain enabled on the bucket)
+**Storage (pick one backend)**
+- **MinIO / any S3** (recommended for a VPS): `STORAGE_BACKEND=s3`,
+  `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_BUCKET`,
+  `S3_REGION`, `S3_PATH_STYLE`, `S3_PUBLIC_BASE`
+- **Nextcloud**: `STORAGE_BACKEND=nextcloud`, `NC_URL`, `NC_USER`,
+  `NC_APP_PASSWORD`, `NC_FOLDER` (optional `NC_DIRECT_TEMPLATE`)
+- **Cloudflare R2**: `STORAGE_BACKEND=r2`, `R2_ACCOUNT_ID`,
+  `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, `R2_PUBLIC_BASE`
+- The URL must serve the raw `video/mp4` over HTTPS with no redirect; see
+  [SETUP.md Part 3](SETUP.md) for the VPS walkthrough
 
 **Instagram**
 - `IG_USER_ID`, `IG_ACCESS_TOKEN`, `IG_APP_ID`, `IG_APP_SECRET`
@@ -115,7 +121,7 @@ Deployed automatically to GitHub Pages after every run. Shows:
 
 - **KPIs** — clips today, rendered, published, views, in-progress, errors
 - **Pipeline flow** — all 9 stages with live status and last-run time
-- **Accounts & connections** — IG / FB / TikTok / R2 / LLM health at a glance
+- **Accounts & connections** — IG / FB / TikTok / storage / LLM health at a glance
 - **Ongoing work** — what's running right now, elapsed time
 - **Recent errors** — with stage and reason
 - **Today's queue** — every source and its stage
@@ -135,7 +141,7 @@ Locally: `python -m pipeline.dashboard` then open `docs/index.html`.
 | 3 | `pipeline/select.py` | LLM picks clip windows + hook/title/caption/hashtags; snaps to word boundaries |
 | 4 | `pipeline/render.py` | ffmpeg → 1080×1920, layout, loudness normalise, burned ASS captions |
 | 5 | `pipeline/qa.py` | Duration/resolution/audio/profanity/duplicate checks |
-| 6 | `pipeline/storage.py` | Uploads to R2, records public URL |
+| 6 | `pipeline/storage.py` | Uploads to S3/MinIO, Nextcloud or R2; records public URL |
 | 7 | `pipeline/publish.py` | IG Reels → FB Reels → TikTok, each independent |
 | 8 | `pipeline/analytics.py` | Pulls views/likes back, builds daily rollup |
 | 9 | `pipeline/cleanup.py` | Deletes sources + uploaded clips, prunes old state |
@@ -152,7 +158,7 @@ All three are wired and independent — one failing never blocks the others.
 | **TikTok** | Content Posting API | Direct Post needs app audit; `draft_mode: true` until then |
 
 Facebook Reels is **enabled by default** in `config/accounts.yaml`. It uploads the
-local file to Meta (the R2 URL is only a fallback), which is why cleanup runs
+local file to Meta (the public URL is only a fallback), which is why cleanup runs
 *after* publishing.
 
 ## Cleanup & retention
@@ -162,7 +168,7 @@ local file to Meta (the R2 URL is only a fallback), which is why cleanup runs
 - **Long-form source deleted** once all its clips are cut — media, `.audio.mp3`
   and `.words.json` all go. Sources with *unrendered* clips are kept
   (`--force` overrides).
-- **Clip `.mp4` deleted** as soon as it is uploaded to R2 (publishing uses the
+- **Clip `.mp4` deleted** as soon as it is uploaded to storage (publishing uses the
   URL, so the local copy is dead weight).
 - **Stale captions** (`work/captions/*.ass` whose clip is gone) removed.
 - **Per-day state pruned** after `--prune-days` (default 30). Only `queue/`,
@@ -190,8 +196,9 @@ usually **$0–300**. Volume (the pipeline) buys you attempts; hook quality and
 niche selection buy you money. Check the dashboard's performance table weekly
 and feed winning hook patterns back into `select.py`'s prompt.
 
-**Running cost: $0.** Public-repo Actions are free, R2 has 10 GB free, Groq and
-Gemini have free tiers, platform APIs are free.
+**Running cost: $0.** Public-repo Actions are free, clip storage runs on your
+own VPS (MinIO/Nextcloud) or R2's free tier, Groq and Gemini have free tiers,
+platform APIs are free.
 
 ## Limits & risks
 

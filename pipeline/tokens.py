@@ -168,9 +168,6 @@ def account_health() -> dict:
             "open_id": bool(tt.get("open_id")),
             "last_refresh": tt.get("updated"),
         },
-        "r2": {
-            "configured": all(os.environ.get(k) for k in ("R2_ACCOUNT_ID", "R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY")),
-        },
         "llm": {
             "groq": bool(os.environ.get("GROQ_API_KEY")),
             "gemini": bool(os.environ.get("GEMINI_API_KEY")),
