@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       source_url:
-        description: "Paste 1 or more video URLs, separated by commas - empty = use campaigns.yaml"
+        description: "Paste 1 or more video URLs, separated by commas - empty = continue with videos already waiting"
         required: false
         default: ""
       auto_approve:

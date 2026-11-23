@@ -699,7 +699,21 @@
       "items": 1,
       "error": null,
       "meta": {}
+    },
+    {
+      "id": "discover-1795455725-24181a",
+      "stage": "discover",
+      "status": "ok",
+      "started": "2026-11-23T17:42:05+00:00",
+      "started_ts": 1795455725.0200086,
+      "ended": "2026-11-23T17:42:05+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {
+        "note": "queue empty"
+      }
     }
   ],
-  "updated": "2026-11-23T17:21:36+00:00"
+  "updated": "2026-11-23T17:42:05+00:00"
 }

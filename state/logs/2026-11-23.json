@@ -452,6 +452,13 @@
       "stage": "dashboard",
       "message": "completed (1 items)",
       "job_id": "dashboard-1795454496-4046ea"
+    },
+    {
+      "t": "2026-11-23T17:42:05+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (1 items)",
+      "job_id": "discover-1795455725-24181a"
     }
   ]
 }
