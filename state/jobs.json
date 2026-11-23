@@ -845,7 +845,139 @@
       "items": 1,
       "error": null,
       "meta": {}
+    },
+    {
+      "id": "discover-1795457708-6cf2b7",
+      "stage": "discover",
+      "status": "ok",
+      "started": "2026-11-23T18:15:08+00:00",
+      "started_ts": 1795457708.8438163,
+      "ended": "2026-11-23T18:15:28+00:00",
+      "duration_s": 19.5,
+      "items": 1,
+      "error": null,
+      "meta": {
+        "note": "queue empty"
+      }
+    },
+    {
+      "id": "transcribe-1795457728-8d9dc4",
+      "stage": "transcribe",
+      "status": "ok",
+      "started": "2026-11-23T18:15:28+00:00",
+      "started_ts": 1795457728.7725008,
+      "ended": "2026-11-23T18:16:11+00:00",
+      "duration_s": 42.8,
+      "items": 1,
+      "error": null,
+      "meta": {
+        "failed": 0
+      }
+    },
+    {
+      "id": "select-1795457771-dad0d7",
+      "stage": "select",
+      "status": "ok",
+      "started": "2026-11-23T18:16:11+00:00",
+      "started_ts": 1795457771.6732528,
+      "ended": "2026-11-23T18:16:16+00:00",
+      "duration_s": 4.4,
+      "items": 2,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "render-1795457776-f83754",
+      "stage": "render",
+      "status": "ok",
+      "started": "2026-11-23T18:16:16+00:00",
+      "started_ts": 1795457776.4350827,
+      "ended": "2026-11-23T18:17:01+00:00",
+      "duration_s": 44.9,
+      "items": 2,
+      "error": null,
+      "meta": {
+        "failed": 0
+      }
+    },
+    {
+      "id": "qa-1795457821-0f01d6",
+      "stage": "qa",
+      "status": "ok",
+      "started": "2026-11-23T18:17:01+00:00",
+      "started_ts": 1795457821.4054453,
+      "ended": "2026-11-23T18:17:01+00:00",
+      "duration_s": 0.2,
+      "items": 2,
+      "error": null,
+      "meta": {
+        "failed": 0
+      }
+    },
+    {
+      "id": "upload-1795457821-4e62c6",
+      "stage": "upload",
+      "status": "ok",
+      "started": "2026-11-23T18:17:01+00:00",
+      "started_ts": 1795457821.6355681,
+      "ended": "2026-11-23T18:17:08+00:00",
+      "duration_s": 7.2,
+      "items": 2,
+      "error": null,
+      "meta": {
+        "failed": 0
+      }
+    },
+    {
+      "id": "publish-1795457828-377417",
+      "stage": "publish",
+      "status": "failed",
+      "started": "2026-11-23T18:17:08+00:00",
+      "started_ts": 1795457828.8893461,
+      "ended": "2026-11-23T18:17:08+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 2
+      }
+    },
+    {
+      "id": "analytics-1795457828-980c48",
+      "stage": "analytics",
+      "status": "ok",
+      "started": "2026-11-23T18:17:08+00:00",
+      "started_ts": 1795457828.972143,
+      "ended": "2026-11-23T18:17:08+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "cleanup-1795457829-e40f1d",
+      "stage": "cleanup",
+      "status": "ok",
+      "started": "2026-11-23T18:17:09+00:00",
+      "started_ts": 1795457829.0317,
+      "ended": "2026-11-23T18:17:09+00:00",
+      "duration_s": 0.6,
+      "items": 3,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "dashboard-1795457829-f4a232",
+      "stage": "dashboard",
+      "status": "ok",
+      "started": "2026-11-23T18:17:09+00:00",
+      "started_ts": 1795457829.6943116,
+      "ended": "2026-11-23T18:17:09+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
     }
   ],
-  "updated": "2026-11-23T17:59:56+00:00"
+  "updated": "2026-11-23T18:17:09+00:00"
 }

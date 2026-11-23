@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-23T17:59:56+00:00",
+  "generated": "2026-11-23T18:17:09+00:00",
   "jobs": {
     "runs": [
       {
@@ -835,9 +835,141 @@
         "items": 3,
         "error": null,
         "meta": {}
+      },
+      {
+        "id": "dashboard-1795456796-b5007b",
+        "stage": "dashboard",
+        "status": "ok",
+        "started": "2026-11-23T17:59:56+00:00",
+        "started_ts": 1795456796.9275103,
+        "ended": "2026-11-23T17:59:56+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "discover-1795457708-6cf2b7",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T18:15:08+00:00",
+        "started_ts": 1795457708.8438163,
+        "ended": "2026-11-23T18:15:28+00:00",
+        "duration_s": 19.5,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "note": "queue empty"
+        }
+      },
+      {
+        "id": "transcribe-1795457728-8d9dc4",
+        "stage": "transcribe",
+        "status": "ok",
+        "started": "2026-11-23T18:15:28+00:00",
+        "started_ts": 1795457728.7725008,
+        "ended": "2026-11-23T18:16:11+00:00",
+        "duration_s": 42.8,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "select-1795457771-dad0d7",
+        "stage": "select",
+        "status": "ok",
+        "started": "2026-11-23T18:16:11+00:00",
+        "started_ts": 1795457771.6732528,
+        "ended": "2026-11-23T18:16:16+00:00",
+        "duration_s": 4.4,
+        "items": 2,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "render-1795457776-f83754",
+        "stage": "render",
+        "status": "ok",
+        "started": "2026-11-23T18:16:16+00:00",
+        "started_ts": 1795457776.4350827,
+        "ended": "2026-11-23T18:17:01+00:00",
+        "duration_s": 44.9,
+        "items": 2,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "qa-1795457821-0f01d6",
+        "stage": "qa",
+        "status": "ok",
+        "started": "2026-11-23T18:17:01+00:00",
+        "started_ts": 1795457821.4054453,
+        "ended": "2026-11-23T18:17:01+00:00",
+        "duration_s": 0.2,
+        "items": 2,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "upload-1795457821-4e62c6",
+        "stage": "upload",
+        "status": "ok",
+        "started": "2026-11-23T18:17:01+00:00",
+        "started_ts": 1795457821.6355681,
+        "ended": "2026-11-23T18:17:08+00:00",
+        "duration_s": 7.2,
+        "items": 2,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "publish-1795457828-377417",
+        "stage": "publish",
+        "status": "failed",
+        "started": "2026-11-23T18:17:08+00:00",
+        "started_ts": 1795457828.8893461,
+        "ended": "2026-11-23T18:17:08+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 2
+        }
+      },
+      {
+        "id": "analytics-1795457828-980c48",
+        "stage": "analytics",
+        "status": "ok",
+        "started": "2026-11-23T18:17:08+00:00",
+        "started_ts": 1795457828.972143,
+        "ended": "2026-11-23T18:17:08+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "cleanup-1795457829-e40f1d",
+        "stage": "cleanup",
+        "status": "ok",
+        "started": "2026-11-23T18:17:09+00:00",
+        "started_ts": 1795457829.0317,
+        "ended": "2026-11-23T18:17:09+00:00",
+        "duration_s": 0.6,
+        "items": 3,
+        "error": null,
+        "meta": {}
       }
     ],
-    "updated": "2026-11-23T17:59:56+00:00"
+    "updated": "2026-11-23T18:17:09+00:00"
   },
   "queue": {
     "date": "2026-11-23",
@@ -880,38 +1012,130 @@
           ],
           "rules": "Only moments from Ben's Puffco GTA stream. Positive moments only: genuine first-hit and in-session reactions, natural wonder and energy at GTA, clouds / big hits, impressed moments where Ben or chat is hyped, tips and banter about the Hash Butler, and any shoutout or positive energy toward Puffco. Never use complaints, weak hits, frustration, negative framing of the device or sponsor, gambling (slots, blackjack), or anything highly offensive.\n"
         },
-        "stage": "selected",
+        "stage": "rendered",
         "transcript": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.words.json",
         "duration": 4500.010688,
         "clips": [
           {
-            "start": 1635.12,
+            "start": 1619.58,
             "end": 1675.2,
             "score": 9,
-            "hook": "Puffco first hit on stream—real clouds!",
-            "title": "First Puffco hit on the GTA stream – massive clouds",
-            "caption": "Just tried the Puffco on my GTA stream and the clouds were insane! Who else loves those big hits?",
+            "hook": "Puffco just launched – first hit feels insane!",
+            "title": "First Puffco Hit on GTA Stream – Epic Clouds",
+            "caption": "Just tried the new Puffco on my GTA run, and the clouds were wild. Have you felt this level of hype?",
             "hashtags": [
               "#Puffco",
               "#GTA",
-              "#Clouds",
-              "#Dab"
+              "#DabHits",
+              "#CloudChasing"
             ],
-            "reason": "Shows a genuine, enthusiastic reaction to the Puffco device with positive language, mentions the brand and the impressive clouds, fitting the campaign’s focus on first‑hit wonder and hype."
+            "reason": "Shows a genuine first‑hit reaction to Puffco, high energy, mentions the brand and the impressive clouds – perfect positive showcase.",
+            "stage": "qa_passed",
+            "clip_id": "bendadonn-puffco_1619_0",
+            "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-23/bendadonn-puffco_1619_0.mp4",
+            "duration": 55.62,
+            "layout": "crop",
+            "hash": "53fdb5c2299265d3a17dfed5",
+            "meta": {
+              "width": 1080,
+              "height": 1920,
+              "duration": 55.7,
+              "size": 11619956
+            }
+          },
+          {
+            "start": 359.74,
+            "end": 390.16,
+            "score": 8,
+            "hook": "Check out these massive dabs!",
+            "title": "Huge Dabs in the Stream – Cloud Madness",
+            "caption": "The dabs were insane, the room filled with vapor. Who else loves that perfect hit?",
+            "hashtags": [
+              "#Dabs",
+              "#Clouds",
+              "#Puffco",
+              "#VapeLife"
+            ],
+            "reason": "Highlights a clear, enthusiastic moment about dabs and vapor clouds, aligning with the brand’s vibe and staying positive.",
+            "stage": "qa_passed",
+            "clip_id": "bendadonn-puffco_359_1",
+            "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-23/bendadonn-puffco_359_1.mp4",
+            "duration": 30.42,
+            "layout": "crop",
+            "hash": "b89efb790464308199aacbb3",
+            "meta": {
+              "width": 1080,
+              "height": 1920,
+              "duration": 30.5,
+              "size": 17299535
+            }
           }
         ],
         "source_deleted": true
       }
     ],
-    "updated": "2026-11-23T17:59:55+00:00",
+    "updated": "2026-11-23T18:17:09+00:00",
     "campaigns": [
       "bendadonn-puffco"
     ]
   },
   "rendered": {
     "date": "2026-11-23",
-    "clips": [],
-    "updated": "2026-11-23T17:59:55+00:00"
+    "clips": [
+      {
+        "clip_id": "bendadonn-puffco_1619_0",
+        "campaign": "bendadonn-puffco",
+        "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-23/bendadonn-puffco_1619_0.mp4",
+        "hash": "53fdb5c2299265d3a17dfed5",
+        "hook": "Puffco just launched – first hit feels insane!",
+        "title": "First Puffco Hit on GTA Stream – Epic Clouds",
+        "caption": "Just tried the new Puffco on my GTA run, and the clouds were wild. Have you felt this level of hype?",
+        "hashtags": [
+          "#Puffco",
+          "#GTA",
+          "#DabHits",
+          "#CloudChasing"
+        ],
+        "duration": 55.62,
+        "meta": {
+          "width": 1080,
+          "height": 1920,
+          "duration": 55.7,
+          "size": 11619956
+        },
+        "stage": "uploaded",
+        "r2_url": "",
+        "storage_key": "2026-11-23/bendadonn-puffco_1619_0.mp4",
+        "storage_backend": "nextcloud"
+      },
+      {
+        "clip_id": "bendadonn-puffco_359_1",
+        "campaign": "bendadonn-puffco",
+        "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-23/bendadonn-puffco_359_1.mp4",
+        "hash": "b89efb790464308199aacbb3",
+        "hook": "Check out these massive dabs!",
+        "title": "Huge Dabs in the Stream – Cloud Madness",
+        "caption": "The dabs were insane, the room filled with vapor. Who else loves that perfect hit?",
+        "hashtags": [
+          "#Dabs",
+          "#Clouds",
+          "#Puffco",
+          "#VapeLife"
+        ],
+        "duration": 30.42,
+        "meta": {
+          "width": 1080,
+          "height": 1920,
+          "duration": 30.5,
+          "size": 17299535
+        },
+        "stage": "uploaded",
+        "r2_url": "",
+        "storage_key": "2026-11-23/bendadonn-puffco_359_1.mp4",
+        "storage_backend": "nextcloud"
+      }
+    ],
+    "updated": "2026-11-23T18:17:09+00:00"
   },
   "posted": {
     "posts": []
@@ -924,7 +1148,7 @@
         "clips": 0
       }
     },
-    "updated": "2026-11-23T17:59:55+00:00"
+    "updated": "2026-11-23T18:17:08+00:00"
   },
   "log": {
     "entries": [
@@ -1465,6 +1689,97 @@
         "sources": 1,
         "state_files": 0,
         "remote": 0
+      },
+      {
+        "t": "2026-11-23T17:59:56+00:00",
+        "level": "info",
+        "stage": "dashboard",
+        "message": "completed (1 items)",
+        "job_id": "dashboard-1795456796-b5007b"
+      },
+      {
+        "t": "2026-11-23T18:15:28+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (1 items)",
+        "job_id": "discover-1795457708-6cf2b7"
+      },
+      {
+        "t": "2026-11-23T18:16:11+00:00",
+        "level": "info",
+        "stage": "transcribe",
+        "message": "completed (1 items)",
+        "job_id": "transcribe-1795457728-8d9dc4"
+      },
+      {
+        "t": "2026-11-23T18:16:15+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "groq model in use: openai/gpt-oss-120b"
+      },
+      {
+        "t": "2026-11-23T18:16:16+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "completed (2 items)",
+        "job_id": "select-1795457771-dad0d7"
+      },
+      {
+        "t": "2026-11-23T18:17:01+00:00",
+        "level": "info",
+        "stage": "render",
+        "message": "completed (2 items)",
+        "job_id": "render-1795457776-f83754"
+      },
+      {
+        "t": "2026-11-23T18:17:01+00:00",
+        "level": "info",
+        "stage": "qa",
+        "message": "completed (2 items)",
+        "job_id": "qa-1795457821-0f01d6"
+      },
+      {
+        "t": "2026-11-23T18:17:08+00:00",
+        "level": "info",
+        "stage": "upload",
+        "message": "completed (2 items)",
+        "job_id": "upload-1795457821-4e62c6"
+      },
+      {
+        "t": "2026-11-23T18:17:08+00:00",
+        "level": "error",
+        "stage": "publish",
+        "message": "every platform rejected every clip - check the tokens"
+      },
+      {
+        "t": "2026-11-23T18:17:08+00:00",
+        "level": "error",
+        "stage": "publish",
+        "message": "job failed",
+        "job_id": "publish-1795457828-377417"
+      },
+      {
+        "t": "2026-11-23T18:17:08+00:00",
+        "level": "info",
+        "stage": "analytics",
+        "message": "completed (0 items)",
+        "job_id": "analytics-1795457828-980c48"
+      },
+      {
+        "t": "2026-11-23T18:17:09+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "completed (3 items)",
+        "job_id": "cleanup-1795457829-e40f1d"
+      },
+      {
+        "t": "2026-11-23T18:17:09+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "freed 4083.74 MB across 3 file(s)",
+        "sources": 1,
+        "state_files": 0,
+        "remote": 0
       }
     ]
   },
@@ -1500,16 +1815,16 @@
     ]
   },
   "storage": {
-    "updated": "2026-11-23T17:59:56+00:00",
+    "updated": "2026-11-23T18:17:09+00:00",
     "freed_mb": 4083.74,
     "files_deleted": 3,
     "sources_deleted": 1,
     "state_files_deleted": 0,
     "remote_deleted": 0,
     "remote_days": 7,
-    "work_mb": 0.0,
-    "out_mb": 0.0,
-    "state_mb": 0.04,
+    "work_mb": 0.01,
+    "out_mb": 27.58,
+    "state_mb": 0.05,
     "dry_run": false
   }
 }

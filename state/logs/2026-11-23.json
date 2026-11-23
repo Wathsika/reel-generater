@@ -544,6 +544,97 @@
       "stage": "dashboard",
       "message": "completed (1 items)",
       "job_id": "dashboard-1795456796-b5007b"
+    },
+    {
+      "t": "2026-11-23T18:15:28+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (1 items)",
+      "job_id": "discover-1795457708-6cf2b7"
+    },
+    {
+      "t": "2026-11-23T18:16:11+00:00",
+      "level": "info",
+      "stage": "transcribe",
+      "message": "completed (1 items)",
+      "job_id": "transcribe-1795457728-8d9dc4"
+    },
+    {
+      "t": "2026-11-23T18:16:15+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-23T18:16:16+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "completed (2 items)",
+      "job_id": "select-1795457771-dad0d7"
+    },
+    {
+      "t": "2026-11-23T18:17:01+00:00",
+      "level": "info",
+      "stage": "render",
+      "message": "completed (2 items)",
+      "job_id": "render-1795457776-f83754"
+    },
+    {
+      "t": "2026-11-23T18:17:01+00:00",
+      "level": "info",
+      "stage": "qa",
+      "message": "completed (2 items)",
+      "job_id": "qa-1795457821-0f01d6"
+    },
+    {
+      "t": "2026-11-23T18:17:08+00:00",
+      "level": "info",
+      "stage": "upload",
+      "message": "completed (2 items)",
+      "job_id": "upload-1795457821-4e62c6"
+    },
+    {
+      "t": "2026-11-23T18:17:08+00:00",
+      "level": "error",
+      "stage": "publish",
+      "message": "every platform rejected every clip - check the tokens"
+    },
+    {
+      "t": "2026-11-23T18:17:08+00:00",
+      "level": "error",
+      "stage": "publish",
+      "message": "job failed",
+      "job_id": "publish-1795457828-377417"
+    },
+    {
+      "t": "2026-11-23T18:17:08+00:00",
+      "level": "info",
+      "stage": "analytics",
+      "message": "completed (0 items)",
+      "job_id": "analytics-1795457828-980c48"
+    },
+    {
+      "t": "2026-11-23T18:17:09+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "completed (3 items)",
+      "job_id": "cleanup-1795457829-e40f1d"
+    },
+    {
+      "t": "2026-11-23T18:17:09+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "freed 4083.74 MB across 3 file(s)",
+      "sources": 1,
+      "state_files": 0,
+      "remote": 0
+    },
+    {
+      "t": "2026-11-23T18:17:09+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795457829-f4a232"
     }
   ]
 }

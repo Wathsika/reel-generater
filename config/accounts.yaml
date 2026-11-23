@@ -1,7 +1,7 @@
 posting:
   max_clips_per_day: 6
   min_gap_minutes: 45
-  auto_approve: false
+  auto_approve: true
   post_times_utc:
   - 06:30
   - '13:00'
