@@ -1,5 +1,51 @@
 {
   "date": "2026-11-23",
-  "clips": [],
-  "updated": "2026-11-23T13:09:10+00:00"
+  "clips": [
+    {
+      "source_key": "https://www.twitch.tv/videos/2933247628|00:00:00-01:15:00",
+      "source_url": "https://www.twitch.tv/videos/2933247628",
+      "source_section": "00:00:00-01:15:00",
+      "source_title": "",
+      "source_uploader": "",
+      "auto_section": false,
+      "path": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
+      "campaign": "bendadonn-puffco",
+      "settings": {
+        "layout": "crop",
+        "min_duration": 18,
+        "max_duration": 60,
+        "max_clips_per_video": 10,
+        "caption_style": "word",
+        "watermark": "",
+        "require_original_audio": true,
+        "trim_silence": true,
+        "id": "bendadonn-puffco",
+        "name": "BenDaDonnn x Puffco GTA 6",
+        "enabled": true,
+        "source_type": "yt-dlp",
+        "source_section": "00:00:00-01:15:00",
+        "rate_cpm": 1.0,
+        "payout_model": "cpm",
+        "required_hashtags": [],
+        "keywords": [
+          "puffco",
+          "puffco peak",
+          "proxy",
+          "hash butler",
+          "jar",
+          "clouds",
+          "dab",
+          "hits"
+        ],
+        "rules": "Only moments from Ben's Puffco GTA stream. Positive moments only: genuine first-hit and in-session reactions, natural wonder and energy at GTA, clouds / big hits, impressed moments where Ben or chat is hyped, tips and banter about the Hash Butler, and any shoutout or positive energy toward Puffco. Never use complaints, weak hits, frustration, negative framing of the device or sponsor, gambling (slots, blackjack), or anything highly offensive.\n"
+      },
+      "stage": "transcribed",
+      "transcript": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.words.json",
+      "duration": 4500.010688
+    }
+  ],
+  "updated": "2026-11-23T17:20:46+00:00",
+  "campaigns": [
+    "bendadonn-puffco"
+  ]
 }

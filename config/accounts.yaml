@@ -1,57 +1,37 @@
-# ---------------------------------------------------------------------------
-# TARGET ACCOUNTS + POSTING RULES
-#
-# Connect these same accounts inside Whop / Content Rewards so campaign
-# payouts can be attributed to them. (Campaign platforms verify views on the
-# CONNECTED account, not an account you linked elsewhere.)
-# ---------------------------------------------------------------------------
-
 posting:
   max_clips_per_day: 6
-  min_gap_minutes: 45          # spread posts out, account looks human
-  # true  = publish automatically (fully automated)
-  # false = render + upload to storage but do NOT post; set back to true to publish
-  # For your first test run, use the workflow's "auto_approve" checkbox instead.
-  auto_approve: true
-  post_times_utc: ["06:30", "13:00", "19:30"]   # best-effort slots
-
-# Where finished clips are stored. Chosen by env vars (see .env.example):
-#   nextcloud Your existing Nextcloud (folder share + public DAV URL)  <- in use
-#   s3        MinIO / any S3 on your own VPS
-#   r2        Cloudflare R2
-# The pipeline reuses ONE public link share of NC_FOLDER and prunes remote
-# clips after 7 days so the VPS disk stays bounded.
+  min_gap_minutes: 45
+  auto_approve: false
+  post_times_utc:
+  - 06:30
+  - '13:00'
+  - '19:30'
 storage:
-  backend: nextcloud   # auto | s3 | nextcloud | r2
-
+  backend: nextcloud
 platforms:
   instagram:
     enabled: true
-    # Token/user come from env: IG_ACCESS_TOKEN / IG_USER_ID
-    require_business_account: true      # IG Graph API needs Business or Creator
+    require_business_account: true
     share_to_feed: true
     cover_frame_ms: 3500
-
   facebook:
     enabled: true
-    # Token/page come from env: FB_PAGE_TOKEN / FB_PAGE_ID
-    # FB_PAGE_TOKEN must be a PAGE access token (not a user token).
     page_only: true
-
   tiktok:
     enabled: true
-    # Access/refresh tokens are stored in state/tokens.json after OAuth.
-    # Direct post requires a TikTok Content Posting API audit (days-weeks).
-    # Until the audit passes, `draft_mode: true` posts as private/draft.
     draft_mode: true
-    privacy_level: PUBLIC_TO_EVERYONE   # used only after audit passes
+    privacy_level: PUBLIC_TO_EVERYONE
     disable_comment: false
     disable_duet: false
     disable_stitch: false
     cover_timestamp_ms: 1000
-
-# Per-account niche tags - keeps pages from looking random
 niches:
   main:
-    platforms: [instagram, tiktok, facebook]
-    hashtag_pool: ["#clips", "#fyp", "#viral"]
+    platforms:
+    - instagram
+    - tiktok
+    - facebook
+    hashtag_pool:
+    - '#clips'
+    - '#fyp'
+    - '#viral'
