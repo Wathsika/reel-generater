@@ -90,18 +90,20 @@ jobs:
       - name: Restore token store
         run: python -c "from pipeline import tokens; tokens.restore_from_env()"
 
-      - name: Configure auto-approve (manual dry run only)
-        # Compare strings on purpose: with `inputs.auto_approve == false` a run
-        # that was started without inputs (the automatic next-video run) would
-        # also match, because null and false are loosely equal - it would then
-        # silently stop publishing.
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.auto_approve == 'false'
+      - name: Apply the auto-approve choice from the form
+        # The checkbox is authoritative whenever it was sent. Comparing strings
+        # avoids the trap that `inputs.auto_approve == false` is also true for a
+        # run started without inputs (null == false), which would silently
+        # stop publishing on every automatically chained run.
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.auto_approve != ''
+        env:
+          AUTO_APPROVE: ${{ github.event.inputs.auto_approve }}
         run: |
           python - <<'PY'
-          import yaml, pathlib
+          import os, pathlib, yaml
           p = pathlib.Path("config/accounts.yaml")
           d = yaml.safe_load(p.read_text()) or {}
-          d.setdefault("posting", {})["auto_approve"] = False
+          d.setdefault("posting", {})["auto_approve"] = os.environ["AUTO_APPROVE"].lower() == "true"
           p.write_text(yaml.safe_dump(d, sort_keys=False))
           PY
 
