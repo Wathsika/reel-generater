@@ -174,6 +174,13 @@ def run(limit: int | None = None) -> int:
     existing_ids = {
         c.get("source_key") or c.get("source_url") for c in queue.get("clips", [])
     }
+    # Yesterday's queue is gone tomorrow, so remember processed sources for good.
+    # Without this, the daily schedule would re-clip the same VOD every day and
+    # republish the same moments. An explicit source_url always wins, so you can
+    # deliberately re-process a video.
+    seen_path = config.STATE / "sources.json"
+    seen: dict = state.read_json(seen_path, {}) or {}
+    one_off = bool((config.env("EXTRA_SOURCE_URL", "") or "").strip())
     added = 0
     sources: list[dict] = []
 
@@ -203,6 +210,14 @@ def run(limit: int | None = None) -> int:
                 if key in existing_ids:
                     continue
 
+            if not one_off and key in seen:
+                state.info(
+                    "discover", "source already processed, skipping",
+                    url=url[:110],
+                    hint="paste it into source_url to force a re-run",
+                )
+                continue
+
             safe = "".join(ch if ch.isalnum() else "_" for ch in key)[-60:]
             dest = config.WORK / "sources" / f"{safe}.mp4"
             got = _download(url, dest, section=section)
@@ -226,6 +241,18 @@ def run(limit: int | None = None) -> int:
                 }
             )
             added += 1
+            seen[key] = {
+                "url": url,
+                "section": section,
+                "title": meta.get("title") or "",
+                "first_seen": (seen.get(key) or {}).get("first_seen") or state.now(),
+                "last_run": state.now(),
+            }
+
+    if len(seen) > 500:
+        newest = sorted(seen.items(), key=lambda kv: kv[1].get("last_run") or "", reverse=True)
+        seen = dict(newest[:500])
+    state.write_json(seen_path, seen)
 
     queue.setdefault("clips", []).extend(sources)
     queue["campaigns"] = [c.get("id") for c in campaigns]

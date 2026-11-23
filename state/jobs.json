@@ -431,7 +431,67 @@
       "items": 1,
       "error": null,
       "meta": {}
+    },
+    {
+      "id": "discover-1795452802-fb653f",
+      "stage": "discover",
+      "status": "ok",
+      "started": "2026-11-23T16:53:22+00:00",
+      "started_ts": 1795452802.7344143,
+      "ended": "2026-11-23T16:53:22+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "discover-1795452802-50b69d",
+      "stage": "discover",
+      "status": "ok",
+      "started": "2026-11-23T16:53:22+00:00",
+      "started_ts": 1795452802.7794073,
+      "ended": "2026-11-23T16:53:22+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "discover-1795452802-de95d2",
+      "stage": "discover",
+      "status": "ok",
+      "started": "2026-11-23T16:53:22+00:00",
+      "started_ts": 1795452802.8089764,
+      "ended": "2026-11-23T16:53:22+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "discover-1795452802-248845",
+      "stage": "discover",
+      "status": "ok",
+      "started": "2026-11-23T16:53:22+00:00",
+      "started_ts": 1795452802.8331385,
+      "ended": "2026-11-23T16:53:22+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "discover-1795452802-96d499",
+      "stage": "discover",
+      "status": "ok",
+      "started": "2026-11-23T16:53:22+00:00",
+      "started_ts": 1795452802.8563356,
+      "ended": "2026-11-23T16:53:22+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
     }
   ],
-  "updated": "2026-11-23T13:09:10+00:00"
+  "updated": "2026-11-23T16:53:22+00:00"
 }

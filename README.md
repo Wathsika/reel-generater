@@ -47,6 +47,11 @@ Chat volume is a proxy, not a guarantee: it means *the audience reacted*, which
 correlates with clip-worthy moments far better than a blind guess, but the
 moment picker still decides start/end and can pick a dud. Watch the first batch.
 
+**Each source is processed once.** Processed sources are recorded in
+`state/sources.json`, so the 05:00 / 17:00 schedule will not re-clip the same
+VOD and republish the same moments day after day. To deliberately redo a video,
+paste its URL into `source_url` — an explicit request always wins.
+
 ## Why this shape
 
 | Decision | Reason |
