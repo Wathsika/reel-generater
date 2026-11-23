@@ -127,7 +127,14 @@ def run() -> tuple[int, int]:
             )
             passed += 1
 
-    rendered["clips"] = manifests
+    # Merge into the manifest, never replace it. QA used to assign the fresh
+    # list of clips it checked in *this* run, so the next run - which had
+    # nothing new to check - wrote "clips": [] and erased clips that were
+    # already uploaded, together with their storage keys (2026-11-23).
+    kept = {c.get("clip_id"): c for c in rendered.get("clips", []) if c.get("clip_id")}
+    for entry in manifests:
+        kept[entry["clip_id"]] = entry
+    rendered["clips"] = list(kept.values())
     state.save_rendered(rendered)
     state.save_queue(queue)
     jobs.finish(job, status="ok" if not failed else "partial", items=passed, failed=failed)

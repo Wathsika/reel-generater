@@ -125,11 +125,31 @@ def _nc_conf() -> dict:
     }
 
 
-def _nc_file_url(c: dict, session, key: str) -> str:
+def _public_ok(session, url: str) -> bool:
+    """Can an anonymous app (Meta/TikTok) actually download this?
+
+    One cheap ranged request. This is the check that was missing when every
+    upload recorded an empty link and nobody noticed.
+    """
+    try:
+        r = session.get(url, stream=True, timeout=60, allow_redirects=True,
+                        headers={"Range": "bytes=0-0"})
+        code = r.status_code
+        ctype = (r.headers.get("Content-Type") or "").lower()
+        r.close()
+    except Exception:
+        return False
+    if code not in (200, 206):
+        return False
+    return ctype.startswith("video/") or ctype.startswith("application/octet-stream")
+
+
+def _nc_file_url(c: dict, session, key: str, verify: bool = False) -> str:
     """Public link for a file already sitting in NC_FOLDER."""
     token, share_url = _nc_share(session, c)
+    fallback = (share_url + "/download") if share_url else ""
     if not token and "{token}" in c["direct_template"]:
-        return share_url + "/download"
+        return fallback
     try:
         url = c["direct_template"].format(
             url=c["url"],
@@ -144,7 +164,18 @@ def _nc_file_url(c: dict, session, key: str) -> str:
         raise RuntimeError(
             "Nextcloud produced an empty public URL - check NC_DIRECT_TEMPLATE"
         )
-    return url
+    if not verify or _public_ok(session, url):
+        return url
+    # Template URL did not serve the file. Try the plain share download link
+    # before giving up, so a template oddity does not cost a whole run.
+    if fallback and _public_ok(session, fallback):
+        state.warn("upload", "Nextcloud template URL did not serve the file - "
+                   "using the share download link", url=url)
+        return fallback
+    raise RuntimeError(
+        "Nextcloud gave a link that does not download: " + url +
+        (f" (fallback {fallback} failed too)" if fallback else "")
+    )
 
 
 def _nc_session():
@@ -242,7 +273,7 @@ def _nc_upload(path: pathlib.Path, key: str, content_type: str) -> str:
         raise RuntimeError(f"Nextcloud upload -> {put.status_code} {put.text[:200]}")
 
     # Raw file at /public.php/dav/files/<token>/<key> -> 200 + video/mp4.
-    return _nc_file_url(c, session, key)
+    return _nc_file_url(c, session, key, verify=True)
 
 
 def _nc_delete(key: str) -> None:
@@ -340,7 +371,7 @@ def build_url(key: str) -> str:
     """
     if backend() == "nextcloud":
         session, c = _nc_session()
-        return _nc_file_url(c, session, key)
+        return _nc_file_url(c, session, key, verify=True)
     return public_url("", key)
 
 
