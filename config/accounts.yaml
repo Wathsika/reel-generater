@@ -16,13 +16,13 @@ posting:
   post_times_utc: ["06:30", "13:00", "19:30"]   # best-effort slots
 
 # Where finished clips are stored. Chosen by env vars (see .env.example):
-#   s3        MinIO / any S3 on your own VPS   <- recommended for Oracle VPS
-#   nextcloud Nextcloud WebDAV + public shares
+#   nextcloud Your existing Nextcloud (folder share + public DAV URL)  <- in use
+#   s3        MinIO / any S3 on your own VPS
 #   r2        Cloudflare R2
-# Auto-detected from S3_ENDPOINT / NC_URL / R2_ACCOUNT_ID if STORAGE_BACKEND
-# is unset.
+# The pipeline reuses ONE public link share of NC_FOLDER and prunes remote
+# clips after 7 days so the VPS disk stays bounded.
 storage:
-  backend: auto        # auto | s3 | nextcloud | r2
+  backend: nextcloud   # auto | s3 | nextcloud | r2
 
 platforms:
   instagram:

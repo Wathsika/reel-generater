@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-23T12:59:22+00:00",
+  "generated": "2026-11-23T13:09:10+00:00",
   "jobs": {
     "runs": [
       {
@@ -289,19 +289,151 @@
         "items": 0,
         "error": null,
         "meta": {}
+      },
+      {
+        "id": "dashboard-1795438762-e63248",
+        "stage": "dashboard",
+        "status": "ok",
+        "started": "2026-11-23T12:59:22+00:00",
+        "started_ts": 1795438762.1270428,
+        "ended": "2026-11-23T12:59:22+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "discover-1795439349-75fbbe",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T13:09:09+00:00",
+        "started_ts": 1795439349.081197,
+        "ended": "2026-11-23T13:09:09+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "no enabled campaigns"
+        }
+      },
+      {
+        "id": "transcribe-1795439349-2c4bd3",
+        "stage": "transcribe",
+        "status": "ok",
+        "started": "2026-11-23T13:09:09+00:00",
+        "started_ts": 1795439349.2414281,
+        "ended": "2026-11-23T13:09:09+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "select-1795439349-c6d61b",
+        "stage": "select",
+        "status": "ok",
+        "started": "2026-11-23T13:09:09+00:00",
+        "started_ts": 1795439349.3657572,
+        "ended": "2026-11-23T13:09:09+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "render-1795439349-598f35",
+        "stage": "render",
+        "status": "ok",
+        "started": "2026-11-23T13:09:09+00:00",
+        "started_ts": 1795439349.5193396,
+        "ended": "2026-11-23T13:09:09+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "qa-1795439349-f74855",
+        "stage": "qa",
+        "status": "ok",
+        "started": "2026-11-23T13:09:09+00:00",
+        "started_ts": 1795439349.6579745,
+        "ended": "2026-11-23T13:09:09+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "upload-1795439349-31c98f",
+        "stage": "upload",
+        "status": "ok",
+        "started": "2026-11-23T13:09:09+00:00",
+        "started_ts": 1795439349.7859025,
+        "ended": "2026-11-23T13:09:09+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "publish-1795439349-e277f1",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-23T13:09:09+00:00",
+        "started_ts": 1795439349.9675677,
+        "ended": "2026-11-23T13:09:10+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "analytics-1795439350-814a83",
+        "stage": "analytics",
+        "status": "ok",
+        "started": "2026-11-23T13:09:10+00:00",
+        "started_ts": 1795439350.1256769,
+        "ended": "2026-11-23T13:09:10+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "cleanup-1795439350-4b6831",
+        "stage": "cleanup",
+        "status": "ok",
+        "started": "2026-11-23T13:09:10+00:00",
+        "started_ts": 1795439350.251197,
+        "ended": "2026-11-23T13:09:10+00:00",
+        "duration_s": 0.3,
+        "items": 0,
+        "error": null,
+        "meta": {}
       }
     ],
-    "updated": "2026-11-23T12:59:21+00:00"
+    "updated": "2026-11-23T13:09:10+00:00"
   },
   "queue": {
     "date": "2026-11-23",
     "clips": [],
-    "updated": "2026-11-23T12:59:21+00:00"
+    "updated": "2026-11-23T13:09:10+00:00"
   },
   "rendered": {
     "date": "2026-11-23",
     "clips": [],
-    "updated": "2026-11-23T12:59:21+00:00"
+    "updated": "2026-11-23T13:09:10+00:00"
   },
   "posted": {
     "posts": []
@@ -314,7 +446,7 @@
         "clips": 0
       }
     },
-    "updated": "2026-11-23T12:59:21+00:00"
+    "updated": "2026-11-23T13:09:10+00:00"
   },
   "log": {
     "entries": [
@@ -499,6 +631,98 @@
         "message": "freed 0.0 MB across 0 file(s)",
         "sources": 0,
         "state_files": 0
+      },
+      {
+        "t": "2026-11-23T12:59:22+00:00",
+        "level": "info",
+        "stage": "dashboard",
+        "message": "completed (1 items)",
+        "job_id": "dashboard-1795438762-e63248"
+      },
+      {
+        "t": "2026-11-23T13:09:09+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (0 items)",
+        "job_id": "discover-1795439349-75fbbe"
+      },
+      {
+        "t": "2026-11-23T13:09:09+00:00",
+        "level": "warn",
+        "stage": "discover",
+        "message": "no enabled campaigns in config/campaigns.yaml"
+      },
+      {
+        "t": "2026-11-23T13:09:09+00:00",
+        "level": "info",
+        "stage": "transcribe",
+        "message": "completed (0 items)",
+        "job_id": "transcribe-1795439349-2c4bd3"
+      },
+      {
+        "t": "2026-11-23T13:09:09+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "completed (0 items)",
+        "job_id": "select-1795439349-c6d61b"
+      },
+      {
+        "t": "2026-11-23T13:09:09+00:00",
+        "level": "info",
+        "stage": "render",
+        "message": "completed (0 items)",
+        "job_id": "render-1795439349-598f35"
+      },
+      {
+        "t": "2026-11-23T13:09:09+00:00",
+        "level": "info",
+        "stage": "qa",
+        "message": "completed (0 items)",
+        "job_id": "qa-1795439349-f74855"
+      },
+      {
+        "t": "2026-11-23T13:09:09+00:00",
+        "level": "info",
+        "stage": "upload",
+        "message": "completed (0 items)",
+        "job_id": "upload-1795439349-31c98f"
+      },
+      {
+        "t": "2026-11-23T13:09:10+00:00",
+        "level": "info",
+        "stage": "publish",
+        "message": "completed (0 items)",
+        "job_id": "publish-1795439349-e277f1"
+      },
+      {
+        "t": "2026-11-23T13:09:10+00:00",
+        "level": "info",
+        "stage": "analytics",
+        "message": "completed (0 items)",
+        "job_id": "analytics-1795439350-814a83"
+      },
+      {
+        "t": "2026-11-23T13:09:10+00:00",
+        "level": "warn",
+        "stage": "cleanup",
+        "message": "could not list remote storage",
+        "reason": "Nextcloud not configured (NC_URL / NC_USER / NC_APP_PASSWORD)"
+      },
+      {
+        "t": "2026-11-23T13:09:10+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "completed (0 items)",
+        "job_id": "cleanup-1795439350-4b6831"
+      },
+      {
+        "t": "2026-11-23T13:09:10+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "freed 0.0 MB across 0 file(s)",
+        "sources": 0,
+        "state_files": 0,
+        "remote": 0
       }
     ]
   },
@@ -523,22 +747,25 @@
       "gemini": false
     },
     "storage_backend": {
-      "backend": "Cloudflare R2",
-      "bucket": "clips",
+      "backend": "Nextcloud",
+      "bucket": "Clips",
       "configured": false,
-      "public": false
+      "public": false,
+      "folder": "Clips"
     },
     "campaigns": []
   },
   "storage": {
-    "updated": "2026-11-23T12:59:21+00:00",
+    "updated": "2026-11-23T13:09:10+00:00",
     "freed_mb": 0.0,
     "files_deleted": 0,
     "sources_deleted": 0,
     "state_files_deleted": 0,
+    "remote_deleted": 0,
+    "remote_days": 7,
     "work_mb": 0.0,
     "out_mb": 0.0,
-    "state_mb": 0.01,
+    "state_mb": 0.02,
     "dry_run": false
   }
 }

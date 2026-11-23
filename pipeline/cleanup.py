@@ -132,15 +132,51 @@ def prune_state(days: int, stats: dict, seen: set[str], dry: bool) -> None:
                 stats["state_files"] += 1
 
 
-def run(prune_days: int = 30, force: bool = False, dry: bool = False) -> dict:
+def cleanup_remote(remote_days: int, stats: dict, dry: bool) -> None:
+    """Delete clip objects from storage older than N days.
+
+    Platforms download the file when publishing, so after a few days the
+    remote copy is dead weight - important on a self-hosted VPS where disk is
+    finite. Never touches anything younger than the cutoff, so a retry can
+    still publish it.
+    """
+    if remote_days < 1:
+        return
+    from . import storage
+
+    cutoff = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=remote_days)
+    try:
+        objects = storage.list_objects()
+    except Exception as exc:
+        state.warn("cleanup", "could not list remote storage", reason=str(exc)[:250])
+        return
+
+    for key, modified in objects:
+        if not str(key).lower().endswith(".mp4"):
+            continue
+        if modified is None or modified >= cutoff:
+            continue
+        if dry:
+            stats["remote"] += 1
+            continue
+        try:
+            storage.delete(str(key))
+            stats["remote"] += 1
+        except Exception as exc:
+            state.warn("cleanup", f"could not delete {key}", reason=str(exc)[:250])
+
+
+def run(prune_days: int = 30, remote_days: int = 7, force: bool = False,
+        dry: bool = False) -> dict:
     job = jobs.start("cleanup")
-    stats = {"bytes": 0, "files": 0, "sources": 0, "state_files": 0}
+    stats = {"bytes": 0, "files": 0, "sources": 0, "state_files": 0, "remote": 0}
     seen: set[str] = set()
 
     cleanup_clips(stats, seen, dry)
     cleanup_sources(stats, seen, dry, force)
     cleanup_captions(stats, seen, dry)
     prune_state(prune_days, stats, seen, dry)
+    cleanup_remote(remote_days, stats, dry)
 
     # Drop now-empty directories so listings stay clean.
     if not dry:
@@ -157,6 +193,8 @@ def run(prune_days: int = 30, force: bool = False, dry: bool = False) -> dict:
         "files_deleted": stats["files"],
         "sources_deleted": stats["sources"],
         "state_files_deleted": stats["state_files"],
+        "remote_deleted": stats["remote"],
+        "remote_days": remote_days,
         "work_mb": _dir_mb(config.WORK),
         "out_mb": _dir_mb(config.OUT),
         "state_mb": _dir_mb(config.STATE),
@@ -169,6 +207,7 @@ def run(prune_days: int = 30, force: bool = False, dry: bool = False) -> dict:
         f"freed {summary['freed_mb']} MB across {stats['files']} file(s)",
         sources=stats["sources"],
         state_files=stats["state_files"],
+        remote=stats["remote"],
     )
     return summary
 
@@ -176,13 +215,16 @@ def run(prune_days: int = 30, force: bool = False, dry: bool = False) -> dict:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Delete sources/clips and prune old state")
     parser.add_argument("--prune-days", type=int, default=30, help="delete per-day state older than N days")
+    parser.add_argument("--remote-days", type=int, default=7, help="delete clips from remote storage older than N days (0 = never)")
     parser.add_argument("--force", action="store_true", help="delete sources even if some clips failed")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
-    s = run(prune_days=args.prune_days, force=args.force, dry=args.dry_run)
+    s = run(prune_days=args.prune_days, remote_days=args.remote_days,
+            force=args.force, dry=args.dry_run)
     print(
         f"cleanup: freed {s['freed_mb']} MB, {s['sources_deleted']} source(s), "
-        f"{s['state_files_deleted']} old state file(s)"
+        f"{s['state_files_deleted']} old state file(s), "
+        f"{s['remote_deleted']} remote clip(s)"
         + (" (dry run)" if s["dry_run"] else "")
     )
     return 0

@@ -188,6 +188,98 @@
       "stage": "dashboard",
       "message": "completed (1 items)",
       "job_id": "dashboard-1795438762-e63248"
+    },
+    {
+      "t": "2026-11-23T13:09:09+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (0 items)",
+      "job_id": "discover-1795439349-75fbbe"
+    },
+    {
+      "t": "2026-11-23T13:09:09+00:00",
+      "level": "warn",
+      "stage": "discover",
+      "message": "no enabled campaigns in config/campaigns.yaml"
+    },
+    {
+      "t": "2026-11-23T13:09:09+00:00",
+      "level": "info",
+      "stage": "transcribe",
+      "message": "completed (0 items)",
+      "job_id": "transcribe-1795439349-2c4bd3"
+    },
+    {
+      "t": "2026-11-23T13:09:09+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "completed (0 items)",
+      "job_id": "select-1795439349-c6d61b"
+    },
+    {
+      "t": "2026-11-23T13:09:09+00:00",
+      "level": "info",
+      "stage": "render",
+      "message": "completed (0 items)",
+      "job_id": "render-1795439349-598f35"
+    },
+    {
+      "t": "2026-11-23T13:09:09+00:00",
+      "level": "info",
+      "stage": "qa",
+      "message": "completed (0 items)",
+      "job_id": "qa-1795439349-f74855"
+    },
+    {
+      "t": "2026-11-23T13:09:09+00:00",
+      "level": "info",
+      "stage": "upload",
+      "message": "completed (0 items)",
+      "job_id": "upload-1795439349-31c98f"
+    },
+    {
+      "t": "2026-11-23T13:09:10+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "completed (0 items)",
+      "job_id": "publish-1795439349-e277f1"
+    },
+    {
+      "t": "2026-11-23T13:09:10+00:00",
+      "level": "info",
+      "stage": "analytics",
+      "message": "completed (0 items)",
+      "job_id": "analytics-1795439350-814a83"
+    },
+    {
+      "t": "2026-11-23T13:09:10+00:00",
+      "level": "warn",
+      "stage": "cleanup",
+      "message": "could not list remote storage",
+      "reason": "Nextcloud not configured (NC_URL / NC_USER / NC_APP_PASSWORD)"
+    },
+    {
+      "t": "2026-11-23T13:09:10+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "completed (0 items)",
+      "job_id": "cleanup-1795439350-4b6831"
+    },
+    {
+      "t": "2026-11-23T13:09:10+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "freed 0.0 MB across 0 file(s)",
+      "sources": 0,
+      "state_files": 0,
+      "remote": 0
+    },
+    {
+      "t": "2026-11-23T13:09:10+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795439350-377a5b"
     }
   ]
 }

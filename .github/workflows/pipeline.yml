@@ -124,7 +124,7 @@ jobs:
 
       - name: "Stage 9 - cleanup sources + clips, prune old state"
         if: always()
-        run: python -m pipeline.cleanup --prune-days 30
+        run: python -m pipeline.cleanup --prune-days 30 --remote-days 7
 
       - name: "Stage 10 - build dashboard"
         if: always()

@@ -130,47 +130,96 @@ S3_PUBLIC_BASE           = https://clips.yourdomain.com/clips
 
 ### Option B — Your existing Nextcloud
 
-Works, but it is the **least reliable** of the three: Nextcloud's normal share
-link (`/s/TOKEN`) is an HTML page and `/download` returns a **302 redirect**,
-and Meta is picky about both. The pipeline therefore uploads over WebDAV and
-returns Nextcloud's **public DAV** URL (`/public.php/dav/files/TOKEN`), which
-serves the raw bytes directly.
+How it works:
 
-Secrets:
+1. the clip is uploaded over **WebDAV** to `NC_FOLDER/<date>/<clip>.mp4`
+2. one **public read-only link share of the whole folder** is created and then
+   reused for every clip (not one share per video — that would hit Nextcloud's
+   share limits)
+3. the public URL given to Meta/TikTok is the folder share's **direct DAV**
+   path: `https://cloud.example.com/public.php/dav/files/<TOKEN>/<date>/<clip>.mp4`
+
+That last path returns the raw bytes with `HTTP 200` and `Content-Type:
+video/mp4` — no HTML wrapper, no redirect. The normal `/s/TOKEN` and
+`/s/TOKEN/download` links do **not** work for this, which is why the pipeline
+never uses them.
+
+#### One-time Nextcloud setup
+
+1. **Settings → Files → Sharing** — allow users to share via link.
+2. Create a folder for clips (default name `Clips`) in the account you'll use.
+3. **Settings → Security → Create app password** — use *this*, not your login
+   password (2FA breaks plain-password auth).
+4. Make sure `Clips` is **not** already shared with a password or an expiry
+   date. A password-protected or expiring share cannot be fetched by Meta. If
+   it is, either remove the password/expiry or point `NC_FOLDER` at a fresh
+   folder.
+
+#### Secrets
 
 ```
-STORAGE_BACKEND      = nextcloud
-NC_URL               = https://cloud.yourdomain.com
-NC_USER              = your-nextcloud-user
-NC_APP_PASSWORD      = <Settings -> Security -> Create app password>
-NC_FOLDER            = Clips
-# optional overrides - see below
-# NC_DIRECT_TEMPLATE = {url}/public.php/dav/files/{token}
+STORAGE_BACKEND = nextcloud
+NC_URL          = https://cloud.yourdomain.com
+NC_USER         = your-nextcloud-user
+NC_APP_PASSWORD = <the app password from step 3>
+NC_FOLDER       = Clips
 ```
 
-Requirements in Nextcloud:
+Optional — only if your server differs:
 
-- **Files → Sharing** enabled and "Allow users to share via link" allowed
-- app password used (not your login password — 2FA would break login auth)
-- the `Clips` folder must be writable by that user
+```
+# NC_DIRECT_TEMPLATE = {url}/public.php/dav/files/{token}/{key}
+#   placeholders: {url} {token} {share} {key} {name}
+```
 
-Verify a real upload with:
+#### Verify before running the pipeline
+
+Run this **on your laptop** (it reads `.env` or your environment). It uploads a
+tiny probe clip, then fetches the URL the same way Meta does — no redirects
+followed, no cookies — and tells you pass/fail:
 
 ```bash
-curl -sI "<the URL the pipeline returned>" | grep -Ei "HTTP/|content-type|location"
-# must be HTTP 200 + content-type: video/mp4, and NO location:
+pip install -r requirements.txt
+python scripts/check_storage.py
 ```
 
-If your Nextcloud version serves single-file shares differently, set
-`NC_DIRECT_TEMPLATE` to the working form — placeholders available:
-`{url}`, `{token}`, `{share}`, `{name}`. For a **folder** share use:
+Expected output ends with:
 
 ```
-NC_DIRECT_TEMPLATE = {url}/public.php/dav/files/{token}/{name}
+status        : 200
+content_type  : video/mp4
+location      :
+PASS - this URL is directly fetchable and correctly typed.
+probe deleted from storage
 ```
 
-> If you cannot get a redirect-free 200 out of Nextcloud, use Option A on the
-> same VPS. It is ~15 minutes of work and removes this whole class of failure.
+Add `--keep` to keep the probe so you can paste its URL into Meta's Sharing
+Debugger. Exit code `0` means storage is good; anything else, fix it before
+running the workflow.
+
+#### Disk stays bounded
+
+Nextcloud runs on your VPS, so the pipeline prunes remote clips too:
+
+- every run, `cleanup` deletes stored clips **older than 7 days**
+  (`--remote-days 7`; set `0` to disable)
+- it only ever removes `.mp4` files under `NC_FOLDER`
+- platforms have already downloaded the file at publish time, so this is safe
+
+The dashboard's **Storage** card shows `Remote pruned` and the retentions.
+
+#### Troubleshooting
+
+| Symptom | Cause / fix |
+|---|---|
+| `Nextcloud could not share /Clips (403)` | link sharing disabled, or the folder is already shared with a password/expiry — remove it or use a new folder |
+| URL returns `302` | you are using a `/s/...` link; the pipeline should use `/public.php/dav/files/...` — check `NC_DIRECT_TEMPLATE` |
+| URL returns `401`/`403` | share has a password, or app password is wrong |
+| `content-type: application/octet-stream` | the object was not stored as `.mp4`; keep keys ending in `.mp4` |
+| `PROPFIND` fails during cleanup | Nextcloud's DAV is behind a proxy that blocks `PROPFIND`; allow it, or set `--remote-days 0` and prune manually |
+
+> If Nextcloud keeps fighting you, Option A on the same VPS is ~15 minutes and
+> removes this whole class of failure. The backend is a single secret switch.
 
 ---
 
@@ -253,9 +302,11 @@ Repo → **Settings → Secrets and variables → Actions → New repository sec
 | `IG_USER_ID` | Part 4 |
 | `IG_ACCESS_TOKEN` | Part 4 |
 
-Storage example (Option A / MinIO):
-`STORAGE_BACKEND`, `S3_ENDPOINT`, `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`,
-`S3_BUCKET`, `S3_REGION`, `S3_PATH_STYLE`, `S3_PUBLIC_BASE`.
+Storage example (Option B / Nextcloud):
+`STORAGE_BACKEND=nextcloud`, `NC_URL`, `NC_USER`, `NC_APP_PASSWORD`, `NC_FOLDER`.
+
+Run `python scripts/check_storage.py` once before the first workflow run — it
+proves Meta/TikTok can fetch from your storage.
 
 ### Add when ready
 

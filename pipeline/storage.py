@@ -117,9 +117,9 @@ def _nc_conf() -> dict:
         # Direct-raw-file URL. Meta/TikTok need the bytes with 200 + video/mp4,
         # so the default points at Nextcloud's public WebDAV endpoint (no
         # redirect). `/s/TOKEN/download` 302-redirects and is a fallback only.
-        # Placeholders: {url} {token} {share} {name}
+        # Placeholders: {url} {token} {share} {key} {name}
         "direct_template": config.env(
-            "NC_DIRECT_TEMPLATE", "{url}/public.php/dav/files/{token}"
+            "NC_DIRECT_TEMPLATE", "{url}/public.php/dav/files/{token}/{key}"
         ),
     }
 
@@ -143,9 +143,63 @@ def _nc_mkcol(session, url: str) -> None:
         raise RuntimeError(f"Nextcloud MKCOL {url} -> {r.status_code}")
 
 
-def _nc_upload(path: pathlib.Path, key: str, content_type: str) -> str:
-    import requests
+def _nc_quote(text: str) -> str:
+    return "/".join(urllib.parse.quote(p, safe="") for p in text.split("/"))
 
+
+def _nc_share(session, c) -> tuple[str, str]:
+    """Reuse (or create) ONE public read-only link share for NC_FOLDER.
+
+    Creating a share per clip would litter Nextcloud with thousands of shares
+    and hit its share limits. A single folder share is reused for everything.
+    Returns (token, share_url).
+    """
+    ocs = f"{c['url']}/ocs/v2.php/apps/files_sharing/api/v1/shares"
+    path = "/" + c["folder"]
+
+    r = session.get(ocs, params={"path": path, "reshares": "false"}, timeout=60)
+    if r.status_code < 400:
+        try:
+            shares = r.json().get("ocs", {}).get("data") or []
+        except ValueError:
+            shares = []
+        if isinstance(shares, dict):
+            shares = [shares]
+        for s in shares:
+            try:
+                if int(s.get("share_type", -1)) != 3:      # 3 = public link
+                    continue
+                if s.get("password"):
+                    continue                               # needs a password - unusable
+                if not (int(s.get("permissions", 0)) & 1):  # 1 = read
+                    continue
+            except (TypeError, ValueError):
+                continue
+            if s.get("expiration"):
+                state.warn("upload", "Nextcloud share expires soon",
+                           folder=path, expires=s.get("expiration"))
+            return s.get("token") or "", (s.get("url") or "").rstrip("/")
+
+    r = session.post(ocs, data={"path": path, "shareType": 3, "permissions": 1},
+                     timeout=120)
+    if r.status_code >= 400:
+        raise RuntimeError(
+            f"Nextcloud could not share /{c['folder']} ({r.status_code}). "
+            "Remove the password/expiry from an existing link share of that "
+            "folder, or point NC_FOLDER at a fresh folder. " + r.text[:300]
+        )
+    data = r.json().get("ocs", {}).get("data", {})
+    token = data.get("token") or ""
+    url = (data.get("url") or "").rstrip("/")
+    if not url:
+        raise RuntimeError(f"Nextcloud share returned no url: {r.text[:300]}")
+    if data.get("expiration"):
+        state.warn("upload", "Nextcloud share has an expiry date",
+                   folder=path, expires=data.get("expiration"))
+    return token, url
+
+
+def _nc_upload(path: pathlib.Path, key: str, content_type: str) -> str:
     session, c = _nc_session()
     user = urllib.parse.quote(c["user"], safe="")
     dav_root = f"{c['url']}/remote.php/dav/files/{user}"
@@ -154,46 +208,107 @@ def _nc_upload(path: pathlib.Path, key: str, content_type: str) -> str:
     folder_parts = parts[:-1]
     # create the folder chain: Clips, Clips/<date>
     for i in range(1, len(folder_parts) + 1):
-        sub = "/".join(urllib.parse.quote(p, safe="") for p in folder_parts[:i])
+        sub = _nc_quote("/".join(folder_parts[:i]))
         _nc_mkcol(session, f"{dav_root}/{sub}")
 
-    file_url = dav_root + "/" + "/".join(urllib.parse.quote(p, safe="") for p in parts)
+    file_url = dav_root + "/" + _nc_quote("/".join(parts))
     with open(path, "rb") as fh:
-        put = session.put(file_url, data=fh, headers={"Content-Type": content_type}, timeout=1800)
+        put = session.put(file_url, data=fh, headers={"Content-Type": content_type},
+                          timeout=1800)
     if put.status_code not in (201, 204):
         raise RuntimeError(f"Nextcloud upload -> {put.status_code} {put.text[:200]}")
 
-    # create (or reuse) a public read-only share
-    share = requests.post(
-        f"{c['url']}/ocs/v2.php/apps/files_sharing/api/v1/shares",
-        auth=(c["user"], c["password"]),
-        headers={"OCS-APIRequest": "true", "Accept": "application/json"},
-        data={
-            "path": "/" + c["folder"] + "/" + key,
-            "shareType": 3,      # public link
-            "permissions": 1,    # read only
-        },
-        timeout=120,
-    )
-    if share.status_code >= 400:
-        raise RuntimeError(f"Nextcloud share -> {share.status_code} {share.text[:300]}")
-    data = share.json().get("ocs", {}).get("data", {})
-    share_url = (data.get("url") or "").rstrip("/")
-    token = data.get("token") or ""
-    if not share_url:
-        raise RuntimeError(f"Nextcloud share returned no url: {share.text[:300]}")
+    token, share_url = _nc_share(session, c)
 
-    # A single-file share exposes the raw file at /public.php/dav/files/<token>
-    # (200 + video/mp4, no redirect). If the API gave no token, fall back to
-    # the /download link, which 302-redirects - some clients still accept it.
+    # Raw file at /public.php/dav/files/<token>/<key> -> 200 + video/mp4.
+    # If the server gave no token, fall back to /download (302, less reliable).
     if not token and "{token}" in c["direct_template"]:
         return share_url + "/download"
     try:
         return c["direct_template"].format(
-            url=c["url"], token=token, share=share_url, name=path.name
+            url=c["url"],
+            token=token,
+            share=share_url,
+            key=_nc_quote(key),
+            name=path.name,
         )
     except KeyError as exc:
         raise RuntimeError(f"bad NC_DIRECT_TEMPLATE placeholder {exc}") from exc
+
+
+def _nc_delete(key: str) -> None:
+    session, c = _nc_session()
+    user = urllib.parse.quote(c["user"], safe="")
+    url = f"{c['url']}/remote.php/dav/files/{user}/" + _nc_quote(c["folder"] + "/" + key)
+    r = session.delete(url, timeout=120)
+    if r.status_code not in (200, 204, 404):
+        raise RuntimeError(f"Nextcloud delete {key} -> {r.status_code}")
+
+
+def _nc_list(prefix: str = "") -> list[tuple[str, object]]:
+    """Walk NC_FOLDER (2 levels: date folders -> files) via PROPFIND."""
+    import email.utils
+    import xml.etree.ElementTree as ET
+
+    session, c = _nc_session()
+    user = urllib.parse.quote(c["user"], safe="")
+    base_path = f"/remote.php/dav/files/{c['user']}/{c['folder']}".rstrip("/")
+    root = f"{c['url']}/remote.php/dav/files/{user}/{_nc_quote(c['folder'])}"
+
+    def propfind(url: str, depth: int):
+        r = session.request("PROPFIND", url, headers={"Depth": str(depth)}, timeout=120)
+        if r.status_code not in (207, 200):
+            raise RuntimeError(f"Nextcloud PROPFIND -> {r.status_code}")
+        return ET.fromstring(r.content)
+
+    def parse(xml, folder_url: str):
+        out = []
+        for resp in xml.findall("{DAV:}response"):
+            href = resp.findtext("{DAV:}href") or ""
+            full = urllib.parse.unquote(href)
+            if not full.startswith(base_path + "/"):
+                continue
+            rel = full[len(base_path) + 1:]
+            if rel.endswith("/"):
+                rel = rel.rstrip("/")
+            is_dir = resp.find(".//{DAV:}collection") is not None or full.endswith("/")
+            lm = resp.findtext(".//{DAV:}getlastmodified")
+            when = None
+            if lm:
+                try:
+                    when = email.utils.parsedate_to_datetime(lm)
+                except (TypeError, ValueError):
+                    when = None
+            out.append((rel, is_dir, when, folder_url))
+        return out
+
+    objs: list[tuple[str, object]] = []
+    seen: set[str] = set()
+
+    def add(rel: str, when) -> None:
+        if rel in seen:
+            return
+        seen.add(rel)
+        objs.append((rel, when))
+
+    top = parse(propfind(root, 1), root)
+    for rel, is_dir, when, _ in top:
+        if not rel:
+            continue                      # the folder itself
+        if not is_dir:
+            if rel.startswith(prefix) and rel.lower().endswith(".mp4"):
+                add(rel, when)
+            continue
+        sub_url = f"{root}/{_nc_quote(rel)}"
+        try:
+            for srel, sdir, swhen, _ in parse(propfind(sub_url, 1), sub_url):
+                if sdir or not srel.lower().endswith(".mp4"):
+                    continue
+                if srel.startswith(prefix):
+                    add(srel, swhen)
+        except Exception as exc:  # a single bad folder must not kill the sweep
+            state.warn("cleanup", f"could not list {rel}", reason=str(exc)[:200])
+    return objs
 
 
 # --------------------------------------------------------------------------
@@ -214,6 +329,32 @@ def upload(path: pathlib.Path, key: str, content_type: str = "video/mp4") -> str
     return _s3_upload(path, key, content_type)
 
 
+def _s3_list(prefix: str = "") -> list[tuple[str, object]]:
+    c = _s3_conf()
+    s3 = _s3_client()
+    out: list[tuple[str, object]] = []
+    for page in s3.get_paginator("list_objects_v2").paginate(
+        Bucket=c["bucket"], Prefix=prefix
+    ):
+        for obj in page.get("Contents", []):
+            out.append((obj["Key"], obj.get("LastModified")))
+    return out
+
+
+def list_objects(prefix: str = "") -> list[tuple[str, object]]:
+    """[(key, last_modified)] for every clip currently in storage."""
+    if backend() == "nextcloud":
+        return _nc_list(prefix)
+    return _s3_list(prefix)
+
+
+def delete(key: str) -> None:
+    if backend() == "nextcloud":
+        return _nc_delete(key)
+    c = _s3_conf()
+    _s3_client().delete_object(Bucket=c["bucket"], Key=key)
+
+
 def status() -> dict:
     """What the dashboard shows on the Storage card."""
     b = backend()
@@ -231,6 +372,7 @@ def status() -> dict:
         "bucket": c["folder"],
         "configured": bool(c["url"] and c["user"] and c["password"]),
         "public": bool(c["url"]),
+        "folder": c["folder"],
     }
 
 
@@ -256,6 +398,8 @@ def run() -> int:
         try:
             key = f"{date}/{clip['clip_id']}.mp4"
             clip["r2_url"] = upload(path, key)
+            clip["storage_key"] = key
+            clip["storage_backend"] = backend()
             clip["stage"] = "uploaded"
             done += 1
         except Exception as exc:

@@ -19,10 +19,11 @@
     "gemini": false
   },
   "storage_backend": {
-    "backend": "Cloudflare R2",
-    "bucket": "clips",
+    "backend": "Nextcloud",
+    "bucket": "Clips",
     "configured": false,
-    "public": false
+    "public": false,
+    "folder": "Clips"
   },
   "campaigns": []
 }

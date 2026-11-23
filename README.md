@@ -170,6 +170,9 @@ local file to Meta (the public URL is only a fallback), which is why cleanup run
   (`--force` overrides).
 - **Clip `.mp4` deleted** as soon as it is uploaded to storage (publishing uses the
   URL, so the local copy is dead weight).
+- **Remote clips pruned** after 7 days (`--remote-days`), which matters when
+  storage is your own VPS. Only `.mp4` files under the configured folder/bucket
+  are touched, and only after platforms have had time to download them.
 - **Stale captions** (`work/captions/*.ass` whose clip is gone) removed.
 - **Per-day state pruned** after `--prune-days` (default 30). Only `queue/`,
   `rendered/` and `logs/` are pruned; `posted.json`, `performance.json`,
