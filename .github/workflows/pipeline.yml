@@ -120,12 +120,17 @@ jobs:
         run: python -m pipeline.render
 
       - name: "Stage 5 - quality check"
-        run: python -m pipeline.qa || true
+        # Not masked: a clip that fails QA is dropped, and if every clip fails
+        # the run must look red instead of quietly producing nothing. Storage
+        # and publish still run (if: always()) so the good clips go out.
+        run: python -m pipeline.qa
 
       - name: "Stage 6 - upload to storage"
+        if: always()
         run: python -m pipeline.storage
 
       - name: "Stage 7 - publish to platforms"
+        if: always()
         run: python -m pipeline.publish
 
       - name: "Stage 8 - pull analytics"
