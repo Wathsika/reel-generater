@@ -409,6 +409,11 @@ def run() -> int:
             failed += 1
         state.save_rendered(rendered)
 
+    if failed and not done:
+        state.error("upload", "every upload failed - the storage settings need attention")
+        jobs.finish(job, status="failed", items=0, failed=failed)
+        return -1
+
     jobs.finish(job, status="ok" if not failed else "partial", items=done, failed=failed)
     return done
 
@@ -418,6 +423,9 @@ def main(argv: list[str] | None = None) -> int:
 
     argparse.ArgumentParser(description="Upload clips to public storage").parse_args(argv)
     n = run()
+    if n < 0:
+        print("upload: NOTHING WAS UPLOADED - see the error log")
+        return 1
     print(f"uploaded {n} clip(s) via {backend()}")
     return 0
 

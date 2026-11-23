@@ -330,6 +330,9 @@ def run() -> int:
                     "caption": str(c.get("caption", ""))[:400],
                     "hashtags": [str(h) for h in c.get("hashtags", [])][:6],
                     "reason": str(c.get("reason", ""))[:300],
+                    # render only picks up clips in this state - without it a
+                    # selected clip is silently never rendered
+                    "stage": "selected",
                 }
             )
 

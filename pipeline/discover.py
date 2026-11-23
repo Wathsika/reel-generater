@@ -356,7 +356,7 @@ def requeue_failed(max_requeues: int = 1) -> int:
             # The stale item must go: discover skips any URL that is already in
             # today's queue, so leaving it would swallow the retry.
             state.warn("discover", "video did not finish - queued again once",
-                       url=url[:110], stage=item.get("stage"))
+                       url=url[:110], item_stage=item.get("stage"))
         if touched:
             data["clips"] = kept
             state.write_json(path, data)

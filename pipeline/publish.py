@@ -313,6 +313,11 @@ def run() -> int:
             failed += 1
         state.save_rendered(rendered)
 
+    if auto and failed and not posted:
+        state.error("publish", "every platform rejected every clip - check the tokens")
+        jobs.finish(job, status="failed", items=0, failed=failed)
+        return -1
+
     jobs.finish(job, status="ok" if not failed else "partial", items=posted, failed=failed)
     return posted
 
@@ -320,6 +325,9 @@ def run() -> int:
 def main(argv: list[str] | None = None) -> int:
     argparse.ArgumentParser(description="Publish clips").parse_args(argv)
     n = run()
+    if n < 0:
+        print("publish: NOTHING WAS PUBLISHED - see the error log")
+        return 1
     print(f"published {n} clip(s)")
     return 0
 

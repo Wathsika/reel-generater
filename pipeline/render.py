@@ -217,14 +217,17 @@ def run() -> int:
 
     rendered = 0
     failed = 0
+    waiting = 0
 
     for item in queue.get("clips", []):
         # Gate on the clips themselves, not the item stage: an item stays
         # "rendered" forever after its first run, which would otherwise make
-        # every re-run silently skip it.
-        pending = [c for c in item.get("clips", []) if c.get("stage") == "selected"]
+        # every re-run silently skip it. A missing stage also counts: queue
+        # files written before the stage was recorded must still render.
+        pending = [c for c in item.get("clips", []) if c.get("stage") in (None, "selected")]
         if not pending:
             continue
+        waiting += len(pending)
         settings = item.get("settings", {})
         layout = str(settings.get("layout", "crop"))
 
@@ -288,6 +291,14 @@ def run() -> int:
         item["stage"] = "rendered" if all(c.get("stage") in {"rendered", "published"} for c in item.get("clips", [])) else item["stage"]
         state.save_queue(queue)
 
+    # The 2026-11-23 run picked a clip, rendered nothing, and still reported
+    # success because the stage filter never matched. Never let that happen
+    # quietly again: if work was waiting and not one clip came out, fail.
+    if waiting and not rendered and not failed:
+        state.error("render", "clips were selected but none was rendered - this is a pipeline bug")
+        jobs.finish(job, status="failed", items=0)
+        return -1
+
     jobs.finish(job, status="ok" if not failed else "partial", items=rendered, failed=failed)
     return rendered
 
@@ -295,6 +306,9 @@ def run() -> int:
 def main(argv: list[str] | None = None) -> int:
     argparse.ArgumentParser(description="Render vertical clips").parse_args(argv)
     n = run()
+    if n < 0:
+        print("render: NOTHING WAS PRODUCED - see the error log")
+        return 1
     print(f"rendered {n} clip(s)")
     return 0
 

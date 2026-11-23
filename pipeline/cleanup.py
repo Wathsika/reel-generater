@@ -94,7 +94,7 @@ def cleanup_sources(stats: dict, seen: set[str], dry: bool, force: bool) -> None
         clips = item.get("clips") or []
         if not clips:
             continue
-        blocking = [c for c in clips if c.get("stage") in SOURCE_BLOCKING]
+        blocking = [c for c in clips if c.get("stage") in SOURCE_BLOCKING or c.get("stage") is None]
         if blocking and not force:
             continue
         base = pathlib.Path(item["path"])
