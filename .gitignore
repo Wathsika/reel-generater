@@ -1,0 +1,34 @@
+# secrets
+.env
+state/tokens.json
+
+# working files (large, never commit)
+work/
+out/
+*.mp4
+*.mov
+*.mkv
+*.wav
+*.mp3
+*.m4a
+*.ass
+*.srt
+
+# keep state manifests (small json) but ignore junk
+state/**/*.tmp
+state/**/*.log
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# runner
+.actions-runner/
+_runner/
+
+# os
+Thumbs.db
+.DS_Store

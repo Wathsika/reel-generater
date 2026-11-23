@@ -1,0 +1,55 @@
+# ---------------------------------------------------------------------------
+# CLIPPAIGN CONFIG
+#
+# In campaign-based clipping (Whop "Content Rewards", contentrewards.com and
+# similar reputable marketplaces) the RIGHTS HOLDER provides the source
+# videos. You join a campaign, they hand you the long-form files/links, you
+# cut them up, you get paid per approved view.
+#
+# NEVER point `sources` at creators you have no permission for. That is
+# infringement, it gets accounts banned, and the platforms pay nothing for
+# unoriginal content anyway.
+# ---------------------------------------------------------------------------
+
+defaults:
+  layout: crop              # crop | split_v | gameplay_bg
+  min_duration: 18          # seconds - most campaigns want >= 15s
+  max_duration: 60          # seconds - TikTok sweet spot; raise to 90 for CPM >= 1min campaigns
+  clips_per_video: 3
+  caption_style: word       # word (one word at a time) | chunk (karaoke sweep)
+  watermark: "@yourhandle"  # REQUIRED by most campaigns - change this
+  require_original_audio: true
+  trim_silence: true
+
+campaigns:
+  # --- Example: replace with real campaigns you join ---
+  - id: example-podcast
+    name: "Example Podcast (Content Rewards)"
+    enabled: false
+    source_type: yt-dlp              # yt-dlp | http | local
+    sources:
+      - "https://www.youtube.com/watch?v=REPLACE_ME"
+    # local sources are read from the laptop only:
+    # - "local:C:/clips/sources/podcast_ep42.mp4"
+    rate_cpm: 1.50                   # $ per 1000 approved views (for reporting)
+    payout_model: cpm                # cpm | per_post | pool
+    required_hashtags:
+      - "#podcastclips"
+    watermark: "@yourhandle"
+    layout: split_v                  # speaker top / gameplay bottom
+    # Optional: a rights-cleared gameplay clip to use as the bottom half
+    # (many campaigns supply one). Leave null to use `crop` instead.
+    gameplay_source: null
+    max_duration: 60
+    rules: "Min 20s. Must keep original audio. Add hook text. No re-upload of other clippers' edits."
+
+  # - id: gaming-creator-x
+  #   enabled: true
+  #   source_type: http
+  #   sources:
+  #     - "https://cdn.example-campaign.com/episodes/ep12.mp4"
+  #   rate_cpm: 2.00
+  #   payout_model: cpm
+  #   required_hashtags: ["#creatorx"]
+  #   layout: crop
+  #   rules: "Crop to 9:16, burned captions, no music."

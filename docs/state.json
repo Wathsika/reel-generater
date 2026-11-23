@@ -1,0 +1,49 @@
+{
+  "generated": "2026-11-23T11:53:43+00:00",
+  "jobs": {
+    "runs": []
+  },
+  "queue": {
+    "date": "2026-11-23",
+    "clips": []
+  },
+  "rendered": {
+    "date": "2026-11-23",
+    "clips": []
+  },
+  "posted": {
+    "posts": []
+  },
+  "performance": {
+    "clips": []
+  },
+  "log": {
+    "entries": []
+  },
+  "accounts": {
+    "instagram": {
+      "enabled": true,
+      "configured": false,
+      "user_id": false
+    },
+    "facebook": {
+      "enabled": false,
+      "configured": false
+    },
+    "tiktok": {
+      "enabled": true,
+      "configured": false,
+      "open_id": false,
+      "last_refresh": null
+    },
+    "r2": {
+      "configured": false,
+      "bucket": "clips"
+    },
+    "llm": {
+      "groq": false,
+      "gemini": false
+    },
+    "campaigns": []
+  }
+}

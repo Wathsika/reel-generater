@@ -1,0 +1,17 @@
+{
+  "runs": [
+    {
+      "id": "dashboard-1795434823-55152a",
+      "stage": "dashboard",
+      "status": "ok",
+      "started": "2026-11-23T11:53:43+00:00",
+      "started_ts": 1795434823.9078355,
+      "ended": "2026-11-23T11:53:43+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
+    }
+  ],
+  "updated": "2026-11-23T11:53:43+00:00"
+}

@@ -1,0 +1,64 @@
+name: analytics-only
+
+# Lightweight stats refresh between full pipeline runs - keeps the dashboard
+# numbers fresh without re-rendering anything.
+on:
+  schedule:
+    - cron: "30 */6 * * *"   # every 6 hours
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      STATE_TOKENS: ${{ secrets.STATE_TOKENS }}
+      SECRETS_ADMIN_PAT: ${{ secrets.SECRETS_ADMIN_PAT }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+      R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      R2_BUCKET: ${{ secrets.R2_BUCKET }}
+      R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      IG_APP_ID: ${{ secrets.IG_APP_ID }}
+      IG_APP_SECRET: ${{ secrets.IG_APP_SECRET }}
+      FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+      FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+      TT_CLIENT_KEY: ${{ secrets.TT_CLIENT_KEY }}
+      TT_CLIENT_SECRET: ${{ secrets.TT_CLIENT_SECRET }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - run: python -c "from pipeline import tokens; tokens.restore_from_env()"
+
+      - name: Pull stats
+        run: python -m pipeline.analytics || true
+
+      - name: Rebuild dashboard
+        if: always()
+        run: python -m pipeline.dashboard
+
+      - name: Commit
+        if: always()
+        run: |
+          git config user.name "clip-factory-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+          else
+            git commit -m "chore(state): analytics $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git push
+          fi

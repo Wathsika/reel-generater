@@ -1,0 +1,11 @@
+{
+  "entries": [
+    {
+      "t": "2026-11-23T11:53:43+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795434823-55152a"
+    }
+  ]
+}

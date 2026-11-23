@@ -1,0 +1,26 @@
+{
+  "instagram": {
+    "enabled": true,
+    "configured": false,
+    "user_id": false
+  },
+  "facebook": {
+    "enabled": false,
+    "configured": false
+  },
+  "tiktok": {
+    "enabled": true,
+    "configured": false,
+    "open_id": false,
+    "last_refresh": null
+  },
+  "r2": {
+    "configured": false,
+    "bucket": "clips"
+  },
+  "llm": {
+    "groq": false,
+    "gemini": false
+  },
+  "campaigns": []
+}

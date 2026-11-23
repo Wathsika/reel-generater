@@ -1,0 +1,165 @@
+name: clip-pipeline
+
+on:
+  schedule:
+    - cron: "0 5 * * *"     # 05:00 UTC - main run
+    - cron: "0 17 * * *"    # 17:00 UTC - second run
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Max new sources this run"
+        required: false
+        default: "3"
+      auto_approve:
+        description: "Publish without manual approval"
+        type: boolean
+        required: false
+        default: true
+
+# Public repo = unlimited free hosted-runner minutes.
+concurrency:
+  group: clip-pipeline
+  cancel-in-progress: false
+
+permissions:
+  contents: write      # commit state + dashboard back to the repo
+  actions: write
+
+jobs:
+  produce-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330        # stay inside the 6h hard limit
+    env:
+      # Restore rotated tokens saved by a previous run (public repo = never committed)
+      STATE_TOKENS: ${{ secrets.STATE_TOKENS }}
+      SECRETS_ADMIN_PAT: ${{ secrets.SECRETS_ADMIN_PAT }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+      R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      R2_BUCKET: ${{ secrets.R2_BUCKET }}
+      R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      IG_APP_ID: ${{ secrets.IG_APP_ID }}
+      IG_APP_SECRET: ${{ secrets.IG_APP_SECRET }}
+      FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+      FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+      TT_CLIENT_KEY: ${{ secrets.TT_CLIENT_KEY }}
+      TT_CLIENT_SECRET: ${{ secrets.TT_CLIENT_SECRET }}
+      WHISPER_BACKEND: groq
+
+    steps:
+      - name: Checkout (with state)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore token store
+        run: python -c "from pipeline import tokens; tokens.restore_from_env()"
+
+      - name: Configure auto-approve
+        if: inputs.auto_approve == false
+        run: |
+          python - <<'PY'
+          import yaml, pathlib
+          p = pathlib.Path("config/accounts.yaml")
+          d = yaml.safe_load(p.read_text()) or {}
+          d.setdefault("posting", {})["auto_approve"] = False
+          p.write_text(yaml.safe_dump(d, sort_keys=False))
+          PY
+
+      - name: "Stage 1 - discover"
+        run: python -m pipeline.discover --limit ${{ inputs.limit || '3' }}
+
+      - name: "Stage 2 - transcribe"
+        run: python -m pipeline.transcribe
+
+      - name: "Stage 3 - select viral moments"
+        run: python -m pipeline.select
+
+      - name: "Stage 4 - render vertical clips"
+        run: python -m pipeline.render
+
+      - name: "Stage 5 - quality check"
+        run: python -m pipeline.qa || true
+
+      - name: "Stage 6 - upload to R2"
+        run: python -m pipeline.storage
+
+      - name: "Stage 7 - publish to platforms"
+        run: python -m pipeline.publish
+
+      - name: "Stage 8 - pull analytics"
+        if: always()
+        run: python -m pipeline.analytics || true
+
+      - name: "Stage 9 - build dashboard"
+        if: always()
+        run: python -m pipeline.dashboard
+
+      - name: Commit state + dashboard
+        if: always()
+        run: |
+          git config user.name "clip-factory-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+          else
+            git commit -m "chore(state): run $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git push
+          fi
+
+      - name: Clean large artifacts
+        if: always()
+        run: rm -rf work out || true
+
+  deploy-dashboard:
+    needs: produce-and-publish
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure dashboard exists
+        run: |
+          if [ ! -f docs/index.html ]; then
+            echo "no dashboard yet - generating"
+            pip install -r requirements.txt
+            python -m pipeline.dashboard
+          fi
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload dashboard artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

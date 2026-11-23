@@ -1,0 +1,44 @@
+# ---------------------------------------------------------------------------
+# TARGET ACCOUNTS + POSTING RULES
+#
+# Connect these same accounts inside Whop / Content Rewards so campaign
+# payouts can be attributed to them. (Campaign platforms verify views on the
+# CONNECTED account, not an account you linked elsewhere.)
+# ---------------------------------------------------------------------------
+
+posting:
+  max_clips_per_day: 6
+  min_gap_minutes: 45          # spread posts out, account looks human
+  auto_approve: false          # true = skip the GitHub review issue (risky)
+  post_times_utc: ["06:30", "13:00", "19:30"]   # best-effort slots
+
+platforms:
+  instagram:
+    enabled: true
+    # Token/user come from env: IG_ACCESS_TOKEN / IG_USER_ID
+    require_business_account: true      # IG Graph API needs Business or Creator
+    share_to_feed: true
+    cover_frame_ms: 3500
+
+  facebook:
+    enabled: false
+    # Token/page come from env: FB_PAGE_TOKEN / FB_PAGE_ID
+    page_only: true
+
+  tiktok:
+    enabled: true
+    # Access/refresh tokens are stored in state/tokens.json after OAuth.
+    # Direct post requires a TikTok Content Posting API audit (days-weeks).
+    # Until the audit passes, `draft_mode: true` posts as private/draft.
+    draft_mode: true
+    privacy_level: PUBLIC_TO_EVERYONE   # used only after audit passes
+    disable_comment: false
+    disable_duet: false
+    disable_stitch: false
+    cover_timestamp_ms: 1000
+
+# Per-account niche tags - keeps pages from looking random
+niches:
+  main:
+    platforms: [instagram, tiktok, facebook]
+    hashtag_pool: ["#clips", "#fyp", "#viral"]
