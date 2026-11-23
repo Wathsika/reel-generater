@@ -393,6 +393,65 @@
       "stage": "dashboard",
       "message": "completed (1 items)",
       "job_id": "dashboard-1795454447-14f5f5"
+    },
+    {
+      "t": "2026-11-23T17:21:35+00:00",
+      "level": "error",
+      "stage": "discover",
+      "message": "download failed: https://www.twitch.tv/bendadonnn",
+      "reason": "ERROR: [twitch:stream] bendadonnn: The channel is not currently live\n"
+    },
+    {
+      "t": "2026-11-23T17:21:35+00:00",
+      "level": "warn",
+      "stage": "discover",
+      "message": "source dropped after repeated failures",
+      "url": "https://www.twitch.tv/bendadonnn",
+      "tries": 2
+    },
+    {
+      "t": "2026-11-23T17:21:35+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (0 items)",
+      "job_id": "discover-1795454494-e99f62"
+    },
+    {
+      "t": "2026-11-23T17:21:35+00:00",
+      "level": "info",
+      "stage": "transcribe",
+      "message": "completed (0 items)",
+      "job_id": "transcribe-1795454495-3a47b2"
+    },
+    {
+      "t": "2026-11-23T17:21:35+00:00",
+      "level": "info",
+      "stage": "analytics",
+      "message": "completed (0 items)",
+      "job_id": "analytics-1795454495-eb0f6f"
+    },
+    {
+      "t": "2026-11-23T17:21:36+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "completed (0 items)",
+      "job_id": "cleanup-1795454495-95ee2c"
+    },
+    {
+      "t": "2026-11-23T17:21:36+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "freed 0.0 MB across 0 file(s)",
+      "sources": 0,
+      "state_files": 0,
+      "remote": 0
+    },
+    {
+      "t": "2026-11-23T17:21:36+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795454496-4046ea"
     }
   ]
 }

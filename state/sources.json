@@ -6,5 +6,11 @@
     "uploader": "",
     "first_seen": "2026-11-23T17:19:45+00:00",
     "last_run": "2026-11-23T17:19:45+00:00"
+  },
+  "https://www.twitch.tv/bendadonnn": {
+    "status": "failed",
+    "tries": 2,
+    "section": null,
+    "last_run": "2026-11-23T17:21:35+00:00"
   }
 }
