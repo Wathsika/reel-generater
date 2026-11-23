@@ -92,6 +92,22 @@ campaigns:
     gameplay_source: null        # set if they supply gameplay for split view
 ```
 
+**Adding a new source without editing files.** *Actions → clip-pipeline →
+Run workflow* has three optional inputs:
+
+| Input | Use |
+|---|---|
+| `source_url` | Process this URL **only**, for this run. Not saved. |
+| `source_section` | Window to download, e.g. `00:10:00-00:50:00` |
+| `campaign` | Which campaign's rules/keywords to apply (default: first enabled) |
+
+That is the everyday path: paste a fresh VOD link, pick a window, run. To keep
+a source permanently, add it under `sources:` in `config/campaigns.yaml` (you
+can edit that file in the GitHub web UI — pencil icon → commit).
+
+The dashboard is **read-only**: it is generated HTML, so inputs live in the
+config file or the Run workflow form, never in the dashboard.
+
 ### 4. Configure accounts
 
 `config/accounts.yaml` — enable platforms, set posting limits and

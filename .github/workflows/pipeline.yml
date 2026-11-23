@@ -15,6 +15,18 @@ on:
         type: boolean
         required: false
         default: true
+      source_url:
+        description: "Optional: process THIS url only (one-off, not saved to config)"
+        required: false
+        default: ""
+      source_section:
+        description: "Optional window for source_url, e.g. 00:10:00-00:50:00"
+        required: false
+        default: ""
+      campaign:
+        description: "Optional campaign id whose rules/keywords apply to source_url"
+        required: false
+        default: ""
 
 # Public repo = unlimited free hosted-runner minutes.
 concurrency:
@@ -35,6 +47,10 @@ jobs:
       SECRETS_ADMIN_PAT: ${{ secrets.SECRETS_ADMIN_PAT }}
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      # One-off source from "Run workflow" (empty on scheduled runs)
+      EXTRA_SOURCE_URL: ${{ inputs.source_url }}
+      EXTRA_SOURCE_SECTION: ${{ inputs.source_section }}
+      EXTRA_SOURCE_CAMPAIGN: ${{ inputs.campaign }}
       R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
       R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
       R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}

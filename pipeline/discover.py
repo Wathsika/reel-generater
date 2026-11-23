@@ -55,11 +55,45 @@ def _download(url: str, dest: pathlib.Path, section: str | None = None) -> pathl
     return None
 
 
+def _one_off(
+    campaigns: list[dict], url: str, section: str = "", campaign_id: str = "",
+) -> list[dict]:
+    """Replace the campaign list with a single ad-hoc run for `url`.
+
+    Used by the workflow's "source_url" input so a new VOD can be processed
+    without editing or committing a file. Settings (rules, keywords, layout)
+    are inherited from `campaign_id`, or the first enabled campaign, so the
+    campaign brief still steers the moment picker.
+    """
+    url = (url or "").strip()
+    if not url:
+        return campaigns
+
+    target: dict = {}
+    if campaign_id:
+        target = next((c for c in campaigns if str(c.get("id")) == campaign_id), {})
+    elif campaigns:
+        target = campaigns[0]
+
+    camp = {k: v for k, v in target.items() if k != "sources"}
+    camp.setdefault("id", "adhoc")
+    camp["sources"] = [url]
+    if section:
+        camp["source_section"] = section
+    return [camp]
+
+
 def run(limit: int | None = None) -> int:
     job = jobs.start("discover")
     cfg = config.campaigns()
     defaults = cfg.get("defaults", {})
     campaigns = [c for c in cfg.get("campaigns", []) if c.get("enabled")]
+    campaigns = _one_off(
+        campaigns,
+        config.env("EXTRA_SOURCE_URL", "") or "",
+        config.env("EXTRA_SOURCE_SECTION", "") or "",
+        config.env("EXTRA_SOURCE_CAMPAIGN", "") or "",
+    )
     if not campaigns:
         jobs.finish(job, status="ok", items=0, note="no enabled campaigns")
         state.warn("discover", "no enabled campaigns in config/campaigns.yaml")
