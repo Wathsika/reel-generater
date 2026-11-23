@@ -84,6 +84,20 @@ def save_rendered(data: dict, date: str | None = None) -> None:
     write_json(rendered_path(data.get("date", date)), data)
 
 
+def recent_rendered(days: int = 7) -> list[dict]:
+    """The newest rendered manifests, old to new.
+
+    Publishing and link repair must not stop at midnight: a clip uploaded at
+    23:50, or held back by the daily posting cap, still needs to go out later.
+    """
+    out: list[dict] = []
+    for path in sorted(config.RENDERED.glob("*.json"))[-max(1, days):]:
+        data = read_json(path, {})
+        if data.get("clips"):
+            out.append(data)
+    return out
+
+
 # --------------------------------------------------------------------------
 # Posted log
 # --------------------------------------------------------------------------

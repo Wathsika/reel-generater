@@ -635,6 +635,147 @@
       "stage": "dashboard",
       "message": "completed (1 items)",
       "job_id": "dashboard-1795457829-f4a232"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "3 pasted link(s), 3 waiting"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (1 items)",
+      "job_id": "discover-1795458279-8f1e41"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "2 more video(s) waiting",
+      "waiting": 2
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (1 items)",
+      "job_id": "discover-1795458279-227869"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "1 more video(s) waiting",
+      "waiting": 1
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (1 items)",
+      "job_id": "discover-1795458279-f84ccd"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (0 items)",
+      "job_id": "discover-1795458279-b90d2b"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "nothing waiting - paste a link or add one to campaigns.yaml"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (0 items)",
+      "job_id": "discover-1795458279-a38e78"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "nothing waiting - paste a link or add one to campaigns.yaml"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "1 pasted link(s), 1 waiting"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (1 items)",
+      "job_id": "discover-1795458279-9de3f9"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "1 pasted link(s), 1 waiting"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (0 items)",
+      "job_id": "discover-1795458279-aa68d2"
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "1 more video(s) waiting",
+      "waiting": 1
+    },
+    {
+      "t": "2026-11-23T18:24:39+00:00",
+      "level": "warn",
+      "stage": "discover",
+      "message": "source dropped after repeated failures",
+      "url": "https://ex.com/bad",
+      "tries": 2
+    },
+    {
+      "t": "2026-11-23T18:24:40+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (0 items)",
+      "job_id": "discover-1795458279-6b3180"
+    },
+    {
+      "t": "2026-11-23T18:24:40+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (0 items)",
+      "job_id": "discover-1795458280-3e9374"
+    },
+    {
+      "t": "2026-11-23T18:24:40+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "nothing waiting - paste a link or add one to campaigns.yaml"
+    },
+    {
+      "t": "2026-11-23T18:24:40+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "completed (10 items)",
+      "job_id": "select-1795458280-a99967"
+    },
+    {
+      "t": "2026-11-23T18:24:40+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
     }
   ]
 }

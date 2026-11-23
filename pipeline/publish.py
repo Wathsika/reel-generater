@@ -214,15 +214,41 @@ def _build_caption(clip: dict) -> str:
     return "\n\n".join(p for p in parts if p)
 
 
+def _platform_ready(name: str, cfg: dict) -> bool:
+    """Enabled *and* able to authenticate. A checkbox without tokens is not a
+    platform, it is a red run waiting to happen."""
+    if not cfg.get(name, {}).get("enabled"):
+        return False
+    need = {
+        "instagram": ("IG_USER_ID", "IG_ACCESS_TOKEN"),
+        "facebook": ("FB_PAGE_ID", "FB_PAGE_TOKEN"),
+        "tiktok": ("TT_CLIENT_KEY", "TT_CLIENT_SECRET"),
+    }[name]
+    return all(state.config.env(k) for k in need)
+
+
 def run() -> int:
     job = jobs.start("publish")
-    rendered = state.load_rendered()
+    manifests = state.recent_rendered()
     accounts = state.config.accounts()
     platforms = accounts.get("platforms", {})
     auto = bool(accounts.get("posting", {}).get("auto_approve", True))
 
     posted = 0
     failed = 0
+    no_url = 0
+
+    ready = {name: _platform_ready(name, platforms)
+             for name in ("instagram", "facebook", "tiktok")}
+    for name, ok in ready.items():
+        if platforms.get(name, {}).get("enabled") and not ok:
+            state.warn("publish", f"{name} is enabled but its credentials are "
+                       f"missing - skipped until they are added")
+    if auto and not any(ready.values()):
+        state.info("publish", "no platform is connected yet - clips stay in storage, "
+                   "nothing is lost; add the tokens and they will post next run")
+        jobs.finish(job, status="ok", items=0, note="no platform credentials")
+        return 0
 
     # Honour posting.max_clips_per_day. The clip count per video is now decided
     # by the model, so one long stream can yield 10 clips; without this they
@@ -242,79 +268,90 @@ def run() -> int:
             jobs.finish(job, status="ok", items=0, note="daily limit reached")
             return 0
 
-    for clip in rendered.get("clips", []):
-        if clip.get("stage") != "uploaded" and clip.get("stage") != "published":
-            continue
-        if clip.get("stage") == "published":
-            continue
-        if not auto:
-            state.info("publish", "auto_approve=false - waiting for manual approval",
-                       clip_id=clip.get("clip_id"))
-            continue
-        if cap > 0 and posted >= room:
-            # Record the surplus instead of silently dropping it, so the
-            # dashboard shows exactly what the daily limit held back.
-            clip["stage"] = "skipped"
-            clip["error"] = f"daily posting limit reached ({cap}/day)"
-            continue
-        if not clip.get("r2_url"):
-            clip["stage"] = "failed"
-            clip["error"] = "no public URL"
-            failed += 1
-            continue
+    # Every unchanged clip from the last few days is a candidate, not just
+    # today's: a clip held back by the daily cap, or uploaded just before
+    # midnight, must still be published later.
+    for rendered in manifests:
+        for clip in rendered.get("clips", []):
+            if clip.get("stage") != "uploaded" and clip.get("stage") != "published":
+                continue
+            if clip.get("stage") == "published":
+                continue
+            if not auto:
+                state.info("publish", "auto_approve=false - waiting for manual approval",
+                           clip_id=clip.get("clip_id"))
+                continue
+            if cap > 0 and posted >= room:
+                # Record the surplus instead of silently dropping it, so the
+                # dashboard shows exactly what the daily limit held back.
+                clip["stage"] = "skipped"
+                clip["error"] = f"daily posting limit reached ({cap}/day)"
+                state.save_rendered(rendered)
+                continue
+            if not clip.get("r2_url"):
+                clip["stage"] = "failed"
+                clip["error"] = "no public URL from storage"
+                failed += 1
+                no_url += 1
+                state.error("publish", "clip has no public URL - storage did not produce one",
+                            clip_id=clip.get("clip_id"))
+                state.save_rendered(rendered)
+                continue
 
-        caption = _build_caption(clip)
-        results: list[dict] = []
-        errors: list[str] = []
+            caption = _build_caption(clip)
+            results: list[dict] = []
+            errors: list[str] = []
 
-        if platforms.get("instagram", {}).get("enabled"):
-            try:
-                results.append(publish_instagram(clip["r2_url"], caption))
-            except Exception as exc:
-                errors.append(f"instagram: {str(exc)[:200]}")
-                state.error("publish", "instagram failed", clip_id=clip.get("clip_id"),
-                            reason=str(exc)[:300])
+            if ready["instagram"]:
+                try:
+                    results.append(publish_instagram(clip["r2_url"], caption))
+                except Exception as exc:
+                    errors.append(f"instagram: {str(exc)[:200]}")
+                    state.error("publish", "instagram failed", clip_id=clip.get("clip_id"),
+                                reason=str(exc)[:300])
 
-        if platforms.get("facebook", {}).get("enabled"):
-            try:
-                results.append(publish_facebook(clip["r2_url"], caption,
-                                                local_path=clip.get("path")))
-            except Exception as exc:
-                errors.append(f"facebook: {str(exc)[:200]}")
-                state.error("publish", "facebook failed", clip_id=clip.get("clip_id"),
-                            reason=str(exc)[:300])
+            if ready["facebook"]:
+                try:
+                    results.append(publish_facebook(clip["r2_url"], caption,
+                                                    local_path=clip.get("path")))
+                except Exception as exc:
+                    errors.append(f"facebook: {str(exc)[:200]}")
+                    state.error("publish", "facebook failed", clip_id=clip.get("clip_id"),
+                                reason=str(exc)[:300])
 
-        if platforms.get("tiktok", {}).get("enabled"):
-            try:
-                results.append(publish_tiktok(clip["r2_url"], caption,
-                                              draft_mode=bool(platforms["tiktok"].get("draft_mode", True))))
-            except Exception as exc:
-                errors.append(f"tiktok: {str(exc)[:200]}")
-                state.error("publish", "tiktok failed", clip_id=clip.get("clip_id"),
-                            reason=str(exc)[:300])
+            if ready["tiktok"]:
+                try:
+                    results.append(publish_tiktok(clip["r2_url"], caption,
+                                                  draft_mode=bool(platforms["tiktok"].get("draft_mode", True))))
+                except Exception as exc:
+                    errors.append(f"tiktok: {str(exc)[:200]}")
+                    state.error("publish", "tiktok failed", clip_id=clip.get("clip_id"),
+                                reason=str(exc)[:300])
 
-        if results:
-            clip["stage"] = "published"
-            clip["results"] = results
-            posted += 1
-            for r in results:
-                state.append_post({
-                    "clip_id": clip.get("clip_id"),
-                    "campaign": clip.get("campaign"),
-                    "hash": clip.get("hash"),
-                    "r2_url": clip.get("r2_url"),
-                    "caption": caption[:300],
-                    "posted_at": state.now(),
-                    **r,
-                })
-        else:
-            clip["stage"] = "failed"
-            clip["error"] = "; ".join(errors) or "no platform accepted"
-            failed += 1
-        state.save_rendered(rendered)
+            if results:
+                clip["stage"] = "published"
+                clip["results"] = results
+                posted += 1
+                for r in results:
+                    state.append_post({
+                        "clip_id": clip.get("clip_id"),
+                        "campaign": clip.get("campaign"),
+                        "hash": clip.get("hash"),
+                        "r2_url": clip.get("r2_url"),
+                        "caption": caption[:300],
+                        "posted_at": state.now(),
+                        **r,
+                    })
+            else:
+                clip["stage"] = "failed"
+                clip["error"] = "; ".join(errors) or "no platform accepted"
+                failed += 1
+            state.save_rendered(rendered)
 
     if auto and failed and not posted:
-        state.error("publish", "every platform rejected every clip - check the tokens")
+        reason = ("no public URL from storage" if no_url
+                  else "every platform rejected every clip - check the tokens")
+        state.error("publish", reason)
         jobs.finish(job, status="failed", items=0, failed=failed)
         return -1
 

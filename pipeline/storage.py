@@ -118,10 +118,33 @@ def _nc_conf() -> dict:
         # so the default points at Nextcloud's public WebDAV endpoint (no
         # redirect). `/s/TOKEN/download` 302-redirects and is a fallback only.
         # Placeholders: {url} {token} {share} {key} {name}
-        "direct_template": config.env(
-            "NC_DIRECT_TEMPLATE", "{url}/public.php/dav/files/{token}/{key}"
-        ),
+        # NB: `or` not `env(..., default)` - a secret that exists but is empty
+        # (missing secrets land in the workflow as "") would disable the URL.
+        "direct_template": config.env("NC_DIRECT_TEMPLATE")
+        or "{url}/public.php/dav/files/{token}/{key}",
     }
+
+
+def _nc_file_url(c: dict, session, key: str) -> str:
+    """Public link for a file already sitting in NC_FOLDER."""
+    token, share_url = _nc_share(session, c)
+    if not token and "{token}" in c["direct_template"]:
+        return share_url + "/download"
+    try:
+        url = c["direct_template"].format(
+            url=c["url"],
+            token=token,
+            share=share_url,
+            key=_nc_quote(key),
+            name=pathlib.Path(key).name,
+        )
+    except KeyError as exc:
+        raise RuntimeError(f"bad NC_DIRECT_TEMPLATE placeholder {exc}") from exc
+    if not url:
+        raise RuntimeError(
+            "Nextcloud produced an empty public URL - check NC_DIRECT_TEMPLATE"
+        )
+    return url
 
 
 def _nc_session():
@@ -218,22 +241,8 @@ def _nc_upload(path: pathlib.Path, key: str, content_type: str) -> str:
     if put.status_code not in (201, 204):
         raise RuntimeError(f"Nextcloud upload -> {put.status_code} {put.text[:200]}")
 
-    token, share_url = _nc_share(session, c)
-
     # Raw file at /public.php/dav/files/<token>/<key> -> 200 + video/mp4.
-    # If the server gave no token, fall back to /download (302, less reliable).
-    if not token and "{token}" in c["direct_template"]:
-        return share_url + "/download"
-    try:
-        return c["direct_template"].format(
-            url=c["url"],
-            token=token,
-            share=share_url,
-            key=_nc_quote(key),
-            name=path.name,
-        )
-    except KeyError as exc:
-        raise RuntimeError(f"bad NC_DIRECT_TEMPLATE placeholder {exc}") from exc
+    return _nc_file_url(c, session, key)
 
 
 def _nc_delete(key: str) -> None:
@@ -323,6 +332,18 @@ def public_url(bucket: str, key: str) -> str:
     return f"{base}/{urllib.parse.quote(key)}"
 
 
+def build_url(key: str) -> str:
+    """Public URL for an object already in storage, without uploading it again.
+
+    Needed to repair manifests written while the Nextcloud URL template was
+    empty: the bytes are on the server, only the link was lost.
+    """
+    if backend() == "nextcloud":
+        session, c = _nc_session()
+        return _nc_file_url(c, session, key)
+    return public_url("", key)
+
+
 def upload(path: pathlib.Path, key: str, content_type: str = "video/mp4") -> str:
     if backend() == "nextcloud":
         return _nc_upload(path, key, content_type)
@@ -378,22 +399,63 @@ def status() -> dict:
 
 def run() -> int:
     job = jobs.start("upload")
-    rendered = state.load_rendered()
-    done = failed = 0
-    date = rendered.get("date", state.today())
+    manifests = state.recent_rendered()
+    today = state.today()
+    rendered = next((m for m in manifests if m.get("date") == today), None)
+    if rendered is None:
+        rendered = state.load_rendered()
+        manifests.append(rendered)
+    done = failed = repaired = 0
+    date = rendered.get("date", today)
+
+    # Repair first: a clip can be on the server with no link recorded (an empty
+    # NC_DIRECT_TEMPLATE did exactly this on 2026-11-23). The bytes are fine,
+    # only the URL is missing, so build it instead of uploading again.
+    for manifest in manifests:
+        changed = False
+        for clip in manifest.get("clips", []):
+            if clip.get("r2_url") or not clip.get("storage_key"):
+                continue
+            if clip.get("stage") not in {"uploaded", "published"}:
+                continue
+            try:
+                clip["r2_url"] = build_url(clip["storage_key"])
+                repaired += 1
+                changed = True
+                state.info("upload", "rebuilt the public link of an earlier upload",
+                           clip_id=clip.get("clip_id"))
+            except Exception as exc:
+                state.warn("upload", "could not rebuild the public link",
+                           clip_id=clip.get("clip_id"), reason=str(exc)[:250])
+        if changed:
+            state.save_rendered(manifest)
 
     for clip in rendered.get("clips", []):
         if clip.get("stage") not in {"qa_passed", "uploaded"}:
             continue
         if clip.get("r2_url"):
             clip["stage"] = "uploaded"
-            done += 1
             continue
+        # Already on the server but the link was lost (e.g. NC_DIRECT_TEMPLATE
+        # was empty): rebuild it instead of re-uploading a file that may no
+        # longer exist locally.
+        if clip.get("stage") == "uploaded" and clip.get("storage_key"):
+            try:
+                clip["r2_url"] = build_url(clip["storage_key"])
+                repaired += 1
+                state.info("upload", "rebuilt the public link of an earlier upload",
+                           clip_id=clip.get("clip_id"))
+                state.save_rendered(rendered)
+                continue
+            except Exception as exc:
+                state.warn("upload", "could not rebuild the public link",
+                           clip_id=clip.get("clip_id"), reason=str(exc)[:250])
         path = pathlib.Path(clip["path"])
         if not path.is_file():
             clip["stage"] = "failed"
             clip["error"] = "local file missing at upload time"
             failed += 1
+            state.save_rendered(rendered)
             continue
         try:
             key = f"{date}/{clip['clip_id']}.mp4"
@@ -409,13 +471,14 @@ def run() -> int:
             failed += 1
         state.save_rendered(rendered)
 
-    if failed and not done:
+    if failed and not (done or repaired):
         state.error("upload", "every upload failed - the storage settings need attention")
         jobs.finish(job, status="failed", items=0, failed=failed)
         return -1
 
-    jobs.finish(job, status="ok" if not failed else "partial", items=done, failed=failed)
-    return done
+    jobs.finish(job, status="ok" if not failed else "partial",
+                items=done + repaired, failed=failed, repaired=repaired)
+    return done + repaired
 
 
 def main(argv: list[str] | None = None) -> int:
