@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-23T17:21:36+00:00",
+  "generated": "2026-11-23T17:59:56+00:00",
   "jobs": {
     "runs": [
       {
@@ -689,9 +689,155 @@
         "items": 0,
         "error": null,
         "meta": {}
+      },
+      {
+        "id": "dashboard-1795454496-4046ea",
+        "stage": "dashboard",
+        "status": "ok",
+        "started": "2026-11-23T17:21:36+00:00",
+        "started_ts": 1795454496.1055496,
+        "ended": "2026-11-23T17:21:36+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "discover-1795455725-24181a",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T17:42:05+00:00",
+        "started_ts": 1795455725.0200086,
+        "ended": "2026-11-23T17:42:05+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "note": "queue empty"
+        }
+      },
+      {
+        "id": "discover-1795456691-63f4be",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T17:58:11+00:00",
+        "started_ts": 1795456691.5816362,
+        "ended": "2026-11-23T17:58:42+00:00",
+        "duration_s": 30.9,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "note": "queue empty"
+        }
+      },
+      {
+        "id": "transcribe-1795456722-604049",
+        "stage": "transcribe",
+        "status": "ok",
+        "started": "2026-11-23T17:58:42+00:00",
+        "started_ts": 1795456722.5392816,
+        "ended": "2026-11-23T17:59:51+00:00",
+        "duration_s": 68.8,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "select-1795456791-92aa99",
+        "stage": "select",
+        "status": "ok",
+        "started": "2026-11-23T17:59:51+00:00",
+        "started_ts": 1795456791.3742645,
+        "ended": "2026-11-23T17:59:55+00:00",
+        "duration_s": 3.9,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "render-1795456795-2c7600",
+        "stage": "render",
+        "status": "ok",
+        "started": "2026-11-23T17:59:55+00:00",
+        "started_ts": 1795456795.3418632,
+        "ended": "2026-11-23T17:59:55+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "qa-1795456795-5856f9",
+        "stage": "qa",
+        "status": "ok",
+        "started": "2026-11-23T17:59:55+00:00",
+        "started_ts": 1795456795.4115474,
+        "ended": "2026-11-23T17:59:55+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "upload-1795456795-769c5f",
+        "stage": "upload",
+        "status": "ok",
+        "started": "2026-11-23T17:59:55+00:00",
+        "started_ts": 1795456795.4796424,
+        "ended": "2026-11-23T17:59:55+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "publish-1795456795-279c45",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-23T17:59:55+00:00",
+        "started_ts": 1795456795.5677075,
+        "ended": "2026-11-23T17:59:55+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "analytics-1795456795-e68ce6",
+        "stage": "analytics",
+        "status": "ok",
+        "started": "2026-11-23T17:59:55+00:00",
+        "started_ts": 1795456795.655193,
+        "ended": "2026-11-23T17:59:55+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "cleanup-1795456795-27a59c",
+        "stage": "cleanup",
+        "status": "ok",
+        "started": "2026-11-23T17:59:55+00:00",
+        "started_ts": 1795456795.7216487,
+        "ended": "2026-11-23T17:59:56+00:00",
+        "duration_s": 1.1,
+        "items": 3,
+        "error": null,
+        "meta": {}
       }
     ],
-    "updated": "2026-11-23T17:21:36+00:00"
+    "updated": "2026-11-23T17:59:56+00:00"
   },
   "queue": {
     "date": "2026-11-23",
@@ -700,8 +846,8 @@
         "source_key": "https://www.twitch.tv/videos/2933247628|00:00:00-01:15:00",
         "source_url": "https://www.twitch.tv/videos/2933247628",
         "source_section": "00:00:00-01:15:00",
-        "source_title": "",
-        "source_uploader": "",
+        "source_title": "IM IN GTA 6 🌴 BEST GAMEPLAY 🌴 LETS LOCK IN 🌴",
+        "source_uploader": "bendadonnn",
         "auto_section": false,
         "path": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
         "campaign": "bendadonn-puffco",
@@ -734,12 +880,30 @@
           ],
           "rules": "Only moments from Ben's Puffco GTA stream. Positive moments only: genuine first-hit and in-session reactions, natural wonder and energy at GTA, clouds / big hits, impressed moments where Ben or chat is hyped, tips and banter about the Hash Butler, and any shoutout or positive energy toward Puffco. Never use complaints, weak hits, frustration, negative framing of the device or sponsor, gambling (slots, blackjack), or anything highly offensive.\n"
         },
-        "stage": "transcribed",
+        "stage": "selected",
         "transcript": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.words.json",
-        "duration": 4500.010688
+        "duration": 4500.010688,
+        "clips": [
+          {
+            "start": 1635.12,
+            "end": 1675.2,
+            "score": 9,
+            "hook": "Puffco first hit on stream—real clouds!",
+            "title": "First Puffco hit on the GTA stream – massive clouds",
+            "caption": "Just tried the Puffco on my GTA stream and the clouds were insane! Who else loves those big hits?",
+            "hashtags": [
+              "#Puffco",
+              "#GTA",
+              "#Clouds",
+              "#Dab"
+            ],
+            "reason": "Shows a genuine, enthusiastic reaction to the Puffco device with positive language, mentions the brand and the impressive clouds, fitting the campaign’s focus on first‑hit wonder and hype."
+          }
+        ],
+        "source_deleted": true
       }
     ],
-    "updated": "2026-11-23T17:21:35+00:00",
+    "updated": "2026-11-23T17:59:55+00:00",
     "campaigns": [
       "bendadonn-puffco"
     ]
@@ -747,7 +911,7 @@
   "rendered": {
     "date": "2026-11-23",
     "clips": [],
-    "updated": "2026-11-23T17:21:35+00:00"
+    "updated": "2026-11-23T17:59:55+00:00"
   },
   "posted": {
     "posts": []
@@ -760,7 +924,7 @@
         "clips": 0
       }
     },
-    "updated": "2026-11-23T17:21:35+00:00"
+    "updated": "2026-11-23T17:59:55+00:00"
   },
   "log": {
     "entries": [
@@ -1209,6 +1373,98 @@
         "sources": 0,
         "state_files": 0,
         "remote": 0
+      },
+      {
+        "t": "2026-11-23T17:21:36+00:00",
+        "level": "info",
+        "stage": "dashboard",
+        "message": "completed (1 items)",
+        "job_id": "dashboard-1795454496-4046ea"
+      },
+      {
+        "t": "2026-11-23T17:42:05+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (1 items)",
+        "job_id": "discover-1795455725-24181a"
+      },
+      {
+        "t": "2026-11-23T17:58:42+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (1 items)",
+        "job_id": "discover-1795456691-63f4be"
+      },
+      {
+        "t": "2026-11-23T17:59:51+00:00",
+        "level": "info",
+        "stage": "transcribe",
+        "message": "completed (1 items)",
+        "job_id": "transcribe-1795456722-604049"
+      },
+      {
+        "t": "2026-11-23T17:59:55+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "groq model in use: openai/gpt-oss-120b"
+      },
+      {
+        "t": "2026-11-23T17:59:55+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "completed (1 items)",
+        "job_id": "select-1795456791-92aa99"
+      },
+      {
+        "t": "2026-11-23T17:59:55+00:00",
+        "level": "info",
+        "stage": "render",
+        "message": "completed (0 items)",
+        "job_id": "render-1795456795-2c7600"
+      },
+      {
+        "t": "2026-11-23T17:59:55+00:00",
+        "level": "info",
+        "stage": "qa",
+        "message": "completed (0 items)",
+        "job_id": "qa-1795456795-5856f9"
+      },
+      {
+        "t": "2026-11-23T17:59:55+00:00",
+        "level": "info",
+        "stage": "upload",
+        "message": "completed (0 items)",
+        "job_id": "upload-1795456795-769c5f"
+      },
+      {
+        "t": "2026-11-23T17:59:55+00:00",
+        "level": "info",
+        "stage": "publish",
+        "message": "completed (0 items)",
+        "job_id": "publish-1795456795-279c45"
+      },
+      {
+        "t": "2026-11-23T17:59:55+00:00",
+        "level": "info",
+        "stage": "analytics",
+        "message": "completed (0 items)",
+        "job_id": "analytics-1795456795-e68ce6"
+      },
+      {
+        "t": "2026-11-23T17:59:56+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "completed (3 items)",
+        "job_id": "cleanup-1795456795-27a59c"
+      },
+      {
+        "t": "2026-11-23T17:59:56+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "freed 4083.74 MB across 3 file(s)",
+        "sources": 1,
+        "state_files": 0,
+        "remote": 0
       }
     ]
   },
@@ -1244,16 +1500,16 @@
     ]
   },
   "storage": {
-    "updated": "2026-11-23T17:21:36+00:00",
-    "freed_mb": 0.0,
-    "files_deleted": 0,
-    "sources_deleted": 0,
+    "updated": "2026-11-23T17:59:56+00:00",
+    "freed_mb": 4083.74,
+    "files_deleted": 3,
+    "sources_deleted": 1,
     "state_files_deleted": 0,
     "remote_deleted": 0,
     "remote_days": 7,
     "work_mb": 0.0,
     "out_mb": 0.0,
-    "state_mb": 0.03,
+    "state_mb": 0.04,
     "dry_run": false
   }
 }

@@ -4,5 +4,14 @@
     "tries": 2,
     "section": null,
     "last_run": "2026-11-23T17:21:35+00:00"
+  },
+  "https://www.twitch.tv/videos/2933247628": {
+    "status": "done",
+    "section": "00:00:00-01:15:00",
+    "title": "IM IN GTA 6 🌴 BEST GAMEPLAY 🌴 LETS LOCK IN 🌴",
+    "uploader": "bendadonnn",
+    "first_seen": "2026-11-23T17:58:42+00:00",
+    "requeues": 0,
+    "last_run": "2026-11-23T17:58:42+00:00"
   }
 }

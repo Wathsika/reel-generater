@@ -1,7 +1,68 @@
 {
   "date": "2026-11-23",
-  "clips": [],
-  "updated": "2026-11-23T17:21:35+00:00",
+  "clips": [
+    {
+      "source_key": "https://www.twitch.tv/videos/2933247628|00:00:00-01:15:00",
+      "source_url": "https://www.twitch.tv/videos/2933247628",
+      "source_section": "00:00:00-01:15:00",
+      "source_title": "IM IN GTA 6 🌴 BEST GAMEPLAY 🌴 LETS LOCK IN 🌴",
+      "source_uploader": "bendadonnn",
+      "auto_section": false,
+      "path": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
+      "campaign": "bendadonn-puffco",
+      "settings": {
+        "layout": "crop",
+        "min_duration": 18,
+        "max_duration": 60,
+        "max_clips_per_video": 10,
+        "caption_style": "word",
+        "watermark": "",
+        "require_original_audio": true,
+        "trim_silence": true,
+        "id": "bendadonn-puffco",
+        "name": "BenDaDonnn x Puffco GTA 6",
+        "enabled": true,
+        "source_type": "yt-dlp",
+        "source_section": "00:00:00-01:15:00",
+        "rate_cpm": 1.0,
+        "payout_model": "cpm",
+        "required_hashtags": [],
+        "keywords": [
+          "puffco",
+          "puffco peak",
+          "proxy",
+          "hash butler",
+          "jar",
+          "clouds",
+          "dab",
+          "hits"
+        ],
+        "rules": "Only moments from Ben's Puffco GTA stream. Positive moments only: genuine first-hit and in-session reactions, natural wonder and energy at GTA, clouds / big hits, impressed moments where Ben or chat is hyped, tips and banter about the Hash Butler, and any shoutout or positive energy toward Puffco. Never use complaints, weak hits, frustration, negative framing of the device or sponsor, gambling (slots, blackjack), or anything highly offensive.\n"
+      },
+      "stage": "selected",
+      "transcript": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.words.json",
+      "duration": 4500.010688,
+      "clips": [
+        {
+          "start": 1635.12,
+          "end": 1675.2,
+          "score": 9,
+          "hook": "Puffco first hit on stream—real clouds!",
+          "title": "First Puffco hit on the GTA stream – massive clouds",
+          "caption": "Just tried the Puffco on my GTA stream and the clouds were insane! Who else loves those big hits?",
+          "hashtags": [
+            "#Puffco",
+            "#GTA",
+            "#Clouds",
+            "#Dab"
+          ],
+          "reason": "Shows a genuine, enthusiastic reaction to the Puffco device with positive language, mentions the brand and the impressive clouds, fitting the campaign’s focus on first‑hit wonder and hype."
+        }
+      ],
+      "source_deleted": true
+    }
+  ],
+  "updated": "2026-11-23T17:59:55+00:00",
   "campaigns": [
     "bendadonn-puffco"
   ]
