@@ -20,6 +20,12 @@ defaults:
   watermark: "@yourhandle"  # REQUIRED by most campaigns - change this
   require_original_audio: true
   trim_silence: true
+  # Optional brand logo burned into every clip (some campaigns, e.g. ClipUp,
+  # require their logo). Best for CI: commit the PNG and use a repo path.
+  #   logo: "assets/brand-logo.png"   # repo path | local:/abs/path | https URL
+  #   logo_position: br               # tl | tr | bl | br | tc | bc | center
+  #   logo_width: 260                 # pixels wide
+  #   logo_opacity: 1.0               # 0.1 - 1.0
 
 campaigns:
   # --- Example: replace with real campaigns you join ---

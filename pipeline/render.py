@@ -8,6 +8,7 @@ Layouts:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import pathlib
 import subprocess
@@ -17,6 +18,18 @@ from . import captions as cap
 from . import config, jobs, state
 
 W, H = 1080, 1920
+
+# Where the logo sits by default: bottom-right, clear of the caption block
+# (captions live around y=1200-1360) and clear of the hook (top centre).
+LOGO_POSITIONS = {
+    "tl": "{m}:{m}",
+    "tr": "W-w-{m}:{m}",
+    "bl": "{m}:H-h-{m}",
+    "br": "W-w-{m}:H-h-{m}",
+    "tc": "(W-w)/2:{m}",
+    "bc": "(W-w)/2:H-h-{m}",
+    "center": "(W-w)/2:(H-h)/2",
+}
 
 
 def _run(cmd: list[str], cwd: pathlib.Path | None = None, timeout: int = 1800) -> None:
@@ -43,41 +56,126 @@ def _base_args() -> list[str]:
     ]
 
 
-def _crop_graph(src: str, start: float, dur: float, ass_name: str) -> list[str]:
-    vf = (
+def _logo_filter(idx: int, settings: dict) -> tuple[str, str]:
+    """Return (pre-chain, overlay-filter) placing input `idx` as the logo."""
+    width = int(settings.get("logo_width") or 260)
+    margin = int(settings.get("logo_margin") or 40)
+    opacity = float(settings.get("logo_opacity") or 1.0)
+    pos = str(settings.get("logo_position") or "br").lower()
+
+    chain = f"[{idx}:v]scale={width}:-2,format=rgba"
+    if 0.0 < opacity < 1.0:
+        chain += f",colorchannelmixer=aa={opacity}"
+
+    xy = LOGO_POSITIONS.get(pos, LOGO_POSITIONS["br"]).format(m=margin)
+    return chain, f"overlay={xy}:format=auto"
+
+
+def _logo_input(logo: pathlib.Path, dur: float) -> list[str]:
+    return ["-loop", "1", "-t", str(dur), "-i", str(logo)]
+
+
+def _crop_graph(
+    src: str, start: float, dur: float, ass_name: str,
+    logo: pathlib.Path | None = None, settings: dict | None = None,
+) -> list[str]:
+    base = (
         f"crop='min(iw,ih*9/16)':'min(ih,iw*16/9)',"
         f"scale={W}:{H}:flags=lanczos,setsar=1,ass={ass_name}"
     )
-    return ["-ss", str(start), "-t", str(dur), "-i", src, "-vf", vf, "-map", "0:v", "-map", "0:a"]
+    head = ["-ss", str(start), "-t", str(dur), "-i", src]
+    if logo is None:
+        return [*head, "-vf", base, "-map", "0:v", "-map", "0:a"]
+    pre, ov = _logo_filter(1, settings or {})
+    fc = f"[0:v]{base}[v0];{pre}[lg];[v0][lg]{ov}[v]"
+    return [*head, *_logo_input(logo, dur), "-filter_complex", fc, "-map", "[v]", "-map", "0:a"]
 
 
-def _split_graph(src: str, gameplay: str, start: float, dur: float, ass_name: str) -> list[str]:
+def _split_graph(
+    src: str, gameplay: str, start: float, dur: float, ass_name: str,
+    logo: pathlib.Path | None = None, settings: dict | None = None,
+) -> list[str]:
     fc = (
         f"[1:v]scale={W}:960:force_original_aspect_ratio=increase,"
         f"crop={W}:960,setsar=1[top];"
         f"[0:v]scale={W}:960:force_original_aspect_ratio=increase,"
         f"crop={W}:960,setsar=1,setsar=1[bot];"
-        f"[top][bot]vstack=inputs=2,ass={ass_name}[v]"
+        f"[top][bot]vstack=inputs=2,ass={ass_name}"
     )
-    return [
+    head = [
         "-stream_loop", "-1", "-t", str(dur), "-i", gameplay,
         "-ss", str(start), "-t", str(dur), "-i", src,
-        "-filter_complex", fc, "-map", "[v]", "-map", "1:a",
     ]
+    if logo is None:
+        return [*head, "-filter_complex", fc + "[v]", "-map", "[v]", "-map", "1:a"]
+    pre, ov = _logo_filter(2, settings or {})
+    fc = f"{fc}[v0];{pre}[lg];[v0][lg]{ov}[v]"
+    return [*head, *_logo_input(logo, dur), "-filter_complex", fc, "-map", "[v]", "-map", "1:a"]
 
 
-def _gameplay_bg_graph(src: str, gameplay: str, start: float, dur: float, ass_name: str) -> list[str]:
+def _gameplay_bg_graph(
+    src: str, gameplay: str, start: float, dur: float, ass_name: str,
+    logo: pathlib.Path | None = None, settings: dict | None = None,
+) -> list[str]:
     fc = (
         f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,"
         f"crop={W}:{H},setsar=1[bg];"
         f"[1:v]scale=520:-2[pc];"
-        f"[bg][pc]overlay=24:24,ass={ass_name}[v]"
+        f"[bg][pc]overlay=24:24,ass={ass_name}"
     )
-    return [
+    head = [
         "-stream_loop", "-1", "-t", str(dur), "-i", gameplay,
         "-ss", str(start), "-t", str(dur), "-i", src,
-        "-filter_complex", fc, "-map", "[v]", "-map", "1:a",
     ]
+    if logo is None:
+        return [*head, "-filter_complex", fc + "[v]", "-map", "[v]", "-map", "1:a"]
+    pre, ov = _logo_filter(2, settings or {})
+    fc = f"{fc}[v0];{pre}[lg];[v0][lg]{ov}[v]"
+    return [*head, *_logo_input(logo, dur), "-filter_complex", fc, "-map", "[v]", "-map", "1:a"]
+
+
+def _resolve_local(ref: str) -> pathlib.Path | None:
+    path = pathlib.Path(ref)
+    if not path.is_absolute():
+        path = config.ROOT / path
+    return path if path.is_file() else None
+
+
+def _fetch_logo(ref: str) -> pathlib.Path | None:
+    """Fetch the campaign's required logo image.
+
+    Accepts `local:<path>`, a plain repo-relative path (e.g.
+    `assets/clipup.png`), or an https URL. A repo-relative file is best for CI
+    because it needs no network access at render time.
+    """
+    ref = (ref or "").strip()
+    if not ref:
+        return None
+    if ref.startswith("local:"):
+        found = _resolve_local(ref[6:])
+    elif ref.startswith("http://") or ref.startswith("https://"):
+        ext = pathlib.Path(ref.split("?")[0]).suffix.lower()
+        if ext not in {".png", ".jpg", ".jpeg", ".webp"}:
+            ext = ".png"
+        dest = config.WORK / "logos" / (hashlib.sha1(ref.encode()).hexdigest()[:12] + ext)
+        if dest.is_file() and dest.stat().st_size > 0:
+            return dest
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            import requests
+
+            resp = requests.get(ref, timeout=60)
+            resp.raise_for_status()
+            dest.write_bytes(resp.content)
+            return dest
+        except Exception as exc:  # pragma: no cover - network
+            state.warn("render", "logo download failed", reason=str(exc)[:200])
+            return None
+    else:
+        found = _resolve_local(ref)
+    if found is None:
+        state.warn("render", "logo file not found", path=ref)
+    return found
 
 
 def _load_words(item: dict) -> list[dict]:
@@ -148,6 +246,12 @@ def run() -> int:
             else:
                 gameplay_path = gameplay_path.resolve()
 
+        # Campaign logos are mandatory for some campaigns (e.g. ClipUp). The
+        # text watermark above is separate and can coexist with it.
+        logo_path = _fetch_logo(str(settings.get("logo") or settings.get("watermark_image") or ""))
+        if logo_path is not None:
+            logo_path = logo_path.resolve()
+
         for idx, clip in enumerate(item.get("clips", [])):
             if clip.get("stage") in {"rendered", "published"}:
                 continue
@@ -158,11 +262,11 @@ def run() -> int:
                 ass_path = cap.from_clip(clip, words, cap_dir, settings, safe_id)
                 dur = float(clip["end"]) - float(clip["start"])
                 if layout == "split_v":
-                    args = _split_graph(item["path"], str(gameplay_path), float(clip["start"]), dur, ass_path.name)
+                    args = _split_graph(item["path"], str(gameplay_path), float(clip["start"]), dur, ass_path.name, logo_path, settings)
                 elif layout == "gameplay_bg":
-                    args = _gameplay_bg_graph(item["path"], str(gameplay_path), float(clip["start"]), dur, ass_path.name)
+                    args = _gameplay_bg_graph(item["path"], str(gameplay_path), float(clip["start"]), dur, ass_path.name, logo_path, settings)
                 else:
-                    args = _crop_graph(item["path"], float(clip["start"]), dur, ass_path.name)
+                    args = _crop_graph(item["path"], float(clip["start"]), dur, ass_path.name, logo_path, settings)
 
                 cmd = [config.ffmpeg_bin(), "-y", *args, *(_base_args()), str(out_path)]
                 # ass filter resolves relative to cwd - run ffmpeg inside the caption dir
