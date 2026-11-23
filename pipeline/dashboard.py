@@ -148,7 +148,8 @@ tr:last-child td{border-bottom:none}
 <script>
 const EMBED = __DATA__;
 const STAT = ["state/jobs.json","state/queue/__DATE__.json","state/rendered/__DATE__.json",
-              "state/posted.json","state/performance.json","state/log.json","state/accounts.json"];
+              "state/posted.json","state/performance.json","state/log.json","state/accounts.json",
+              "state/storage.json"];
 const BASE = __RAWBASE__;
 
 async function fetchState(){
@@ -166,6 +167,7 @@ async function fetchState(){
         if(i===4) out.performance=j;
         if(i===5) out.log=j;
         if(i===6) out.accounts=j;
+        if(i===7) out.storage=j;
       }
     }catch(e){}
   }));
@@ -232,7 +234,8 @@ function render(d){
 
   // flow
   const order = [["discover","Discover"],["transcribe","Transcribe"],["select","Select"],
-    ["render","Render"],["qa","QA"],["upload","Upload"],["publish","Publish"],["analytics","Stats"]];
+    ["render","Render"],["qa","QA"],["upload","Upload"],["publish","Publish"],
+    ["analytics","Stats"],["cleanup","Cleanup"]];
   document.getElementById("flow").innerHTML = order.map(([key,label])=>{
     const isRun = running.some(r=>r.stage===key);
     const l = last(key);
@@ -264,7 +267,9 @@ function render(d){
   ]));
   cards.push(card("Storage (R2)", !!(acct.r2&&acct.r2.configured), [
     ["Bucket", (acct.r2&&acct.r2.bucket)||"clips"],
-    ["Clips stored", r.filter(c=>c.r2_url).length]
+    ["Clips stored", r.filter(c=>c.r2_url).length],
+    ["Local work", (d.storage&&d.storage.work_mb!=null)?d.storage.work_mb+" MB":"-"],
+    ["Freed last run", (d.storage&&d.storage.freed_mb!=null)?d.storage.freed_mb+" MB":"-"]
   ]));
   const llm = acct.llm||{};
   cards.push(card("LLM / Transcription", !!(llm.groq||llm.gemini), [
@@ -361,6 +366,7 @@ def collect() -> dict:
         "performance": state.load_performance(),
         "log": state.load_log(),
         "accounts": _accounts_snapshot(),
+        "storage": state.read_json(config.STATE / "storage.json", {}),
     }
 
 

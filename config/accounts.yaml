@@ -21,8 +21,9 @@ platforms:
     cover_frame_ms: 3500
 
   facebook:
-    enabled: false
+    enabled: true
     # Token/page come from env: FB_PAGE_TOKEN / FB_PAGE_ID
+    # FB_PAGE_TOKEN must be a PAGE access token (not a user token).
     page_only: true
 
   tiktok:

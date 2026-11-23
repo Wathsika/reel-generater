@@ -23,6 +23,7 @@ STAGES = [
     ("upload", "Upload to R2"),
     ("publish", "Publish"),
     ("analytics", "Pull stats"),
+    ("cleanup", "Cleanup"),
 ]
 
 

@@ -1,17 +1,161 @@
 {
   "runs": [
     {
-      "id": "dashboard-1795434823-55152a",
+      "id": "dashboard-1795436277-6b9f73",
       "stage": "dashboard",
       "status": "ok",
-      "started": "2026-11-23T11:53:43+00:00",
-      "started_ts": 1795434823.9078355,
-      "ended": "2026-11-23T11:53:43+00:00",
+      "started": "2026-11-23T12:17:57+00:00",
+      "started_ts": 1795436277.7134156,
+      "ended": "2026-11-23T12:17:57+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "dashboard-1795436298-1202f7",
+      "stage": "dashboard",
+      "status": "ok",
+      "started": "2026-11-23T12:18:18+00:00",
+      "started_ts": 1795436298.0733504,
+      "ended": "2026-11-23T12:18:18+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "discover-1795436333-d09b33",
+      "stage": "discover",
+      "status": "ok",
+      "started": "2026-11-23T12:18:53+00:00",
+      "started_ts": 1795436333.5554101,
+      "ended": "2026-11-23T12:18:53+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "note": "no enabled campaigns"
+      }
+    },
+    {
+      "id": "transcribe-1795436333-4d6873",
+      "stage": "transcribe",
+      "status": "ok",
+      "started": "2026-11-23T12:18:53+00:00",
+      "started_ts": 1795436333.7117226,
+      "ended": "2026-11-23T12:18:53+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 0
+      }
+    },
+    {
+      "id": "select-1795436333-2d8787",
+      "stage": "select",
+      "status": "ok",
+      "started": "2026-11-23T12:18:53+00:00",
+      "started_ts": 1795436333.8295467,
+      "ended": "2026-11-23T12:18:53+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "render-1795436333-2e5a53",
+      "stage": "render",
+      "status": "ok",
+      "started": "2026-11-23T12:18:53+00:00",
+      "started_ts": 1795436333.9526908,
+      "ended": "2026-11-23T12:18:53+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 0
+      }
+    },
+    {
+      "id": "qa-1795436334-26bdc2",
+      "stage": "qa",
+      "status": "ok",
+      "started": "2026-11-23T12:18:54+00:00",
+      "started_ts": 1795436334.0808496,
+      "ended": "2026-11-23T12:18:54+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 0
+      }
+    },
+    {
+      "id": "upload-1795436334-c8ec74",
+      "stage": "upload",
+      "status": "ok",
+      "started": "2026-11-23T12:18:54+00:00",
+      "started_ts": 1795436334.208757,
+      "ended": "2026-11-23T12:18:54+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 0
+      }
+    },
+    {
+      "id": "publish-1795436334-a7c985",
+      "stage": "publish",
+      "status": "ok",
+      "started": "2026-11-23T12:18:54+00:00",
+      "started_ts": 1795436334.3390036,
+      "ended": "2026-11-23T12:18:54+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 0
+      }
+    },
+    {
+      "id": "analytics-1795436334-5bf29f",
+      "stage": "analytics",
+      "status": "ok",
+      "started": "2026-11-23T12:18:54+00:00",
+      "started_ts": 1795436334.4890995,
+      "ended": "2026-11-23T12:18:54+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "cleanup-1795436334-3a84c9",
+      "stage": "cleanup",
+      "status": "ok",
+      "started": "2026-11-23T12:18:54+00:00",
+      "started_ts": 1795436334.6100247,
+      "ended": "2026-11-23T12:18:54+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "dashboard-1795436334-20d1e8",
+      "stage": "dashboard",
+      "status": "ok",
+      "started": "2026-11-23T12:18:54+00:00",
+      "started_ts": 1795436334.8022726,
+      "ended": "2026-11-23T12:18:54+00:00",
       "duration_s": 0.0,
       "items": 1,
       "error": null,
       "meta": {}
     }
   ],
-  "updated": "2026-11-23T11:53:43+00:00"
+  "updated": "2026-11-23T12:18:54+00:00"
 }

@@ -66,9 +66,12 @@ def publish_instagram(url: str, caption: str) -> dict:
 
 
 # --------------------------------------------------------------------------
-# Facebook Reels (Graph API, Page token)
+# Facebook Reels (Graph API, Page token) - 3-phase Reels Publishing API:
+#   start -> upload -> finish(video_state=PUBLISHED)
 # --------------------------------------------------------------------------
-def publish_facebook(url: str, caption: str) -> dict:
+def publish_facebook(url: str, caption: str, local_path: str | None = None) -> dict:
+    import pathlib
+
     import requests
 
     page = state.config.env("FB_PAGE_ID")
@@ -78,30 +81,74 @@ def publish_facebook(url: str, caption: str) -> dict:
 
     base = "https://graph.facebook.com/v21.0"
     headers = {"Authorization": f"Bearer {token}"}
-    resp = requests.post(
+    local_file = pathlib.Path(local_path) if local_path else None
+    have_local = bool(local_file and local_file.is_file())
+
+    # 1) START - ask for an upload session. If we have no local file, ask Meta
+    # to pull it from the public R2 URL instead.
+    start_data = {"upload_phase": "start"}
+    if not have_local:
+        start_data["file_url"] = url
+    start = requests.post(f"{base}/{page}/video_reels", headers=headers,
+                          data=start_data, timeout=120)
+    if start.status_code >= 400 and not have_local:
+        # some app versions reject file_url; retry to at least get a session
+        start = requests.post(f"{base}/{page}/video_reels", headers=headers,
+                              data={"upload_phase": "start"}, timeout=120)
+    start.raise_for_status()
+    payload = start.json()
+    video_id = payload.get("video_id")
+    upload_url = payload.get("upload_url")
+    if not video_id:
+        raise RuntimeError(f"FB start failed: {payload}")
+
+    # 2) UPLOAD the binary to the returned URL (required unless file_url worked)
+    if upload_url and have_local:
+        size = local_file.stat().st_size
+        with open(local_file, "rb") as fh:
+            up = requests.post(
+                upload_url,
+                headers={
+                    "Authorization": f"OAuth {token}",
+                    "offset": "0",
+                    "file_size": str(size),
+                    "Content-Type": "video/mp4",
+                },
+                data=fh,
+                timeout=1800,
+            )
+        up.raise_for_status()
+    elif upload_url and not have_local:
+        raise RuntimeError("FB needs the local file to upload (R2 pull not accepted)")
+
+    # 3) FINISH -> publish the reel
+    finish = requests.post(
         f"{base}/{page}/video_reels",
         headers=headers,
-        data={"video_url": url, "description": caption[:5000]},
+        data={
+            "upload_phase": "finish",
+            "video_id": video_id,
+            "video_state": "PUBLISHED",
+            "description": caption[:5000],
+        },
         timeout=120,
     )
-    resp.raise_for_status()
-    reel_id = resp.json()["id"]
+    finish.raise_for_status()
 
-    deadline = time.time() + POLL_TIMEOUT
+    # best-effort status poll (does not fail the publish)
+    deadline = time.time() + 120
     while time.time() < deadline:
-        status = requests.get(f"{base}/{reel_id}", headers=headers,
-                              params={"fields": "status_code"}, timeout=60).json()
-        code = status.get("status_code")
-        if code == "FINISHED":
+        try:
+            st = requests.get(f"{base}/{video_id}", headers=headers,
+                              params={"fields": "status"}, timeout=60).json()
+            if str(st.get("status", "")).lower() in {"ready", "published", "complete"}:
+                break
+        except Exception:
             break
-        if code in {"ERROR", "EXPIRED"}:
-            raise RuntimeError(f"FB reel {code}")
-        time.sleep(POLL_INTERVAL)
-    else:
-        raise RuntimeError("FB reel processing timed out")
+        time.sleep(5)
 
-    return {"platform": "facebook", "post_id": reel_id,
-            "url": f"https://www.facebook.com/reel/{reel_id}/"}
+    return {"platform": "facebook", "post_id": video_id,
+            "url": f"https://www.facebook.com/reel/{video_id}/"}
 
 
 # --------------------------------------------------------------------------
@@ -206,7 +253,8 @@ def run() -> int:
 
         if platforms.get("facebook", {}).get("enabled"):
             try:
-                results.append(publish_facebook(clip["r2_url"], caption))
+                results.append(publish_facebook(clip["r2_url"], caption,
+                                                local_path=clip.get("path")))
             except Exception as exc:
                 errors.append(f"facebook: {str(exc)[:200]}")
                 state.error("publish", "facebook failed", clip_id=clip.get("clip_id"),

@@ -46,8 +46,11 @@ Push this to a **public** GitHub repo, then add these under
 - `IG_USER_ID`, `IG_ACCESS_TOKEN`, `IG_APP_ID`, `IG_APP_SECRET`
 - Account must be **Business or Creator** and linked to a Facebook Page
 
-**Facebook**
+**Facebook Reels**
 - `FB_PAGE_ID`, `FB_PAGE_TOKEN`
+- `FB_PAGE_TOKEN` must be a **Page access token** (Graph API Explorer → your
+  Page → *Get Page Access Token*), not your personal user token
+- The Page must be linked to the same Meta app as Instagram
 
 **TikTok**
 - `TT_CLIENT_KEY`, `TT_CLIENT_SECRET`
@@ -109,7 +112,7 @@ wants your password — those are the scams.
 Deployed automatically to GitHub Pages after every run. Shows:
 
 - **KPIs** — clips today, rendered, published, views, in-progress, errors
-- **Pipeline flow** — each stage with live status and last-run time
+- **Pipeline flow** — all 9 stages with live status and last-run time
 - **Accounts & connections** — IG / FB / TikTok / R2 / LLM health at a glance
 - **Ongoing work** — what's running right now, elapsed time
 - **Recent errors** — with stage and reason
@@ -133,7 +136,42 @@ Locally: `python -m pipeline.dashboard` then open `docs/index.html`.
 | 6 | `pipeline/storage.py` | Uploads to R2, records public URL |
 | 7 | `pipeline/publish.py` | IG Reels → FB Reels → TikTok, each independent |
 | 8 | `pipeline/analytics.py` | Pulls views/likes back, builds daily rollup |
-| 9 | `pipeline/dashboard.py` | Renders `docs/index.html` |
+| 9 | `pipeline/cleanup.py` | Deletes sources + uploaded clips, prunes old state |
+| 10 | `pipeline/dashboard.py` | Renders `docs/index.html` |
+
+## Publishing targets
+
+All three are wired and independent — one failing never blocks the others.
+
+| Platform | Endpoint | Notes |
+|---|---|---|
+| **Instagram Reels** | IG Graph `/media` → `/media_publish` | Needs Business/Creator account + `instagram_content_publish` |
+| **Facebook Reels** | FB Graph `/video_reels` **3-phase** (`start` → upload → `finish`) | Needs a **Page** access token, not a user token |
+| **TikTok** | Content Posting API | Direct Post needs app audit; `draft_mode: true` until then |
+
+Facebook Reels is **enabled by default** in `config/accounts.yaml`. It uploads the
+local file to Meta (the R2 URL is only a fallback), which is why cleanup runs
+*after* publishing.
+
+## Cleanup & retention
+
+`pipeline/cleanup.py` runs as stage 9 on every pipeline run:
+
+- **Long-form source deleted** once all its clips are cut — media, `.audio.mp3`
+  and `.words.json` all go. Sources with *unrendered* clips are kept
+  (`--force` overrides).
+- **Clip `.mp4` deleted** as soon as it is uploaded to R2 (publishing uses the
+  URL, so the local copy is dead weight).
+- **Stale captions** (`work/captions/*.ass` whose clip is gone) removed.
+- **Per-day state pruned** after `--prune-days` (default 30). Only `queue/`,
+  `rendered/` and `logs/` are pruned; `posted.json`, `performance.json`,
+  `jobs.json` and `accounts.json` are cumulative and never touched.
+- **Safety net** in the workflow still does `rm -rf work out` at job end.
+
+**Why your repo won't grow:** videos live in `work/` and `out/`, both
+gitignored — they never enter git. Hosted runners also wipe their VM after each
+job. The only committed growth is small JSON, which the retention rule bounds.
+The dashboard's Storage card shows local MB used and MB freed last run.
 
 ## Money — realistic expectations
 

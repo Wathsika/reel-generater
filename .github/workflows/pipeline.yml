@@ -109,7 +109,11 @@ jobs:
         if: always()
         run: python -m pipeline.analytics || true
 
-      - name: "Stage 9 - build dashboard"
+      - name: "Stage 9 - cleanup sources + clips, prune old state"
+        if: always()
+        run: python -m pipeline.cleanup --prune-days 30
+
+      - name: "Stage 10 - build dashboard"
         if: always()
         run: python -m pipeline.dashboard
 
@@ -126,9 +130,12 @@ jobs:
             git push
           fi
 
-      - name: Clean large artifacts
+      - name: Safety net - remove any remaining media
         if: always()
-        run: rm -rf work out || true
+        run: |
+          rm -rf work out
+          echo "disk after cleanup:"
+          df -h . | tail -1
 
   deploy-dashboard:
     needs: produce-and-publish
