@@ -130,12 +130,22 @@ jobs:
         if: always()
         run: python -m pipeline.dashboard
 
-      - name: Commit state + dashboard
+      - name: Stage state + dashboard
         if: always()
+        run: git add -A
+
+      - name: Scan staged files for leaked secrets
+        id: scan
+        if: always()
+        run: python scripts/scan_secrets.py
+
+      - name: Commit state + dashboard
+        # Never push if the secret scan failed. Still commits when an earlier
+        # stage failed, so the dashboard shows what happened.
+        if: always() && steps.scan.outcome == 'success'
         run: |
           git config user.name "clip-factory-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A
           if git diff --cached --quiet; then
             echo "nothing to commit"
           else
