@@ -154,6 +154,31 @@ def _split_urls(raw: str) -> list[str]:
     return [c for c in re.split(r"[\s,;]+", raw or "") if c.startswith(("http://", "https://"))]
 
 
+# A channel / playlist link is not a video: yt-dlp would either fail ("channel
+# is not currently live") or, worse, start recording a live stream forever.
+# Catch it at paste time and say what to do instead.
+_TWITCH_CHANNEL = re.compile(
+    r"^https?://(?:www\.|m\.)?twitch\.tv/([A-Za-z0-9_]{3,25})/?(?:[?#].*)?$"
+)
+_TWITCH_RESERVED = {
+    "videos", "directory", "search", "settings", "subscriptions", "inventory",
+    "wallet", "drops", "friends", "jobs", "downloads", "turbo", "prime",
+    "following", "p", "login", "signup",
+}
+_OTHER_CHANNEL = re.compile(
+    r"^https?://(?:www\.|m\.)?(?:youtube\.com/(?:@|channel/|c/|user/|playlist)"
+    r"|twitch\.tv/[^/]+/videos|kick\.com/[^/]+/?$|instagram\.com/[^/]+/?$)",
+    re.I,
+)
+
+
+def _looks_like_channel(url: str) -> bool:
+    m = _TWITCH_CHANNEL.match(url or "")
+    if m and m.group(1).lower() not in _TWITCH_RESERVED:
+        return True
+    return bool(_OTHER_CHANNEL.match(url or ""))
+
+
 def _load_pending() -> list[dict]:
     data = state.read_json(_pending_path(), {}) or {}
     return [p for p in data.get("urls", []) if isinstance(p, dict) and p.get("url")]
@@ -189,7 +214,18 @@ def _absorb(seen: dict, pending: list[dict]) -> list[dict]:
     section = (config.env("EXTRA_SOURCE_SECTION", "") or "").strip() or None
     campaign = (config.env("EXTRA_SOURCE_CAMPAIGN", "") or "").strip() or None
     changed = False
+    rejected = 0
     for url in pasted:
+        if _looks_like_channel(url):
+            rejected += 1
+            state.error(
+                "discover",
+                "that link is a channel or playlist, not a video - paste a "
+                "video link instead (Twitch: open the channel's Videos tab and "
+                "copy https://www.twitch.tv/videos/<number>)",
+                url=url[:110],
+            )
+            continue
         if any(p["url"] == url for p in pending):
             continue
         if len(pending) >= MAX_PENDING:
@@ -203,7 +239,8 @@ def _absorb(seen: dict, pending: list[dict]) -> list[dict]:
         changed = True
     if changed:
         _save_seen(seen)
-    state.info("discover", f"{len(pasted)} pasted link(s), {len(pending)} waiting")
+    state.info("discover", f"{len(pasted)} pasted link(s), {len(pending)} waiting"
+               + (f", {rejected} rejected" if rejected else ""))
     return pending
 
 
@@ -220,6 +257,8 @@ def _candidates(campaigns: list[dict], defaults: dict,
     for p in pending:
         if int(p.get("tries") or 0) >= MAX_TRIES:
             continue
+        if _looks_like_channel(p["url"]):
+            continue
         camp = by_id.get(str(p.get("campaign") or ""), campaigns[0] if campaigns else {})
         out.append({
             "url": p["url"],
@@ -235,7 +274,7 @@ def _candidates(campaigns: list[dict], defaults: dict,
         settings = {**defaults, **{k: v for k, v in camp.items() if k != "sources"}}
         for raw in camp.get("sources") or []:
             url = str(raw).strip()
-            if not url or url in queued:
+            if not url or url in queued or _looks_like_channel(url):
                 continue
             rec = seen.get(url) or {}
             if str(rec.get("status") or "done") == "done" and rec:
@@ -259,6 +298,74 @@ def pending_count() -> int:
     campaigns = [c for c in cfg.get("campaigns", []) if c.get("enabled")]
     return len(_candidates(campaigns, cfg.get("defaults", {}),
                            _load_pending(), _load_seen()))
+
+
+# A clip in one of these states has been produced from its source. Once that
+# happened, redoing the video would post the same moments twice, so it is not
+# automatically retried.
+_PRODUCED = {"rendered", "qa_passed", "uploaded", "published", "skipped"}
+
+
+def requeue_failed(max_requeues: int = 1) -> int:
+    """Put videos that died before producing a single clip back in the queue.
+
+    discover marks a source done as soon as the download succeeds, so a crash
+    in a later stage (an API outage in transcribe or select, say) used to lose
+    the video silently: the runner is ephemeral and the queue said "done".
+    This runs after every stage, finds those half-finished items and queues
+    them again - once, so a permanently broken video cannot loop forever.
+    """
+    seen = _load_seen()
+    pending = _load_pending()
+    queued = {p["url"] for p in pending}
+    requeued = 0
+
+    folders = sorted((config.STATE / "queue").glob("*.json"))[-7:]
+    for path in folders:
+        data = state.read_json(path, {}) or {}
+        kept = []
+        touched = False
+        for item in data.get("clips", []):
+            url = item.get("source_url") or ""
+            if not url or url in queued:
+                kept.append(item)
+                continue
+            clips = item.get("clips") or []
+            if any(c.get("stage") in _PRODUCED for c in clips):
+                kept.append(item)
+                continue
+            if item.get("stage") == "failed" and "no valid clip windows" in str(item.get("error", "")):
+                kept.append(item)   # real verdict, not a crash - retrying wastes quota
+                continue
+            rec = seen.get(url) or {}
+            if int(rec.get("requeues") or 0) >= max_requeues:
+                kept.append(item)
+                if item.get("stage") == "failed":
+                    continue
+                state.warn("discover", "giving up on a video that keeps failing",
+                           url=url[:110])
+                continue
+            pending.append({"url": url, "section": item.get("source_section"),
+                            "campaign": item.get("campaign"), "tries": 0,
+                            "added": state.now()})
+            queued.add(url)
+            rec["requeues"] = int(rec.get("requeues") or 0) + 1
+            seen[url] = rec
+            requeued += 1
+            touched = True
+            # The stale item must go: discover skips any URL that is already in
+            # today's queue, so leaving it would swallow the retry.
+            state.warn("discover", "video did not finish - queued again once",
+                       url=url[:110], stage=item.get("stage"))
+        if touched:
+            data["clips"] = kept
+            state.write_json(path, data)
+
+    if requeued:
+        _save_pending(pending)
+        _save_seen(seen)
+        state.info("discover", f"{requeued} unfinished video(s) queued again")
+    return requeued
 
 
 def run(limit: int | None = 1) -> int:
@@ -295,11 +402,12 @@ def run(limit: int | None = 1) -> int:
         window = int(settings.get("source_window") or DEFAULT_WINDOW)
 
         peaks: list[int] = []
-        meta: dict = {}
+        # Metadata is one cheap request and gives the dashboard a readable
+        # title; the heatmap is only consulted when no window was supplied.
+        meta = _probe(url)
         if auto:
-            # Only a URL was supplied: fetch the length, then let the audience
-            # heatmap choose the slice worth transcribing.
-            meta = _probe(url)
+            # Only a URL was supplied: let the audience heatmap choose the
+            # slice worth transcribing.
             section, peaks = _auto_section(url, meta.get("duration", 0), window)
             if section:
                 state.info("discover", f"auto window {section} for {url[:90]}",
@@ -361,6 +469,9 @@ def run(limit: int | None = 1) -> int:
             "title": meta.get("title") or "",
             "uploader": meta.get("uploader") or "",
             "first_seen": (seen.get(url) or {}).get("first_seen") or state.now(),
+            # keep the automatic-retry counter so a video that already used its
+            # one free retry is not revived forever
+            "requeues": int((seen.get(url) or {}).get("requeues") or 0),
             "last_run": state.now(),
         }
         added += 1
@@ -385,9 +496,15 @@ def main(argv: list[str] | None = None) -> int:
                         help="videos to download this run (default 1)")
     parser.add_argument("--pending", action="store_true",
                         help="print how many videos are still waiting, then exit")
+    parser.add_argument("--requeue", action="store_true",
+                        help="queue again any video that died before making a clip")
     args = parser.parse_args(argv)
     if args.pending:
         print(pending_count())
+        return 0
+    if args.requeue:
+        n = requeue_failed()
+        print(f"requeued {n} unfinished source(s)")
         return 0
     n = run(limit=args.limit)
     print(f"discovered {n} source(s)")

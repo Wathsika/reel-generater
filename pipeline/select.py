@@ -34,6 +34,53 @@ Return ONLY JSON with this exact shape:
 """
 
 
+GROQ_PREFERRED = [
+    "llama-3.3-70b-versatile",
+    "openai/gpt-oss-120b",
+    "moonshotai/kimi-k2-instruct",
+    "llama-3.1-8b-instant",
+    "qwen/qwen3-32b",
+]
+GROQ_SKIP = ("whisper", "tts", "guard", "-vision")
+
+
+def _groq_models(key: str) -> list[str]:
+    """Model ids the key can actually use, preferred first.
+
+    Groq retires models regularly (a retired id answers 404 and every run
+    fails). Asking the API what exists means a deprecation can never take the
+    pipeline down again.
+    """
+    import requests
+
+    try:
+        resp = requests.get(
+            "https://api.groq.com/openai/v1/models",
+            headers={"Authorization": f"Bearer {key}"},
+            timeout=30,
+        )
+        resp.raise_for_status()
+        ids = [str(m.get("id")) for m in resp.json().get("data", []) if m.get("id")]
+    except Exception:
+        return []
+    ids = [m for m in ids if not any(s in m for s in GROQ_SKIP)]
+    order = {m: i for i, m in enumerate(GROQ_PREFERRED)}
+    return sorted(ids, key=lambda m: (order.get(m, len(GROQ_PREFERRED)), m))
+
+
+def _json_from(text: str) -> dict:
+    """Parse JSON even if the model wrapped it in prose or a code fence."""
+    text = (text or "").strip()
+    if text.startswith("```"):
+        text = text.split("```")[1]
+        if text.lstrip().startswith("json"):
+            text = text.lstrip()[4:]
+    start, end = text.find("{"), text.rfind("}")
+    if start >= 0 and end > start:
+        text = text[start:end + 1]
+    return json.loads(text)
+
+
 def _llm_json(
     transcript_text: str, want: int, max_dur: int, min_dur: int,
     rules: str = "", keywords: list[str] | None = None,
@@ -55,34 +102,71 @@ def _llm_json(
             "worth clipping happened. Prefer clips that begin at or shortly "
             "before a spike; only depart from them for a clearly better moment.\n"
         )
+
+    messages = [
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": (
+            f"Transcript (seconds):\n{transcript_text}\n\n"
+            f"Return between 1 and {want} clips, each between "
+            f"{min_dur} and {max_dur} seconds. Use as many as the "
+            f"transcript genuinely supports; do not pad."
+            f"{extra}"
+        )},
+    ]
+
     key = config.env("GROQ_API_KEY")
-    model = config.env("GROQ_MODEL", "llama-3.3-70b-versatile")
     if key:
         import requests
 
-        resp = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            headers={"Authorization": f"Bearer {key}"},
-            json={
-                "model": model,
-                "temperature": 0.7,
-                "response_format": {"type": "json_object"},
-                "messages": [
-                    {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": (
-                        f"Transcript (seconds):\n{transcript_text}\n\n"
-                        f"Return between 1 and {want} clips, each between "
-                        f"{min_dur} and {max_dur} seconds. Use as many as the "
-                        f"transcript genuinely supports; do not pad."
-                        f"{extra}"
-                    )},
-                ],
-            },
-            timeout=180,
-        )
-        resp.raise_for_status()
-        content = resp.json()["choices"][0]["message"]["content"]
-        return json.loads(content)
+        errors: list[str] = []
+        candidates: list[str] = []
+        explicit = config.env("GROQ_MODEL")
+        if explicit:
+            candidates.append(explicit)
+        for m in _groq_models(key):
+            if m not in candidates:
+                candidates.append(m)
+        if not candidates:
+            candidates = list(GROQ_PREFERRED)
+
+        # A 404 means the model was retired, a 429 means its quota is spent:
+        # both are solved by moving to the next model in the list.
+        for model in candidates[:4]:
+            for json_mode in (True, False):
+                body = {"model": model, "temperature": 0.7, "messages": messages}
+                if json_mode:
+                    body["response_format"] = {"type": "json_object"}
+                try:
+                    resp = requests.post(
+                        "https://api.groq.com/openai/v1/chat/completions",
+                        headers={"Authorization": f"Bearer {key}"},
+                        json=body,
+                        timeout=180,
+                    )
+                except Exception as exc:
+                    errors.append(f"{model}: {str(exc)[:120]}")
+                    break
+
+                if resp.status_code in (404, 429):
+                    errors.append(f"{model}: HTTP {resp.status_code}")
+                    break
+                if resp.status_code == 400 and json_mode:
+                    continue          # model may not support JSON mode
+                if resp.status_code >= 400:
+                    errors.append(f"{model}: HTTP {resp.status_code} {resp.text[:120]}")
+                    break
+
+                try:
+                    content = resp.json()["choices"][0]["message"]["content"]
+                    parsed = _json_from(content)
+                except Exception as exc:
+                    errors.append(f"{model}: unusable answer ({str(exc)[:80]})")
+                    continue
+
+                state.info("select", f"groq model in use: {model}")
+                return parsed
+
+        raise RuntimeError("groq: " + ("; ".join(errors) or "no usable model"))
 
     gemini = config.env("GEMINI_API_KEY")
     if gemini:
@@ -99,7 +183,7 @@ def _llm_json(
             timeout=180,
         )
         resp.raise_for_status()
-        return json.loads(resp.json()["candidates"][0]["content"]["parts"][0]["text"])
+        return _json_from(resp.json()["candidates"][0]["content"]["parts"][0]["text"])
 
     raise RuntimeError("No LLM key set - provide GROQ_API_KEY or GEMINI_API_KEY")
 

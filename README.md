@@ -68,7 +68,14 @@ moment picker still decides start/end and can pick a dud. Watch the first batch.
 `state/sources.json`, so the 05:00 / 17:00 schedule will not re-clip the same
 VOD and republish the same moments day after day. To deliberately redo a video,
 paste its URL again — an explicit request always wins. A source that fails to
-download twice is dropped so the queue keeps moving.
+download twice is dropped so the queue keeps moving. If a video breaks later
+(an API outage during transcription or selection), it is put back in the
+waiting list **once**, so a bad five minutes does not lose the video.
+
+**Paste a video link, not a channel link.** `twitch.tv/someone` is a live
+channel, not a recording — the pipeline rejects it and says so in the log.
+Open the channel's **Videos** tab and copy the link that looks like
+`https://www.twitch.tv/videos/1234567890`.
 
 ## Why this shape
 

@@ -91,7 +91,11 @@ jobs:
         run: python -c "from pipeline import tokens; tokens.restore_from_env()"
 
       - name: Configure auto-approve (manual dry run only)
-        if: github.event_name == 'workflow_dispatch' && inputs.auto_approve == false
+        # Compare strings on purpose: with `inputs.auto_approve == false` a run
+        # that was started without inputs (the automatic next-video run) would
+        # also match, because null and false are loosely equal - it would then
+        # silently stop publishing.
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.auto_approve == 'false'
         run: |
           python - <<'PY'
           import yaml, pathlib
@@ -133,6 +137,13 @@ jobs:
       - name: "Stage 10 - build dashboard"
         if: always()
         run: python -m pipeline.dashboard
+
+      # A late-stage failure (LLM outage, API error) would otherwise lose the
+      # video: the runner is thrown away and discover already recorded it as
+      # done. Put it back in the waiting list once, so the next run retries it.
+      - name: "Queue again any video that did not finish"
+        if: always()
+        run: python -m pipeline.discover --requeue
 
       - name: Stage state + dashboard
         if: always()
@@ -217,4 +228,9 @@ jobs:
 
       - name: Deploy to Pages
         id: deployment
+        # GitHub occasionally loses the just-uploaded artifact ("no artifacts
+        # named github-pages were found"). That turned an otherwise green run
+        # red and made the pipeline look broken; the dashboard is also
+        # committed to docs/, so a retry on the next run is enough.
+        continue-on-error: true
         uses: actions/deploy-pages@v4
