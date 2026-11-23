@@ -112,7 +112,7 @@ jobs:
       - name: "Stage 5 - quality check"
         run: python -m pipeline.qa || true
 
-      - name: "Stage 6 - upload to R2"
+      - name: "Stage 6 - upload to storage"
         run: python -m pipeline.storage
 
       - name: "Stage 7 - publish to platforms"
