@@ -56,6 +56,39 @@ campaigns:
     max_duration: 60
     rules: "Min 20s. Must keep original audio. Add hook text. No re-upload of other clippers' edits."
 
+  # --- LIVE: BenDaDonnn x Puffco (Launched Clipping, $10K pool, CPM) ---
+  # Pays $1.00 / 1K views, min payout $2.00 (2,000 views), max $400 per clip.
+  # Platforms: Facebook, Instagram, TikTok, X, YouTube.
+  # Source VOD is 2h35m; we take the first 75 min because (a) the brief wants
+  # first-reaction / first-hit content and (b) Groq's free Whisper tier allows
+  # ~2h of audio per hour, so a longer window risks falling back to CPU mode.
+  - id: bendadonn-puffco
+    name: "BenDaDonnn x Puffco GTA 6"
+    enabled: true
+    source_type: yt-dlp
+    sources:
+      - "https://www.twitch.tv/videos/2933247628"
+    source_section: "00:00:00-01:15:00"
+    rate_cpm: 1.00
+    payout_model: cpm
+    clips_per_video: 4                 # brief is picky: render 4, keep the best
+    min_duration: 18
+    max_duration: 60
+    layout: crop
+    caption_style: word
+    watermark: ""                      # campaign asks for no watermark
+    required_hashtags: []
+    # Fed to the moment picker so it targets the brief, not random chatter.
+    keywords: ["puffco", "puffco peak", "proxy", "hash butler", "jar", "clouds", "dab", "hits"]
+    rules: >
+      Only moments from Ben's Puffco GTA stream. Positive moments only:
+      genuine first-hit and in-session reactions, natural wonder and energy at
+      GTA, clouds / big hits, impressed moments where Ben or chat is hyped,
+      tips and banter about the Hash Butler, and any shoutout or positive
+      energy toward Puffco. Never use complaints, weak hits, frustration,
+      negative framing of the device or sponsor, gambling (slots, blackjack),
+      or anything highly offensive.
+
   # - id: gaming-creator-x
   #   enabled: true
   #   source_type: http
