@@ -6,27 +6,15 @@ on:
     - cron: "0 17 * * *"    # 17:00 UTC - second run
   workflow_dispatch:
     inputs:
-      limit:
-        description: "How many sources to process (use 1 for a test run)"
+      source_url:
+        description: "Paste 1 or more video URLs, separated by commas - empty = use campaigns.yaml"
         required: false
-        default: "3"
+        default: ""
       auto_approve:
         description: "Publish without asking - UNCHECK to review clips first"
         type: boolean
         required: false
         default: true
-      source_url:
-        description: ">> PASTE VIDEO URL HERE << - empty = use the saved campaign source"
-        required: false
-        default: ""
-      source_section:
-        description: "Override only: clip just this window 00:10:00-00:50:00 (empty = auto from chat)"
-        required: false
-        default: ""
-      campaign:
-        description: "Override only: campaign id for rules/keywords (empty = first enabled)"
-        required: false
-        default: ""
 
 # Public repo = unlimited free hosted-runner minutes.
 concurrency:
@@ -47,10 +35,10 @@ jobs:
       SECRETS_ADMIN_PAT: ${{ secrets.SECRETS_ADMIN_PAT }}
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      # One-off source from "Run workflow" (empty on scheduled runs)
+      # URLs pasted in "Run workflow" (empty on scheduled runs). Comma
+      # separated; they are stored in state/pending.json and worked through
+      # one video per run.
       EXTRA_SOURCE_URL: ${{ inputs.source_url }}
-      EXTRA_SOURCE_SECTION: ${{ inputs.source_section }}
-      EXTRA_SOURCE_CAMPAIGN: ${{ inputs.campaign }}
       R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
       R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
       R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
@@ -113,8 +101,8 @@ jobs:
           p.write_text(yaml.safe_dump(d, sort_keys=False))
           PY
 
-      - name: "Stage 1 - discover"
-        run: python -m pipeline.discover --limit ${{ inputs.limit || '3' }}
+      - name: "Stage 1 - take the next video"
+        run: python -m pipeline.discover
 
       - name: "Stage 2 - transcribe"
         run: python -m pipeline.transcribe
@@ -168,6 +156,27 @@ jobs:
             git commit -m "chore(state): run $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             git push
           fi
+
+      - name: "How many videos are still waiting"
+        id: waiting
+        if: always()
+        run: |
+          n="$(python -m pipeline.discover --pending 2>/dev/null | tail -1)"
+          case "$n" in ''|*[!0-9]*) n=0 ;; esac
+          echo "count=$n" >> "$GITHUB_OUTPUT"
+          echo "videos still waiting: $n"
+
+      # One video per run: after this one finished successfully and its state
+      # is committed, start a fresh run for the next link. Two runs never
+      # overlap because they share the same concurrency group. The chain stops
+      # when the waiting list is empty, and a source that fails twice is
+      # dropped, so it cannot loop forever. A failed run does NOT chain - that
+      # would burn through the whole list while something is broken.
+      - name: "Start the next video"
+        if: steps.waiting.outputs.count != '0' && steps.waiting.outputs.count != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pipeline.yml --ref "${{ github.ref_name }}"
 
       - name: Safety net - remove any remaining media
         if: always()

@@ -27,7 +27,7 @@ from . import config, jobs, state
 # A clip in any of these states has been dealt with; it no longer blocks
 # deleting its source. "failed" counts: the attempt is over, and on an
 # ephemeral runner the local file is discarded at job end regardless.
-SOURCE_DONE = {"rendered", "qa_passed", "uploaded", "published", "failed"}
+SOURCE_DONE = {"rendered", "qa_passed", "uploaded", "published", "failed", "skipped"}
 # Only genuine pending work should keep a source alive.
 SOURCE_BLOCKING = {"selected", "discovered", "transcribing", "transcribed"}
 
@@ -68,7 +68,7 @@ def cleanup_clips(stats: dict, seen: set[str], dry: bool) -> None:
         for clip in item.get("clips", []):
             if not clip.get("r2_url"):
                 continue
-            if clip.get("stage") not in {"uploaded", "published", "failed"}:
+            if clip.get("stage") not in {"uploaded", "published", "failed", "skipped"}:
                 continue
             path = clip.get("path")
             if path and _unlink(pathlib.Path(path), seen, stats, dry):

@@ -369,7 +369,7 @@ campaigns:
 
 | Input | Value |
 |---|---|
-| `limit` | `1` |
+| `source_url` | a video URL (or leave empty to use `campaigns.yaml`) |
 | `auto_approve` | **unchecked** |
 
 This renders and uploads but does **not** post. Check the clips in your storage
@@ -377,7 +377,12 @@ bucket/folder and the dashboard, then re-run with `auto_approve` **checked** to 
 
 ### Normal runs
 
-Nothing to do — it runs automatically at **05:00 and 17:00 UTC**.
+Paste one or more links into `source_url`, comma separated, and run. Each link
+is handled on its own run: when one video finishes, the next run starts
+automatically for the next link. Nothing overlaps.
+
+Leave `source_url` empty and it works through whatever is under `sources:` in
+`config/campaigns.yaml`. The schedule also fires at **05:00 and 17:00 UTC**.
 
 ---
 

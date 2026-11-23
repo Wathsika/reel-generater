@@ -224,6 +224,24 @@ def run() -> int:
     posted = 0
     failed = 0
 
+    # Honour posting.max_clips_per_day. The clip count per video is now decided
+    # by the model, so one long stream can yield 10 clips; without this they
+    # would all go out within a minute, which looks like spam to the platforms.
+    cap = int(accounts.get("posting", {}).get("max_clips_per_day") or 0)
+    room = cap
+    if cap > 0:
+        today = state.today()
+        already = {
+            p.get("clip_id")
+            for p in (state.load_posted().get("posts") or [])
+            if str(p.get("posted_at", "")).startswith(today)
+        }
+        room = max(0, cap - len(already))
+        if room == 0:
+            state.info("publish", f"daily limit of {cap} clip(s) already reached - nothing to do")
+            jobs.finish(job, status="ok", items=0, note="daily limit reached")
+            return 0
+
     for clip in rendered.get("clips", []):
         if clip.get("stage") != "uploaded" and clip.get("stage") != "published":
             continue
@@ -232,6 +250,12 @@ def run() -> int:
         if not auto:
             state.info("publish", "auto_approve=false - waiting for manual approval",
                        clip_id=clip.get("clip_id"))
+            continue
+        if cap > 0 and posted >= room:
+            # Record the surplus instead of silently dropping it, so the
+            # dashboard shows exactly what the daily limit held back.
+            clip["stage"] = "skipped"
+            clip["error"] = f"daily posting limit reached ({cap}/day)"
             continue
         if not clip.get("r2_url"):
             clip["stage"] = "failed"

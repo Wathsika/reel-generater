@@ -186,6 +186,7 @@ function tag(status){
              failed:["t-err","FAILED"],published:["t-ok","PUBLISHED"],
              qa_passed:["t-ok","QA PASS"],rendered:["t-mute","RENDERED"],
              uploaded:["t-mute","UPLOADED"],selected:["t-mute","SELECTED"],
+             skipped:["t-warn","SKIPPED"],
              transcribed:["t-mute","TRANSCRIBED"],discovered:["t-mute","DISCOVERED"]}[status]
             || ["t-mute", String(status||"").toUpperCase()];
   return `<span class="tag ${m[0]}">${m[1]}</span>`;

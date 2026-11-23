@@ -15,7 +15,10 @@ defaults:
   layout: crop              # crop | split_v | gameplay_bg
   min_duration: 18          # seconds - most campaigns want >= 15s
   max_duration: 60          # seconds - TikTok sweet spot; raise to 90 for CPM >= 1min campaigns
-  clips_per_video: 3
+  # How many clips to cut from one source is decided per video: the model
+  # returns as many distinct moments as the transcript genuinely supports.
+  # This is only a ceiling so a chatty 75-minute stream cannot produce 30.
+  max_clips_per_video: 10
   caption_style: word       # word (one word at a time) | chunk (karaoke sweep)
   watermark: "@yourhandle"  # REQUIRED by most campaigns - change this
   require_original_audio: true
@@ -78,7 +81,7 @@ campaigns:
     source_section: "00:00:00-01:15:00"
     rate_cpm: 1.00
     payout_model: cpm
-    clips_per_video: 4                 # brief is picky: render 4, keep the best
+    max_clips_per_video: 10            # ceiling only - the model picks the real number
     min_duration: 18
     max_duration: 60
     layout: crop

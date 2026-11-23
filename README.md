@@ -18,30 +18,47 @@ discover → transcribe → select → render → qa → upload → publish → 
                               all on GitHub Actions
 ```
 
-## Where do I paste a video link?
+## Where do I paste video links?
 
-Three places, pick one:
+Two places:
 
 | You want | Where |
 |---|---|
-| **One video, right now** (no files, nothing saved) | Repo → **Actions** → **clip-pipeline** → **Run workflow** → `source_url` |
-| **A video the bot should always process** | `config/campaigns.yaml` → under the campaign → `sources:` → edit on github.com (pencil icon) → commit |
-| **Nothing at all** | Leave it to the daily schedule; it reuses whatever is already in `campaigns.yaml` |
+| **Videos right now, one or many** | Repo → **Actions** → **clip-pipeline** → **Run workflow** → `source_url` |
+| **Videos the bot should always work through** | `config/campaigns.yaml` → under the campaign → `sources:` → edit on github.com (pencil icon) → commit |
 
-**A URL is all it needs.** Give it `https://www.twitch.tv/videos/2933247628`
-and discovery does the rest:
+`source_url` takes **as many links as you like**, separated by commas:
 
-1. reads the VOD's **length, title and channel** from metadata
+```
+https://www.twitch.tv/videos/111, https://www.twitch.tv/videos/222
+```
+
+They are saved to `state/pending.json` and worked through **one video at a
+time**. Each run takes the first link, cuts its clips, publishes, and then
+starts a fresh run for the next one. Two runs never overlap. Nothing is
+skipped and nothing runs in parallel — a ten-link paste becomes ten runs that
+follow each other automatically.
+
+**A URL is all it needs.** For each video discovery:
+
+1. reads the **length, title and channel** from metadata
 2. on Twitch, **samples the chat replay** to find where viewers reacted most
 3. downloads only the **busiest 75-minute window** (not the whole 2–8 h stream)
 4. hands the **chat-spike timestamps** to the moment picker, so the LLM starts
-   where the audience already shouted — this is the closest thing to a
+   where the audience already shouted — the closest thing to a
    "this part went viral" signal that exists before publishing
 
-You can still constrain it with `source_section` (`00:20:00-00:50:00`) if you
-know the good part, or `source_window` (seconds) to change the slice length.
-Chat replay is Twitch-only; YouTube/Drive sources fall back to the opening
-window, and selection still works from the transcript alone.
+**How many clips?** Decided per video, not fixed. The picker returns as many
+distinct moments as the transcript genuinely supports (2 for a quiet stream,
+8 for a loud one). `max_clips_per_video` is only a ceiling so a chatty 3-hour
+stream cannot produce 30. `max_clips_per_day` (in `config/accounts.yaml`)
+limits how many actually reach the platforms in a day; the surplus is marked
+**SKIPPED** on the dashboard rather than posted silently.
+
+You can still pin a window with `source_section` (`00:20:00-00:50:00`) or
+change the slice length with `source_window` (seconds) — both in
+`campaigns.yaml`, since the form is kept deliberately to one box. Chat replay
+is Twitch-only; YouTube/Drive sources fall back to the opening window.
 
 Chat volume is a proxy, not a guarantee: it means *the audience reacted*, which
 correlates with clip-worthy moments far better than a blind guess, but the
@@ -50,7 +67,8 @@ moment picker still decides start/end and can pick a dud. Watch the first batch.
 **Each source is processed once.** Processed sources are recorded in
 `state/sources.json`, so the 05:00 / 17:00 schedule will not re-clip the same
 VOD and republish the same moments day after day. To deliberately redo a video,
-paste its URL into `source_url` — an explicit request always wins.
+paste its URL again — an explicit request always wins. A source that fails to
+download twice is dropped so the queue keeps moving.
 
 ## Why this shape
 
@@ -126,19 +144,19 @@ campaigns:
     gameplay_source: null        # set if they supply gameplay for split view
 ```
 
-**Adding a new source without editing files.** *Actions → clip-pipeline →
-Run workflow* has three optional inputs:
+**Adding videos without editing files.** *Actions → clip-pipeline → Run
+workflow* has two inputs:
 
 | Input | Use |
 |---|---|
-| `source_url` | Process this URL **only**, for this run. Not saved. |
-| `source_section` | Window to download, e.g. `00:10:00-00:50:00`. **Leave empty** to let the chat heatmap choose. |
-| `campaign` | Which campaign's rules/keywords to apply (default: first enabled) |
+| `source_url` | One or more video URLs, comma separated. Saved to the waiting list and processed one at a time. |
+| `auto_approve` | Uncheck to render and upload but publish nothing, so you can review first. |
 
-That is the everyday path: paste a fresh VOD link and run — the window is picked
-from chat activity, the length from the VOD's own metadata. To keep a source
-permanently, add it under `sources:` in `config/campaigns.yaml` (you can edit
-that file in the GitHub web UI — pencil icon → commit).
+That is the everyday path: paste links and run. Each link is downloaded in
+turn, and the next run starts automatically when the previous one finishes.
+To keep a video permanently, add it under `sources:` in
+`config/campaigns.yaml` (you can edit that file in the GitHub web UI — pencil
+icon → commit).
 
 The dashboard is **read-only**: it is generated HTML, so inputs live in the
 config file or the Run workflow form, never in the dashboard.
@@ -163,8 +181,8 @@ wants your password — those are the scams.
 
 ### 6. Trigger it
 
-*Actions → clip-pipeline → Run workflow*. First run: `limit=1`,
-`auto_approve=false`. Review the output, then open it up.
+*Actions → clip-pipeline → Run workflow*. First run: paste one link and untick
+`auto_approve`. Review the clips, then leave it ticked from then on.
 
 ## Dashboard
 
@@ -187,9 +205,9 @@ Locally: `python -m pipeline.dashboard` then open `docs/index.html`.
 
 | # | Module | What it does |
 |---|---|---|
-| 1 | `pipeline/discover.py` | Downloads enabled campaign sources via yt-dlp |
+| 1 | `pipeline/discover.py` | Takes the next link from the waiting list, picks the window (chat heatmap), downloads one video |
 | 2 | `pipeline/transcribe.py` | Groq `whisper-large-v3`, word-level timestamps, 10-min chunks |
-| 3 | `pipeline/select.py` | LLM picks clip windows + hook/title/caption/hashtags; snaps to word boundaries |
+| 3 | `pipeline/select.py` | LLM picks **every** clip-worth moment, as many as the transcript supports |
 | 4 | `pipeline/render.py` | ffmpeg → 1080×1920, layout, loudness normalise, burned ASS captions |
 | 5 | `pipeline/qa.py` | Duration/resolution/audio/profanity/duplicate checks |
 | 6 | `pipeline/storage.py` | Uploads to S3/MinIO, Nextcloud or R2; records public URL |
@@ -258,7 +276,7 @@ platform APIs are free.
 
 | Risk | Mitigation |
 |---|---|
-| 6 h job cap | `timeout-minutes: 330`; `limit` input caps daily sources |
+| 6 h job cap | one video per run; the workflow starts the next run itself |
 | TikTok audit not approved yet | `draft_mode: true` posts privately until audited |
 | Token expiry kills a run | `tokens.py` refreshes + mirrors to `STATE_TOKENS` |
 | Same clip posted by other clippers | SHA-256 dedupe in `qa.py` |

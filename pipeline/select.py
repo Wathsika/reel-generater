@@ -13,14 +13,19 @@ import sys
 from . import config, jobs, state
 
 SYSTEM_PROMPT = """You are a short-form video editor who has cut thousands of viral clips.
-Given a timestamped transcript, choose the single best clip for TikTok / Reels / Shorts.
+Given a timestamped transcript, choose every moment that deserves its own
+clip for TikTok / Reels / Shorts. Quality over quantity: return only moments
+you would actually post, and never pad the list to reach a number.
 
 Rules:
-- The clip must stand alone: no setup needed, punchline or payoff inside the window.
+- Each clip must stand alone: no setup needed, punchline or payoff inside the window.
 - Start on motion or a bold claim, end immediately after the payoff (loopable).
 - Prefer emotional peaks: surprise, conflict, strong opinion, humor, money, transformation.
 - Never pick a segment that is mid-sentence at the start or cut mid-word at the end.
 - Do not include the words "in this video" or meta references.
+- Clips must not overlap each other.
+- If the transcript only supports two good moments, return two. Zero is
+  acceptable only when nothing at all would work.
 
 Return ONLY JSON with this exact shape:
 {"clips":[{"start":<seconds>,"end":<seconds>,"score":<1-10>,"hook":"<max 60 chars>",
@@ -66,7 +71,9 @@ def _llm_json(
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": (
                         f"Transcript (seconds):\n{transcript_text}\n\n"
-                        f"Return exactly {want} clips, each between {min_dur} and {max_dur} seconds."
+                        f"Return between 1 and {want} clips, each between "
+                        f"{min_dur} and {max_dur} seconds. Use as many as the "
+                        f"transcript genuinely supports; do not pad."
                         f"{extra}"
                     )},
                 ],
@@ -178,7 +185,11 @@ def run() -> int:
         if item.get("stage") != "transcribed":
             continue
         settings = item.get("settings", {})
-        want = int(settings.get("clips_per_video", 3))
+        # The model decides how many clips the transcript can yield; this is
+        # only a safety cap (campaigns rarely want more than a handful from
+        # one window). clips_per_video is honoured for older configs.
+        cap = settings.get("max_clips_per_video") or settings.get("clips_per_video") or 10
+        want = max(1, min(int(cap), 20))
         min_dur = int(settings.get("min_duration", 18))
         max_dur = int(settings.get("max_duration", 60))
 
@@ -242,6 +253,11 @@ def run() -> int:
             item["stage"] = "failed"
             item["error"] = "no valid clip windows selected"
             continue
+
+        if len(picked) > want:
+            # keep the highest-scoring ones, then restore timeline order
+            picked = sorted(picked, key=lambda p: -p["score"])[:want]
+            picked.sort(key=lambda p: p["start"])
 
         item["clips"] = picked
         item["stage"] = "selected"
