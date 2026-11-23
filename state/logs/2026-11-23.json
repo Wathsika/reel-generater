@@ -280,6 +280,13 @@
       "stage": "dashboard",
       "message": "completed (1 items)",
       "job_id": "dashboard-1795439350-377a5b"
+    },
+    {
+      "t": "2026-11-23T15:26:36+00:00",
+      "level": "error",
+      "stage": "discover",
+      "message": "download failed: https://download.samplelib.com/mp4/sample-10s.mp4",
+      "reason": "[WinError 2] The system cannot find the file specified"
     }
   ]
 }

@@ -72,3 +72,18 @@ def ffprobe_bin() -> str:
 
 def ffmpeg_bin() -> str:
     return env("FFMPEG_BIN", "ffmpeg")
+
+
+def ytdlp_cmd() -> list[str]:
+    """Command prefix for yt-dlp.
+
+    Prefer the console script, but fall back to `python -m yt_dlp` so the
+    pipeline works when the venv isn't on PATH (Windows shells, some runners).
+    """
+    import shutil
+    import sys
+
+    exe = shutil.which("yt-dlp")
+    if exe:
+        return [exe]
+    return [sys.executable, "-m", "yt_dlp"]

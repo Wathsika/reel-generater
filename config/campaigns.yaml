@@ -26,6 +26,13 @@ defaults:
   #   logo_position: br               # tl | tr | bl | br | tc | bc | center
   #   logo_width: 260                 # pixels wide
   #   logo_opacity: 1.0               # 0.1 - 1.0
+  #
+  # Stream VODs are hours long. Download only one window (yt-dlp syntax):
+  #   source_section: "00:45:00-01:25:00"
+  #
+  # `rules` and `keywords` steer which moments the LLM picks. Use them when a
+  # campaign requires the product to be mentioned or shown:
+  #   keywords: ["puffco", "puffco peak"]
 
 campaigns:
   # --- Example: replace with real campaigns you join ---

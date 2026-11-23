@@ -29,7 +29,18 @@ Return ONLY JSON with this exact shape:
 """
 
 
-def _llm_json(transcript_text: str, want: int, max_dur: int, min_dur: int) -> dict:
+def _llm_json(
+    transcript_text: str, want: int, max_dur: int, min_dur: int,
+    rules: str = "", keywords: list[str] | None = None,
+) -> dict:
+    extra = ""
+    if rules:
+        extra += f"\nCampaign brief (must be respected): {rules}\n"
+    if keywords:
+        extra += (
+            "Prefer moments that mention any of these brand/product keywords: "
+            + ", ".join(keywords) + ".\n"
+        )
     key = config.env("GROQ_API_KEY")
     model = config.env("GROQ_MODEL", "llama-3.3-70b-versatile")
     if key:
@@ -47,6 +58,7 @@ def _llm_json(transcript_text: str, want: int, max_dur: int, min_dur: int) -> di
                     {"role": "user", "content": (
                         f"Transcript (seconds):\n{transcript_text}\n\n"
                         f"Return exactly {want} clips, each between {min_dur} and {max_dur} seconds."
+                        f"{extra}"
                     )},
                 ],
             },
@@ -65,7 +77,7 @@ def _llm_json(transcript_text: str, want: int, max_dur: int, min_dur: int) -> di
             f"{config.env('GEMINI_MODEL', 'gemini-2.0-flash')}:generateContent",
             params={"key": gemini},
             json={
-                "contents": [{"parts": [{"text": SYSTEM_PROMPT + "\n\n" + transcript_text}]}],
+                "contents": [{"parts": [{"text": SYSTEM_PROMPT + "\n\n" + transcript_text + extra}]}],
                 "generationConfig": {"response_mime_type": "application/json", "temperature": 0.7},
             },
             timeout=180,
@@ -76,8 +88,13 @@ def _llm_json(transcript_text: str, want: int, max_dur: int, min_dur: int) -> di
     raise RuntimeError("No LLM key set - provide GROQ_API_KEY or GEMINI_API_KEY")
 
 
-def _fmt_transcript(words: list[dict], chunk_chars: int = 3000) -> str:
-    """Compact the word list into readable lines with start timestamps."""
+def _fmt_transcript(words: list[dict], chunk_chars: int = 12000) -> str:
+    """Compact the word list into readable lines with start timestamps.
+
+    Long sources (multi-hour stream VODs) are sampled from the head, middle and
+    tail instead of being cut to the first couple of minutes, so the model can
+    still find moments anywhere in the recording.
+    """
     lines: list[str] = []
     cur: list[str] = []
     last_bucket = -1
@@ -93,10 +110,17 @@ def _fmt_transcript(words: list[dict], chunk_chars: int = 3000) -> str:
         lines.append(f"[{last_bucket * 15}] " + " ".join(cur))
     text = "\n".join(lines)
     if len(text) > chunk_chars:
-        # keep head and tail - openings and payoffs matter most
-        half = chunk_chars // 2
-        text = text[:half] + "\n...\n" + text[-half:]
+        part = chunk_chars // 3
+        mid = (len(text) - part) // 2
+        text = (
+            text[:part]
+            + "\n...\n"
+            + text[mid:mid + part]
+            + "\n...\n"
+            + text[-part:]
+        )
     return text
+
 
 
 def _snap(words: list[dict], t: float, mode: str) -> float:
@@ -134,7 +158,11 @@ def run() -> int:
             continue
 
         try:
-            raw = _llm_json(_fmt_transcript(words), want, max_dur, min_dur)
+            raw = _llm_json(
+                _fmt_transcript(words), want, max_dur, min_dur,
+                rules=str(settings.get("rules") or ""),
+                keywords=[str(k) for k in (settings.get("keywords") or [])],
+            )
         except Exception as exc:
             item["stage"] = "failed"
             item["error"] = f"llm: {str(exc)[:300]}"

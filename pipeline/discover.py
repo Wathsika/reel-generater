@@ -13,7 +13,7 @@ import sys
 from . import config, jobs, state
 
 
-def _download(url: str, dest: pathlib.Path) -> pathlib.Path | None:
+def _download(url: str, dest: pathlib.Path, section: str | None = None) -> pathlib.Path | None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     if dest.exists() and dest.stat().st_size > 0:
         return dest
@@ -24,23 +24,33 @@ def _download(url: str, dest: pathlib.Path) -> pathlib.Path | None:
         state.error("discover", f"local source missing: {src}")
         return None
     if url.startswith("http://") or url.startswith("https://"):
+        cmd = [
+            *config.ytdlp_cmd(),
+            "-f", "bv*[height<=1080]+ba/b[height<=1080]/b",
+            "--merge-output-format", "mp4",
+            "-o", str(dest),
+            "--no-playlist",
+        ]
+        if section:
+            # stream VODs are hours long: pull only the interesting window
+            cmd += ["--download-sections", f"*{section}"]
+            ffmpeg = config.ffmpeg_bin()
+            ffdir = pathlib.Path(ffmpeg).parent
+            if str(ffdir) not in {".", ""}:
+                cmd += ["--ffmpeg-location", str(ffdir)]
+        cmd.append(url)
         try:
             subprocess.run(
-                [
-                    "yt-dlp",
-                    "-f", "bv*[height<=1080]+ba/b[height<=1080]/b",
-                    "--merge-output-format", "mp4",
-                    "-o", str(dest),
-                    "--no-playlist",
-                    url,
-                ],
+                cmd,
                 check=True,
                 capture_output=True,
                 timeout=1800,
             )
             return dest if dest.exists() else None
         except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired) as exc:
-            state.error("discover", f"download failed: {url}", reason=str(exc)[:300])
+            stderr = getattr(exc, "stderr", b"") or b""
+            reason = stderr.decode("utf-8", "replace")[-300:] if stderr else str(exc)[:300]
+            state.error("discover", f"download failed: {url}", reason=reason)
             return None
     return None
 
@@ -56,25 +66,31 @@ def run(limit: int | None = None) -> int:
         return 0
 
     queue = state.load_queue()
-    existing_ids = {c.get("source_url") for c in queue.get("clips", [])}
+    existing_ids = {
+        c.get("source_key") or c.get("source_url") for c in queue.get("clips", [])
+    }
     added = 0
     sources: list[dict] = []
 
     for camp in campaigns:
         camp_defaults = {**defaults, **{k: v for k, v in camp.items() if k != "sources"}}
+        section = str(camp_defaults.get("source_section") or "") or None
         for url in camp.get("sources", []):
-            if url in existing_ids:
+            key = f"{url}|{section}" if section else url
+            if key in existing_ids:
                 continue
             if limit is not None and added >= limit:
                 break
-            safe = "".join(ch if ch.isalnum() else "_" for ch in url)[-60:]
+            safe = "".join(ch if ch.isalnum() else "_" for ch in key)[-60:]
             dest = config.WORK / "sources" / f"{safe}.mp4"
-            got = _download(url, dest)
+            got = _download(url, dest, section=section)
             if got is None:
                 continue
             sources.append(
                 {
+                    "source_key": key,
                     "source_url": url,
+                    "source_section": section,
                     "path": str(got),
                     "campaign": camp.get("id"),
                     "settings": camp_defaults,

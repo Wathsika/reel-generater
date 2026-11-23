@@ -197,7 +197,7 @@ def _fetch_gameplay(url: str) -> pathlib.Path | None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     try:
         subprocess.run(
-            ["yt-dlp", "-f", "bv*[height<=1080]+ba/b[height<=1080]/b",
+            [*config.ytdlp_cmd(), "-f", "bv*[height<=1080]+ba/b[height<=1080]/b",
              "--merge-output-format", "mp4", "-o", str(dest), "--no-playlist", url],
             check=True, capture_output=True, timeout=1800,
         )
