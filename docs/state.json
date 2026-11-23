@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-23T18:17:09+00:00",
+  "generated": "2026-11-23T18:38:36+00:00",
   "jobs": {
     "runs": [
       {
@@ -967,9 +967,491 @@
         "items": 3,
         "error": null,
         "meta": {}
+      },
+      {
+        "id": "dashboard-1795457829-f4a232",
+        "stage": "dashboard",
+        "status": "ok",
+        "started": "2026-11-23T18:17:09+00:00",
+        "started_ts": 1795457829.6943116,
+        "ended": "2026-11-23T18:17:09+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "upload-1795458246-f09c11",
+        "stage": "upload",
+        "status": "ok",
+        "started": "2026-11-23T18:24:06+00:00",
+        "started_ts": 1795458246.0479221,
+        "ended": "2026-11-23T18:24:06+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "failed": 0,
+          "repaired": 1
+        }
+      },
+      {
+        "id": "publish-1795458246-dac856",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-23T18:24:06+00:00",
+        "started_ts": 1795458246.0807977,
+        "ended": "2026-11-23T18:24:06+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "no platform credentials"
+        }
+      },
+      {
+        "id": "publish-1795458279-360541",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-23T05:00:00+00:00",
+        "started_ts": 1795458279.1571143,
+        "ended": "2026-11-23T05:00:00+00:00",
+        "duration_s": 0.0,
+        "items": 2,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "publish-1795458279-31570c",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-23T05:00:00+00:00",
+        "started_ts": 1795458279.1768935,
+        "ended": "2026-11-23T05:00:00+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "daily limit reached"
+        }
+      },
+      {
+        "id": "publish-1795458279-77e9eb",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-24T05:00:00+00:00",
+        "started_ts": 1795458279.1938238,
+        "ended": "2026-11-24T05:00:00+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "upload-1795458279-5571d5",
+        "stage": "upload",
+        "status": "failed",
+        "started": "2026-11-23T18:24:39+00:00",
+        "started_ts": 1795458279.3256996,
+        "ended": "2026-11-23T18:24:39+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 2
+        }
+      },
+      {
+        "id": "publish-1795458279-2bf1e9",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-23T05:00:00+00:00",
+        "started_ts": 1795458279.3433373,
+        "ended": "2026-11-23T05:00:00+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "discover-1795458279-8f1e41",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T18:24:39+00:00",
+        "started_ts": 1795458279.6336012,
+        "ended": "2026-11-23T18:24:39+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "note": "2 still waiting"
+        }
+      },
+      {
+        "id": "discover-1795458279-227869",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T18:24:39+00:00",
+        "started_ts": 1795458279.6943536,
+        "ended": "2026-11-23T18:24:39+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "note": "1 still waiting"
+        }
+      },
+      {
+        "id": "discover-1795458279-f84ccd",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T18:24:39+00:00",
+        "started_ts": 1795458279.7518978,
+        "ended": "2026-11-23T18:24:39+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "note": "queue empty"
+        }
+      },
+      {
+        "id": "discover-1795458279-b90d2b",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T18:24:39+00:00",
+        "started_ts": 1795458279.8035023,
+        "ended": "2026-11-23T18:24:39+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "waiting list empty"
+        }
+      },
+      {
+        "id": "discover-1795458279-a38e78",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T18:24:39+00:00",
+        "started_ts": 1795458279.8403068,
+        "ended": "2026-11-23T18:24:39+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "waiting list empty"
+        }
+      },
+      {
+        "id": "discover-1795458279-9de3f9",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T18:24:39+00:00",
+        "started_ts": 1795458279.8768735,
+        "ended": "2026-11-23T18:24:39+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "note": "queue empty"
+        }
+      },
+      {
+        "id": "discover-1795458279-aa68d2",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T18:24:39+00:00",
+        "started_ts": 1795458279.9244573,
+        "ended": "2026-11-23T18:24:39+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "1 still waiting"
+        }
+      },
+      {
+        "id": "discover-1795458279-6b3180",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T18:24:39+00:00",
+        "started_ts": 1795458279.9781973,
+        "ended": "2026-11-23T18:24:39+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "queue empty"
+        }
+      },
+      {
+        "id": "discover-1795458280-3e9374",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T18:24:40+00:00",
+        "started_ts": 1795458280.025601,
+        "ended": "2026-11-23T18:24:40+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "waiting list empty"
+        }
+      },
+      {
+        "id": "select-1795458280-a99967",
+        "stage": "select",
+        "status": "ok",
+        "started": "2026-11-23T18:24:40+00:00",
+        "started_ts": 1795458280.0806856,
+        "ended": "2026-11-23T18:24:40+00:00",
+        "duration_s": 0.0,
+        "items": 10,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "render-1795458280-73dbe9",
+        "stage": "render",
+        "status": "ok",
+        "started": "2026-11-23T18:24:40+00:00",
+        "started_ts": 1795458280.5262024,
+        "ended": "2026-11-23T18:24:40+00:00",
+        "duration_s": 0.0,
+        "items": 2,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "render-1795458280-09098f",
+        "stage": "render",
+        "status": "ok",
+        "started": "2026-11-23T18:24:40+00:00",
+        "started_ts": 1795458280.5669005,
+        "ended": "2026-11-23T18:24:40+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "render-1795458280-ce181d",
+        "stage": "render",
+        "status": "ok",
+        "started": "2026-11-23T18:24:40+00:00",
+        "started_ts": 1795458280.5953383,
+        "ended": "2026-11-23T18:24:40+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "upload-1795458286-3a1fa5",
+        "stage": "upload",
+        "status": "failed",
+        "started": "2026-11-23T18:24:46+00:00",
+        "started_ts": 1795458286.7896917,
+        "ended": "2026-11-23T18:24:46+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 2
+        }
+      },
+      {
+        "id": "publish-1795458286-a2395a",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-23T05:00:00+00:00",
+        "started_ts": 1795458286.8080032,
+        "ended": "2026-11-23T05:00:00+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "upload-1795458299-8416a2",
+        "stage": "upload",
+        "status": "failed",
+        "started": "2026-11-23T18:24:59+00:00",
+        "started_ts": 1795458299.0646267,
+        "ended": "2026-11-23T18:24:59+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 2
+        }
+      },
+      {
+        "id": "publish-1795458299-4d6920",
+        "stage": "publish",
+        "status": "failed",
+        "started": "2026-11-23T05:00:00+00:00",
+        "started_ts": 1795458299.0845041,
+        "ended": "2026-11-23T05:00:00+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 2
+        }
+      },
+      {
+        "id": "publish-1795458299-3d3686",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-23T05:00:00+00:00",
+        "started_ts": 1795458299.1036847,
+        "ended": "2026-11-23T05:00:00+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "discover-1795459114-736e29",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-23T18:38:34+00:00",
+        "started_ts": 1795459114.532927,
+        "ended": "2026-11-23T18:38:34+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "waiting list empty"
+        }
+      },
+      {
+        "id": "transcribe-1795459114-de2064",
+        "stage": "transcribe",
+        "status": "ok",
+        "started": "2026-11-23T18:38:34+00:00",
+        "started_ts": 1795459114.6081662,
+        "ended": "2026-11-23T18:38:34+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "select-1795459114-c3f58e",
+        "stage": "select",
+        "status": "ok",
+        "started": "2026-11-23T18:38:34+00:00",
+        "started_ts": 1795459114.6530962,
+        "ended": "2026-11-23T18:38:34+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "render-1795459114-d1056c",
+        "stage": "render",
+        "status": "ok",
+        "started": "2026-11-23T18:38:34+00:00",
+        "started_ts": 1795459114.70126,
+        "ended": "2026-11-23T18:38:34+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "qa-1795459114-2207ac",
+        "stage": "qa",
+        "status": "ok",
+        "started": "2026-11-23T18:38:34+00:00",
+        "started_ts": 1795459114.7487938,
+        "ended": "2026-11-23T18:38:34+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "upload-1795459114-0ce343",
+        "stage": "upload",
+        "status": "ok",
+        "started": "2026-11-23T18:38:34+00:00",
+        "started_ts": 1795459114.7950108,
+        "ended": "2026-11-23T18:38:34+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0,
+          "repaired": 0
+        }
+      },
+      {
+        "id": "publish-1795459114-b47849",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-23T18:38:34+00:00",
+        "started_ts": 1795459114.8519127,
+        "ended": "2026-11-23T18:38:34+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "analytics-1795459114-48a367",
+        "stage": "analytics",
+        "status": "ok",
+        "started": "2026-11-23T18:38:34+00:00",
+        "started_ts": 1795459114.9106143,
+        "ended": "2026-11-23T18:38:34+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "cleanup-1795459114-e17ac9",
+        "stage": "cleanup",
+        "status": "ok",
+        "started": "2026-11-23T18:38:34+00:00",
+        "started_ts": 1795459114.9544177,
+        "ended": "2026-11-23T18:38:36+00:00",
+        "duration_s": 1.1,
+        "items": 0,
+        "error": null,
+        "meta": {}
       }
     ],
-    "updated": "2026-11-23T18:17:09+00:00"
+    "updated": "2026-11-23T18:38:36+00:00"
   },
   "queue": {
     "date": "2026-11-23",
@@ -1074,68 +1556,15 @@
         "source_deleted": true
       }
     ],
-    "updated": "2026-11-23T18:17:09+00:00",
+    "updated": "2026-11-23T18:38:34+00:00",
     "campaigns": [
       "bendadonn-puffco"
     ]
   },
   "rendered": {
     "date": "2026-11-23",
-    "clips": [
-      {
-        "clip_id": "bendadonn-puffco_1619_0",
-        "campaign": "bendadonn-puffco",
-        "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-23/bendadonn-puffco_1619_0.mp4",
-        "hash": "53fdb5c2299265d3a17dfed5",
-        "hook": "Puffco just launched – first hit feels insane!",
-        "title": "First Puffco Hit on GTA Stream – Epic Clouds",
-        "caption": "Just tried the new Puffco on my GTA run, and the clouds were wild. Have you felt this level of hype?",
-        "hashtags": [
-          "#Puffco",
-          "#GTA",
-          "#DabHits",
-          "#CloudChasing"
-        ],
-        "duration": 55.62,
-        "meta": {
-          "width": 1080,
-          "height": 1920,
-          "duration": 55.7,
-          "size": 11619956
-        },
-        "stage": "uploaded",
-        "r2_url": "",
-        "storage_key": "2026-11-23/bendadonn-puffco_1619_0.mp4",
-        "storage_backend": "nextcloud"
-      },
-      {
-        "clip_id": "bendadonn-puffco_359_1",
-        "campaign": "bendadonn-puffco",
-        "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-23/bendadonn-puffco_359_1.mp4",
-        "hash": "b89efb790464308199aacbb3",
-        "hook": "Check out these massive dabs!",
-        "title": "Huge Dabs in the Stream – Cloud Madness",
-        "caption": "The dabs were insane, the room filled with vapor. Who else loves that perfect hit?",
-        "hashtags": [
-          "#Dabs",
-          "#Clouds",
-          "#Puffco",
-          "#VapeLife"
-        ],
-        "duration": 30.42,
-        "meta": {
-          "width": 1080,
-          "height": 1920,
-          "duration": 30.5,
-          "size": 17299535
-        },
-        "stage": "uploaded",
-        "r2_url": "",
-        "storage_key": "2026-11-23/bendadonn-puffco_359_1.mp4",
-        "storage_backend": "nextcloud"
-      }
-    ],
-    "updated": "2026-11-23T18:17:09+00:00"
+    "clips": [],
+    "updated": "2026-11-23T18:38:34+00:00"
   },
   "posted": {
     "posts": []
@@ -1148,7 +1577,7 @@
         "clips": 0
       }
     },
-    "updated": "2026-11-23T18:17:08+00:00"
+    "updated": "2026-11-23T18:38:34+00:00"
   },
   "log": {
     "entries": [
@@ -1780,6 +2209,250 @@
         "sources": 1,
         "state_files": 0,
         "remote": 0
+      },
+      {
+        "t": "2026-11-23T18:17:09+00:00",
+        "level": "info",
+        "stage": "dashboard",
+        "message": "completed (1 items)",
+        "job_id": "dashboard-1795457829-f4a232"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "3 pasted link(s), 3 waiting"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (1 items)",
+        "job_id": "discover-1795458279-8f1e41"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "2 more video(s) waiting",
+        "waiting": 2
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (1 items)",
+        "job_id": "discover-1795458279-227869"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "1 more video(s) waiting",
+        "waiting": 1
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (1 items)",
+        "job_id": "discover-1795458279-f84ccd"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (0 items)",
+        "job_id": "discover-1795458279-b90d2b"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "nothing waiting - paste a link or add one to campaigns.yaml"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (0 items)",
+        "job_id": "discover-1795458279-a38e78"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "nothing waiting - paste a link or add one to campaigns.yaml"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "1 pasted link(s), 1 waiting"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (1 items)",
+        "job_id": "discover-1795458279-9de3f9"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "1 pasted link(s), 1 waiting"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (0 items)",
+        "job_id": "discover-1795458279-aa68d2"
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "1 more video(s) waiting",
+        "waiting": 1
+      },
+      {
+        "t": "2026-11-23T18:24:39+00:00",
+        "level": "warn",
+        "stage": "discover",
+        "message": "source dropped after repeated failures",
+        "url": "https://ex.com/bad",
+        "tries": 2
+      },
+      {
+        "t": "2026-11-23T18:24:40+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (0 items)",
+        "job_id": "discover-1795458279-6b3180"
+      },
+      {
+        "t": "2026-11-23T18:24:40+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (0 items)",
+        "job_id": "discover-1795458280-3e9374"
+      },
+      {
+        "t": "2026-11-23T18:24:40+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "nothing waiting - paste a link or add one to campaigns.yaml"
+      },
+      {
+        "t": "2026-11-23T18:24:40+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "completed (10 items)",
+        "job_id": "select-1795458280-a99967"
+      },
+      {
+        "t": "2026-11-23T18:24:40+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "groq model in use: openai/gpt-oss-120b"
+      },
+      {
+        "t": "2026-11-23T18:38:34+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (0 items)",
+        "job_id": "discover-1795459114-736e29"
+      },
+      {
+        "t": "2026-11-23T18:38:34+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "nothing waiting - paste a link or add one to campaigns.yaml"
+      },
+      {
+        "t": "2026-11-23T18:38:34+00:00",
+        "level": "info",
+        "stage": "transcribe",
+        "message": "completed (0 items)",
+        "job_id": "transcribe-1795459114-de2064"
+      },
+      {
+        "t": "2026-11-23T18:38:34+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "completed (0 items)",
+        "job_id": "select-1795459114-c3f58e"
+      },
+      {
+        "t": "2026-11-23T18:38:34+00:00",
+        "level": "info",
+        "stage": "render",
+        "message": "completed (0 items)",
+        "job_id": "render-1795459114-d1056c"
+      },
+      {
+        "t": "2026-11-23T18:38:34+00:00",
+        "level": "info",
+        "stage": "qa",
+        "message": "completed (0 items)",
+        "job_id": "qa-1795459114-2207ac"
+      },
+      {
+        "t": "2026-11-23T18:38:34+00:00",
+        "level": "info",
+        "stage": "upload",
+        "message": "completed (0 items)",
+        "job_id": "upload-1795459114-0ce343"
+      },
+      {
+        "t": "2026-11-23T18:38:34+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "instagram is enabled but its credentials are missing - skipped until they are added"
+      },
+      {
+        "t": "2026-11-23T18:38:34+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "facebook is enabled but its credentials are missing - skipped until they are added"
+      },
+      {
+        "t": "2026-11-23T18:38:34+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "tiktok is enabled but its credentials are missing - skipped until they are added"
+      },
+      {
+        "t": "2026-11-23T18:38:34+00:00",
+        "level": "info",
+        "stage": "publish",
+        "message": "completed (0 items)",
+        "job_id": "publish-1795459114-b47849"
+      },
+      {
+        "t": "2026-11-23T18:38:34+00:00",
+        "level": "info",
+        "stage": "analytics",
+        "message": "completed (0 items)",
+        "job_id": "analytics-1795459114-48a367"
+      },
+      {
+        "t": "2026-11-23T18:38:36+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "completed (0 items)",
+        "job_id": "cleanup-1795459114-e17ac9"
+      },
+      {
+        "t": "2026-11-23T18:38:36+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "freed 0.0 MB across 0 file(s)",
+        "sources": 0,
+        "state_files": 0,
+        "remote": 0
       }
     ]
   },
@@ -1815,16 +2488,16 @@
     ]
   },
   "storage": {
-    "updated": "2026-11-23T18:17:09+00:00",
-    "freed_mb": 4083.74,
-    "files_deleted": 3,
-    "sources_deleted": 1,
+    "updated": "2026-11-23T18:38:36+00:00",
+    "freed_mb": 0.0,
+    "files_deleted": 0,
+    "sources_deleted": 0,
     "state_files_deleted": 0,
     "remote_deleted": 0,
     "remote_days": 7,
-    "work_mb": 0.01,
-    "out_mb": 27.58,
-    "state_mb": 0.05,
+    "work_mb": 0.0,
+    "out_mb": 0.0,
+    "state_mb": 0.06,
     "dry_run": false
   }
 }
