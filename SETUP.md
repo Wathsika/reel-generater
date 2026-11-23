@@ -25,9 +25,12 @@ The repo must be **public** (that's what makes Actions minutes free).
 
 ```bash
 git remote add origin https://github.com/<YOU>/clip-factory.git
-git branch -M main
-git push -u origin main
+git push -u origin HEAD          # pushes whatever branch you're on
 ```
+
+> Your branch may be `master` or `main` — either works. Scheduled workflows
+> run from the repo's **default branch**, so check that under
+> **Settings → General → Default branch** if runs don't start.
 
 ---
 
