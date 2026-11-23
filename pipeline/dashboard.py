@@ -303,9 +303,11 @@ function render(d){
   // queue table
   const qb = document.getElementById("queue");
   if(!q.length) qb.innerHTML = `<div class="empty">No sources discovered yet.</div>`;
-  else qb.innerHTML = `<table><thead><tr><th>Source</th><th>Campaign</th><th>Stage</th><th>Clips</th><th>Duration</th></tr></thead><tbody>` +
-    q.map(i=>`<tr><td class="mono" style="max-width:340px;overflow:hidden;text-overflow:ellipsis">${esc(i.source_url)}</td>
-      <td>${esc(i.campaign||"-")}</td><td>${tag(i.stage)}</td>
+  else qb.innerHTML = `<table><thead><tr><th>Source</th><th>Campaign</th><th>Window</th><th>Stage</th><th>Clips</th><th>Duration</th></tr></thead><tbody>` +
+    q.map(i=>`<tr><td class="mono" style="max-width:340px;overflow:hidden;text-overflow:ellipsis" title="${esc(i.source_title||i.source_url)}">${esc(i.source_title||i.source_url)}</td>
+      <td>${esc(i.campaign||"-")}</td>
+      <td class="mono">${esc(i.source_section||"auto")}${i.auto_section?" *":""}</td>
+      <td>${tag(i.stage)}</td>
       <td>${(i.clips||[]).length}</td><td class="mono">${i.duration?Math.round(i.duration)+"s":"-"}</td></tr>`).join("") + "</tbody></table>";
 
   // performance

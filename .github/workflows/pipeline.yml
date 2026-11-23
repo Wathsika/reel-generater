@@ -20,7 +20,7 @@ on:
         required: false
         default: ""
       source_section:
-        description: "Optional window for source_url, e.g. 00:10:00-00:50:00"
+        description: "Optional window for source_url, e.g. 00:10:00-00:50:00 (empty = auto from chat)"
         required: false
         default: ""
       campaign:

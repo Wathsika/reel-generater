@@ -32,6 +32,7 @@ Return ONLY JSON with this exact shape:
 def _llm_json(
     transcript_text: str, want: int, max_dur: int, min_dur: int,
     rules: str = "", keywords: list[str] | None = None,
+    focus: list[int] | None = None,
 ) -> dict:
     extra = ""
     if rules:
@@ -40,6 +41,14 @@ def _llm_json(
         extra += (
             "Prefer moments that mention any of these brand/product keywords: "
             + ", ".join(keywords) + ".\n"
+        )
+    if focus:
+        stamps = ", ".join(f"{int(t)}s" for t in focus[:12])
+        extra += (
+            "\nAudience chat spiked at these timestamps: " + stamps + ".\n"
+            "Chat spikes are the strongest available signal that something "
+            "worth clipping happened. Prefer clips that begin at or shortly "
+            "before a spike; only depart from them for a clearly better moment.\n"
         )
     key = config.env("GROQ_API_KEY")
     model = config.env("GROQ_MODEL", "llama-3.3-70b-versatile")
@@ -88,12 +97,17 @@ def _llm_json(
     raise RuntimeError("No LLM key set - provide GROQ_API_KEY or GEMINI_API_KEY")
 
 
-def _fmt_transcript(words: list[dict], chunk_chars: int = 12000) -> str:
+def _fmt_transcript(
+    words: list[dict], chunk_chars: int = 12000, focus: list[int] | None = None,
+) -> str:
     """Compact the word list into readable lines with start timestamps.
 
     Long sources (multi-hour stream VODs) are sampled from the head, middle and
     tail instead of being cut to the first couple of minutes, so the model can
     still find moments anywhere in the recording.
+
+    When `focus` timestamps are known (Twitch chat spikes), those windows are
+    kept instead - the audience already told us where something happened.
     """
     lines: list[str] = []
     cur: list[str] = []
@@ -109,16 +123,35 @@ def _fmt_transcript(words: list[dict], chunk_chars: int = 12000) -> str:
     if cur:
         lines.append(f"[{last_bucket * 15}] " + " ".join(cur))
     text = "\n".join(lines)
-    if len(text) > chunk_chars:
-        part = chunk_chars // 3
-        mid = (len(text) - part) // 2
-        text = (
-            text[:part]
-            + "\n...\n"
-            + text[mid:mid + part]
-            + "\n...\n"
-            + text[-part:]
-        )
+    if len(text) <= chunk_chars:
+        return text
+
+    if focus:
+        blocks: list[str] = []
+        for t in focus:
+            lo, hi = int(t) - 90, int(t) + 150
+            block = [
+                ln for ln in lines
+                if lo <= int(ln[1:ln.index("]")]) < hi
+            ]
+            if block:
+                blocks.append("\n".join(block))
+        joined = "\n...\n".join(blocks)
+        if len(joined) > chunk_chars:
+            cut = joined.rfind("\n", 0, chunk_chars)
+            joined = joined[:cut if cut > 0 else chunk_chars]
+        if joined.strip():
+            return joined
+
+    part = chunk_chars // 3
+    mid = (len(text) - part) // 2
+    text = (
+        text[:part]
+        + "\n...\n"
+        + text[mid:mid + part]
+        + "\n...\n"
+        + text[-part:]
+    )
     return text
 
 
@@ -157,11 +190,13 @@ def run() -> int:
             item["error"] = "transcript too short"
             continue
 
+        focus = [int(t) for t in (settings.get("focus_seconds") or []) if str(t).lstrip("-").isdigit()]
         try:
             raw = _llm_json(
-                _fmt_transcript(words), want, max_dur, min_dur,
+                _fmt_transcript(words, focus=focus), want, max_dur, min_dur,
                 rules=str(settings.get("rules") or ""),
                 keywords=[str(k) for k in (settings.get("keywords") or [])],
+                focus=focus,
             )
         except Exception as exc:
             item["stage"] = "failed"

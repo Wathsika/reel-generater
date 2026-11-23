@@ -30,6 +30,13 @@ defaults:
   # Stream VODs are hours long. Download only one window (yt-dlp syntax):
   #   source_section: "00:45:00-01:25:00"
   #
+  # If you leave source_section unset, discover picks the window for you:
+  # it reads the VOD length from metadata and, on Twitch, samples the chat
+  # replay to find where the audience reacted most. The busiest
+  # `source_window` seconds are downloaded, and the chat spikes are handed
+  # to the moment picker as hints. Default 4500 (75 min), capped at 7200.
+  #   source_window: 4500
+  #
   # `rules` and `keywords` steer which moments the LLM picks. Use them when a
   # campaign requires the product to be mentioned or shown:
   #   keywords: ["puffco", "puffco peak"]

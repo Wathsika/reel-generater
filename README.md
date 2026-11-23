@@ -18,6 +18,35 @@ discover → transcribe → select → render → qa → upload → publish → 
                               all on GitHub Actions
 ```
 
+## Where do I paste a video link?
+
+Three places, pick one:
+
+| You want | Where |
+|---|---|
+| **One video, right now** (no files, nothing saved) | Repo → **Actions** → **clip-pipeline** → **Run workflow** → `source_url` |
+| **A video the bot should always process** | `config/campaigns.yaml` → under the campaign → `sources:` → edit on github.com (pencil icon) → commit |
+| **Nothing at all** | Leave it to the daily schedule; it reuses whatever is already in `campaigns.yaml` |
+
+**A URL is all it needs.** Give it `https://www.twitch.tv/videos/2933247628`
+and discovery does the rest:
+
+1. reads the VOD's **length, title and channel** from metadata
+2. on Twitch, **samples the chat replay** to find where viewers reacted most
+3. downloads only the **busiest 75-minute window** (not the whole 2–8 h stream)
+4. hands the **chat-spike timestamps** to the moment picker, so the LLM starts
+   where the audience already shouted — this is the closest thing to a
+   "this part went viral" signal that exists before publishing
+
+You can still constrain it with `source_section` (`00:20:00-00:50:00`) if you
+know the good part, or `source_window` (seconds) to change the slice length.
+Chat replay is Twitch-only; YouTube/Drive sources fall back to the opening
+window, and selection still works from the transcript alone.
+
+Chat volume is a proxy, not a guarantee: it means *the audience reacted*, which
+correlates with clip-worthy moments far better than a blind guess, but the
+moment picker still decides start/end and can pick a dud. Watch the first batch.
+
 ## Why this shape
 
 | Decision | Reason |
@@ -98,12 +127,13 @@ Run workflow* has three optional inputs:
 | Input | Use |
 |---|---|
 | `source_url` | Process this URL **only**, for this run. Not saved. |
-| `source_section` | Window to download, e.g. `00:10:00-00:50:00` |
+| `source_section` | Window to download, e.g. `00:10:00-00:50:00`. **Leave empty** to let the chat heatmap choose. |
 | `campaign` | Which campaign's rules/keywords to apply (default: first enabled) |
 
-That is the everyday path: paste a fresh VOD link, pick a window, run. To keep
-a source permanently, add it under `sources:` in `config/campaigns.yaml` (you
-can edit that file in the GitHub web UI — pencil icon → commit).
+That is the everyday path: paste a fresh VOD link and run — the window is picked
+from chat activity, the length from the VOD's own metadata. To keep a source
+permanently, add it under `sources:` in `config/campaigns.yaml` (you can edit
+that file in the GitHub web UI — pencil icon → commit).
 
 The dashboard is **read-only**: it is generated HTML, so inputs live in the
 config file or the Run workflow form, never in the dashboard.
