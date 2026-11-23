@@ -7,24 +7,24 @@ on:
   workflow_dispatch:
     inputs:
       limit:
-        description: "Max new sources this run"
+        description: "How many sources to process (use 1 for a test run)"
         required: false
         default: "3"
       auto_approve:
-        description: "Publish without manual approval"
+        description: "Publish without asking - UNCHECK to review clips first"
         type: boolean
         required: false
         default: true
       source_url:
-        description: "Optional: process THIS url only (one-off, not saved to config)"
+        description: ">> PASTE VIDEO URL HERE << - empty = use the saved campaign source"
         required: false
         default: ""
       source_section:
-        description: "Optional window for source_url, e.g. 00:10:00-00:50:00 (empty = auto from chat)"
+        description: "Override only: clip just this window 00:10:00-00:50:00 (empty = auto from chat)"
         required: false
         default: ""
       campaign:
-        description: "Optional campaign id whose rules/keywords apply to source_url"
+        description: "Override only: campaign id for rules/keywords (empty = first enabled)"
         required: false
         default: ""
 
