@@ -62,11 +62,18 @@ def _unlink(path: pathlib.Path, seen: set[str], stats: dict, dry: bool) -> bool:
 
 
 def cleanup_clips(stats: dict, seen: set[str], dry: bool) -> None:
-    """Delete local clip files once they're safely on R2."""
+    """Delete local clip files once they're safely in storage.
+
+    A clip whose public link failed the upload-time check keeps its local file:
+    while the run lasts, that file is the only copy, and deleting it would make
+    a re-upload impossible.
+    """
     queue = state.load_queue()
     for item in queue.get("clips", []):
         for clip in item.get("clips", []):
             if not clip.get("r2_url"):
+                continue
+            if clip.get("url_ok") is False:
                 continue
             if clip.get("stage") not in {"uploaded", "published", "failed", "skipped"}:
                 continue
@@ -77,7 +84,7 @@ def cleanup_clips(stats: dict, seen: set[str], dry: bool) -> None:
 
     rendered = state.load_rendered()
     for clip in rendered.get("clips", []):
-        if not clip.get("r2_url"):
+        if not clip.get("r2_url") or clip.get("url_ok") is False:
             continue
         path = clip.get("path")
         if path and _unlink(pathlib.Path(path), seen, stats, dry):

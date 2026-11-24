@@ -257,6 +257,8 @@ def _candidates(campaigns: list[dict], defaults: dict,
     """
     by_id = {str(c.get("id")): c for c in campaigns}
     out: list[dict] = []
+    stages: dict | None = None
+    source_clips: dict | None = None
 
     for p in pending:
         if int(p.get("tries") or 0) >= MAX_TRIES:
@@ -286,7 +288,17 @@ def _candidates(campaigns: list[dict], defaults: dict,
                 continue
             rec = seen.get(url) or {}
             if str(rec.get("status") or "done") == "done" and rec:
-                continue
+                # "Done" only means "we cut it once". If every clip from it is
+                # gone (failed / never uploaded), the video still needs work -
+                # but stop after two such redos so a video that always dies
+                # cannot download itself every single run.
+                if stages is None:
+                    stages = _clip_stages()
+                    source_clips = _source_clip_ids()
+                ids = (source_clips or {}).get(url) or []
+                alive = any(_live(*stages.get(i, ("", ""))) for i in ids)
+                if alive or not ids or int(rec.get("redos") or 0) >= 2:
+                    continue
             if int(rec.get("tries") or 0) >= MAX_TRIES:
                 continue
             out.append({
@@ -308,10 +320,62 @@ def pending_count() -> int:
                            _load_pending(), _load_seen()))
 
 
-# A clip in one of these states has been produced from its source. Once that
-# happened, redoing the video would post the same moments twice, so it is not
-# automatically retried.
-_PRODUCED = {"rendered", "qa_passed", "uploaded", "published", "skipped"}
+def _clip_stages() -> dict:
+    """clip_id -> (stage, error) from the rendered manifests.
+
+    The queue's own copy of a clip is frozen at render time; storage and
+    publish only update the rendered manifest. Reading the queue copy made a
+    dead clip look "rendered" forever, so a video whose only clip vanished was
+    never retried - exactly what happened on 2026-11-24.
+    """
+    stages: dict = {}
+    for manifest in state.recent_rendered():
+        for clip in manifest.get("clips", []):
+            cid = clip.get("clip_id")
+            if cid:
+                stages[str(cid)] = (str(clip.get("stage") or ""),
+                                    str(clip.get("error") or ""))
+    return stages
+
+
+def _live(stage: str, error: str = "") -> bool:
+    """Is this clip a real, usable result that should stop a re-render?
+
+    "skipped" is ambiguous: a clip held back by the daily posting limit is
+    waiting to go out, while one that was marked "superseded" is dead weight.
+    Only the first kind proves the video was handled.
+    """
+    if stage in {"qa_passed", "uploaded", "published"}:
+        return True
+    return stage == "skipped" and "daily posting limit" in error.lower()
+
+
+def _source_clip_ids() -> dict:
+    """source URL -> clip_ids cut from it, from the last week of queue files."""
+    out: dict = {}
+    for path in sorted((config.STATE / "queue").glob("*.json"))[-7:]:
+        data = state.read_json(path, {}) or {}
+        for item in data.get("clips", []):
+            url = item.get("source_url")
+            if not url:
+                continue
+            bucket = out.setdefault(str(url), [])
+            for clip in item.get("clips") or []:
+                cid = clip.get("clip_id")
+                if cid:
+                    bucket.append(str(cid))
+    return out
+
+
+def _item_has_live_clip(item: dict, stages: dict) -> bool:
+    """Did this queue item end up with a clip that really exists in storage?"""
+    clips = item.get("clips") or []
+    ids = [str(c.get("clip_id")) for c in clips if c.get("clip_id")]
+    if not ids:
+        # Very old queue files (before clip_id existed) only carry the stage.
+        return any(_live(str(c.get("stage") or ""), str(c.get("error") or ""))
+                   for c in clips)
+    return any(_live(*stages.get(cid, ("", ""))) for cid in ids)
 
 
 def requeue_failed(max_requeues: int = 1) -> int:
@@ -325,6 +389,7 @@ def requeue_failed(max_requeues: int = 1) -> int:
     """
     seen = _load_seen()
     pending = _load_pending()
+    stages = _clip_stages()
     queued = {p["url"] for p in pending}
     requeued = 0
 
@@ -339,7 +404,7 @@ def requeue_failed(max_requeues: int = 1) -> int:
                 kept.append(item)
                 continue
             clips = item.get("clips") or []
-            if any(c.get("stage") in _PRODUCED for c in clips):
+            if _item_has_live_clip(item, stages):
                 kept.append(item)
                 continue
             if item.get("stage") == "failed" and "no valid clip windows" in str(item.get("error", "")):
@@ -402,9 +467,13 @@ def run(limit: int | None = 1) -> int:
         _save_pending(pending)
         jobs.finish(job, status="ok", items=0, note="waiting list empty")
         state.info("discover", "nothing waiting - paste a link or add one to campaigns.yaml")
+        print("::notice title=Nothing was waiting::Every campaign video has a stored "
+              "clip already. Paste a video link to cut a new one (Twitch or Kick "
+              "links work; YouTube blocks GitHub's servers).")
         return 0
 
     queue = state.load_queue()
+    stages = _clip_stages()
     existing = set()
     for c in queue.get("clips", []):
         existing.add(c.get("source_key") or c.get("source_url"))
@@ -436,14 +505,34 @@ def run(limit: int | None = 1) -> int:
 
         key = f"{url}|{section}" if section else url
         if key in existing or url in existing:
-            pending = [p for p in pending if p["url"] != url]
-            # already handled today: record it again so a pasted duplicate does
-            # not silently redo the same video tomorrow
-            seen.setdefault(url, {"status": "done", "section": section,
-                                  "last_run": state.now()})
-            state.warn("discover", "already handled today - paste it again tomorrow to redo",
-                       url=url[:110])
-            continue
+            item = next((x for x in queue.get("clips", [])
+                         if x.get("source_url") == url), None)
+            # Pasting a link is an explicit "do it again". A video whose only
+            # clips all failed is not finished either - retrying it is the
+            # whole point. Only a source that really produced a stored clip is
+            # left alone, so the same moments are not posted twice.
+            redo = bool(cand["from_pending"]) or (
+                item is not None and not _item_has_live_clip(item, stages)
+            )
+            if not redo:
+                pending = [p for p in pending if p["url"] != url]
+                seen.setdefault(url, {"status": "done", "section": section,
+                                      "last_run": state.now()})
+                state.warn("discover", "nothing to do - this video already has a "
+                                       "stored clip from today", url=url[:110])
+                print("::notice title=Nothing new to cut::This video already made "
+                      "a clip today that is still in storage. Paste the link to "
+                      "cut it again anyway.")
+                continue
+            if item is not None:
+                queue["clips"] = [x for x in queue["clips"] if x is not item]
+                existing.discard(str(item.get("source_key") or ""))
+            existing.discard(url)
+            if not cand["from_pending"]:
+                rec = seen.setdefault(url, {})
+                rec["redos"] = int(rec.get("redos") or 0) + 1
+            state.info("discover", "cutting this video again - its earlier clips "
+                                   "are no longer in storage", url=url[:110])
 
         safe = "".join(ch if ch.isalnum() else "_" for ch in key)[-60:]
         dest = config.WORK / "sources" / f"{safe}.mp4"
@@ -491,9 +580,10 @@ def run(limit: int | None = 1) -> int:
             "title": meta.get("title") or "",
             "uploader": meta.get("uploader") or "",
             "first_seen": (seen.get(url) or {}).get("first_seen") or state.now(),
-            # keep the automatic-retry counter so a video that already used its
-            # one free retry is not revived forever
+            # keep the automatic-retry counters so a video that already used its
+            # free retries is not revived forever
             "requeues": int((seen.get(url) or {}).get("requeues") or 0),
+            "redos": int((seen.get(url) or {}).get("redos") or 0),
             "last_run": state.now(),
         }
         added += 1
