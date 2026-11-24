@@ -115,6 +115,22 @@ def _json_from(text: str) -> dict:
     return json.loads(text)
 
 
+def _pause_seconds(raw: str | None) -> float:
+    """How long to wait when every model answer was a 429."""
+    try:
+        return max(5.0, min(180.0, float(raw or 45)))
+    except (TypeError, ValueError):
+        return 45.0
+
+
+def _retry_after(resp) -> float:
+    """Respect the server's Retry-After when it sends one."""
+    try:
+        return max(0.0, min(120.0, float(resp.headers.get("retry-after") or 0)))
+    except (TypeError, ValueError, AttributeError):
+        return 0.0
+
+
 def _llm_json(
     transcript_text: str, want: int, max_dur: int, min_dur: int,
     rules: str = "", keywords: list[str] | None = None,
@@ -163,10 +179,12 @@ def _llm_json(
     ]
 
     key = config.env("GROQ_API_KEY")
+    errors: list[str] = []
     if key:
+        import time
+
         import requests
 
-        errors: list[str] = []
         candidates: list[str] = []
         explicit = config.env("GROQ_MODEL")
         if explicit:
@@ -177,63 +195,86 @@ def _llm_json(
         if not candidates:
             candidates = list(GROQ_PREFERRED)
 
-        # A 404 means the model was retired, a 429 means its quota is spent:
-        # both are solved by moving to the next model in the list.
-        for model in candidates[:4]:
-            for json_mode in (True, False):
-                body = {"model": model, "temperature": 0.6, "messages": messages}
-                if json_mode:
-                    body["response_format"] = {"type": "json_object"}
-                try:
-                    resp = requests.post(
-                        "https://api.groq.com/openai/v1/chat/completions",
-                        headers={"Authorization": f"Bearer {key}"},
-                        json=body,
-                        timeout=180,
-                    )
-                except Exception as exc:
-                    errors.append(f"{model}: {str(exc)[:120]}")
-                    break
+        # A 404 means the model was retired; a 429 means the free key's
+        # tokens-per-minute are spent. The second one is not "this window has
+        # no moments": on 2026-11-24 five of six windows were dropped that way
+        # and a 75-minute stream produced one clip. Wait out the minute, then
+        # try the whole list once more.
+        pause = _pause_seconds(config.env("GROQ_RETRY_PAUSE", "45"))
+        for attempt in (1, 2):
+            rate_limited = False
+            retry_after = 0.0
+            for model in candidates[:4]:
+                for json_mode in (True, False):
+                    body = {"model": model, "temperature": 0.6, "messages": messages}
+                    if json_mode:
+                        body["response_format"] = {"type": "json_object"}
+                    try:
+                        resp = requests.post(
+                            "https://api.groq.com/openai/v1/chat/completions",
+                            headers={"Authorization": f"Bearer {key}"},
+                            json=body,
+                            timeout=180,
+                        )
+                    except Exception as exc:
+                        errors.append(f"{model}: {str(exc)[:120]}")
+                        break
 
-                if resp.status_code in (404, 429):
-                    errors.append(f"{model}: HTTP {resp.status_code}")
-                    break
-                if resp.status_code == 400 and json_mode:
-                    continue          # model may not support JSON mode
-                if resp.status_code >= 400:
-                    errors.append(f"{model}: HTTP {resp.status_code} {resp.text[:120]}")
-                    break
+                    if resp.status_code in (404, 429):
+                        errors.append(f"{model}: HTTP {resp.status_code}")
+                        if resp.status_code == 429:
+                            rate_limited = True
+                            retry_after = max(retry_after, _retry_after(resp))
+                        break
+                    if resp.status_code == 400 and json_mode:
+                        continue          # model may not support JSON mode
+                    if resp.status_code >= 400:
+                        errors.append(f"{model}: HTTP {resp.status_code} {resp.text[:120]}")
+                        break
 
-                try:
-                    content = resp.json()["choices"][0]["message"]["content"]
-                    parsed = _json_from(content)
-                except Exception as exc:
-                    errors.append(f"{model}: unusable answer ({str(exc)[:80]})")
-                    continue
+                    try:
+                        content = resp.json()["choices"][0]["message"]["content"]
+                        parsed = _json_from(content)
+                    except Exception as exc:
+                        errors.append(f"{model}: unusable answer ({str(exc)[:80]})")
+                        continue
 
-                state.info("select", f"groq model in use: {model}")
-                return parsed
+                    state.info("select", f"groq model in use: {model}")
+                    return parsed
 
-        raise RuntimeError("groq: " + ("; ".join(errors) or "no usable model"))
+            if attempt == 1 and rate_limited:
+                wait = min(120.0, max(pause, retry_after))
+                state.warn("select", "every groq model is rate-limited - waiting, "
+                           "then retrying once", seconds=int(wait), part=part or None)
+                time.sleep(wait)
+                continue
+            break
+
+        errors = ["groq: " + ("; ".join(errors) or "no usable model")]
 
     gemini = config.env("GEMINI_API_KEY")
     if gemini:
         import requests
 
-        resp = requests.post(
-            f"https://generativelanguage.googleapis.com/v1beta/models/"
-            f"{config.env('GEMINI_MODEL', 'gemini-2.0-flash')}:generateContent",
-            params={"key": gemini},
-            json={
-                "contents": [{"parts": [{"text": SYSTEM_PROMPT + "\n\n" + transcript_text + extra}]}],
-                "generationConfig": {"response_mime_type": "application/json", "temperature": 0.6},
-            },
-            timeout=180,
-        )
-        resp.raise_for_status()
-        return _json_from(resp.json()["candidates"][0]["content"]["parts"][0]["text"])
+        try:
+            resp = requests.post(
+                f"https://generativelanguage.googleapis.com/v1beta/models/"
+                f"{config.env('GEMINI_MODEL', 'gemini-2.0-flash')}:generateContent",
+                params={"key": gemini},
+                json={
+                    "contents": [{"parts": [{"text": SYSTEM_PROMPT + "\n\n" + transcript_text + extra}]}],
+                    "generationConfig": {"response_mime_type": "application/json", "temperature": 0.6},
+                },
+                timeout=180,
+            )
+            resp.raise_for_status()
+            return _json_from(resp.json()["candidates"][0]["content"]["parts"][0]["text"])
+        except Exception as exc:
+            errors.append(f"gemini: {str(exc)[:160]}")
 
-    raise RuntimeError("No LLM key set - provide GROQ_API_KEY or GEMINI_API_KEY")
+    if not errors:
+        raise RuntimeError("No LLM key set - provide GROQ_API_KEY or GEMINI_API_KEY")
+    raise RuntimeError("; ".join(errors))
 
 
 # --------------------------------------------------------------------------
