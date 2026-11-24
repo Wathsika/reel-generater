@@ -179,6 +179,20 @@ def _save_seen(seen: dict) -> None:
     state.write_json(_seen_path(), seen)
 
 
+def _unfetchable(url: str) -> bool:
+    """True for links this runner cannot download, whatever the pipeline does.
+
+    YouTube answers GitHub's data-centre IPs with "Sign in to confirm you're
+    not a bot"; a retry cannot answer that, and a red run every time someone
+    pastes one hides the videos that *can* be worked on. With a
+    YTDLP_COOKIES secret set, the attempt is allowed again.
+    """
+    low = (url or "").lower()
+    if "youtube.com/" not in low and "youtu.be/" not in low:
+        return False
+    return not (config.env("YTDLP_COOKIES") or "").strip()
+
+
 def _absorb(seen: dict, pending: list[dict]) -> list[dict]:
     """Turn URLs pasted into the Run-workflow form into pending work."""
     pasted = _split_urls(config.env("EXTRA_SOURCE_URL", "") or "")
@@ -199,6 +213,22 @@ def _absorb(seen: dict, pending: list[dict]) -> list[dict]:
                 url=url[:110],
             )
             continue
+        if _unfetchable(url):
+            # Skip it instead of queuing: a queued YouTube link would fail the
+            # whole run before the campaign's own video got a turn.
+            rejected += 1
+            state.error(
+                "discover",
+                "YouTube links cannot be downloaded from GitHub's servers "
+                "(YouTube asks the runner to prove it is human). Nothing was "
+                "queued. Use the campaign's Twitch link, or add a "
+                "YTDLP_COOKIES secret and paste it again.",
+                url=url[:110],
+            )
+            print("::warning title=YouTube link skipped::This runner cannot "
+                  "download YouTube videos. Nothing was queued; other waiting "
+                  "videos will be used instead.")
+            continue
         if any(p["url"] == url for p in pending):
             continue
         if len(pending) >= MAX_PENDING:
@@ -210,16 +240,6 @@ def _absorb(seen: dict, pending: list[dict]) -> list[dict]:
         # pasting a link means "do it again", even if it was processed before
         seen.pop(url, None)
         changed = True
-        if ("youtube.com" in url or "youtu.be" in url) and not (
-            config.env("YTDLP_COOKIES") or ""
-        ).strip():
-            # Warn on the run page straight away. YouTube asks datacenter IPs
-            # such as GitHub's runners to "confirm you're not a bot", which no
-            # amount of retrying can answer; saying so here saves a red run.
-            print("::warning title=YouTube source::YouTube usually refuses "
-                  "downloads from GitHub's servers ('confirm you're not a bot'). "
-                  "If Stage 1 fails, use a Twitch/Kick link, or add the "
-                  "YTDLP_COOKIES secret.")
         state.info("discover", "queued a pasted link", url=url[:120])
     if changed:
         _save_seen(seen)
@@ -243,6 +263,8 @@ def _candidates(campaigns: list[dict], defaults: dict,
             continue
         if _looks_like_channel(p["url"]):
             continue
+        if _unfetchable(p["url"]):
+            continue
         camp = by_id.get(str(p.get("campaign") or ""), campaigns[0] if campaigns else {})
         out.append({
             "url": p["url"],
@@ -259,6 +281,8 @@ def _candidates(campaigns: list[dict], defaults: dict,
         for raw in camp.get("sources") or []:
             url = str(raw).strip()
             if not url or url in queued or _looks_like_channel(url):
+                continue
+            if _unfetchable(url):
                 continue
             rec = seen.get(url) or {}
             if str(rec.get("status") or "done") == "done" and rec:
@@ -360,6 +384,18 @@ def run(limit: int | None = 1) -> int:
 
     seen = _load_seen()
     pending = _absorb(seen, _load_pending())
+
+    # A YouTube link queued before this check existed (or while cookies were
+    # configured and then removed) would otherwise keep failing every run.
+    stale = [p for p in pending if _unfetchable(p["url"])]
+    if stale:
+        pending = [p for p in pending if not _unfetchable(p["url"])]
+        for p in stale:
+            state.warn("discover",
+                       "dropped a queued YouTube link - this runner cannot "
+                       "download it without a YTDLP_COOKIES secret",
+                       url=p["url"][:110])
+        _save_pending(pending)
 
     todo = _candidates(campaigns, defaults, pending, seen)
     if not todo:
