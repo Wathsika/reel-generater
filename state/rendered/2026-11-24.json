@@ -23,12 +23,14 @@
         "duration": 20.633333,
         "size": 10485439
       },
-      "stage": "uploaded",
+      "stage": "failed",
       "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-24/bendadonn-puffco_380_0.mp4",
       "storage_key": "2026-11-24/bendadonn-puffco_380_0.mp4",
       "storage_backend": "nextcloud",
-      "local_deleted": true
+      "local_deleted": true,
+      "url_ok": false,
+      "error": "not in storage any more - the public link serves no video, so this clip has to be rendered again"
     }
   ],
-  "updated": "2026-11-24T16:43:13+00:00"
+  "updated": "2026-11-24T18:11:52+00:00"
 }
