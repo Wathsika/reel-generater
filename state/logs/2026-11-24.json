@@ -1,0 +1,135 @@
+{
+  "entries": [
+    {
+      "t": "2026-11-24T03:09:12+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (0 items)",
+      "job_id": "discover-1795489752-d03b66"
+    },
+    {
+      "t": "2026-11-24T03:09:12+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "nothing waiting - paste a link or add one to campaigns.yaml"
+    },
+    {
+      "t": "2026-11-24T03:09:12+00:00",
+      "level": "info",
+      "stage": "transcribe",
+      "message": "completed (0 items)",
+      "job_id": "transcribe-1795489752-336fe6"
+    },
+    {
+      "t": "2026-11-24T03:09:13+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "completed (0 items)",
+      "job_id": "select-1795489752-c62e90"
+    },
+    {
+      "t": "2026-11-24T03:09:13+00:00",
+      "level": "info",
+      "stage": "render",
+      "message": "completed (0 items)",
+      "job_id": "render-1795489753-7a237c"
+    },
+    {
+      "t": "2026-11-24T03:09:13+00:00",
+      "level": "info",
+      "stage": "qa",
+      "message": "completed (0 items)",
+      "job_id": "qa-1795489753-5c928a"
+    },
+    {
+      "t": "2026-11-24T03:09:14+00:00",
+      "level": "info",
+      "stage": "upload",
+      "message": "rebuilt the public link of an earlier upload",
+      "clip_id": "bendadonn-puffco_1619_0"
+    },
+    {
+      "t": "2026-11-24T03:09:14+00:00",
+      "level": "info",
+      "stage": "upload",
+      "message": "rebuilt the public link of an earlier upload",
+      "clip_id": "bendadonn-puffco_359_1"
+    },
+    {
+      "t": "2026-11-24T03:09:14+00:00",
+      "level": "info",
+      "stage": "upload",
+      "message": "completed (2 items)",
+      "job_id": "upload-1795489753-337b23"
+    },
+    {
+      "t": "2026-11-24T03:09:14+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "instagram is enabled but its credentials are missing - skipped until they are added"
+    },
+    {
+      "t": "2026-11-24T03:09:14+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "facebook is enabled but its credentials are missing - skipped until they are added"
+    },
+    {
+      "t": "2026-11-24T03:09:14+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "tiktok is enabled but its credentials are missing - skipped until they are added"
+    },
+    {
+      "t": "2026-11-24T03:09:14+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "auto_approve=false - waiting for manual approval",
+      "clip_id": "bendadonn-puffco_1619_0"
+    },
+    {
+      "t": "2026-11-24T03:09:14+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "auto_approve=false - waiting for manual approval",
+      "clip_id": "bendadonn-puffco_359_1"
+    },
+    {
+      "t": "2026-11-24T03:09:14+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "completed (0 items)",
+      "job_id": "publish-1795489754-bd2767"
+    },
+    {
+      "t": "2026-11-24T03:09:14+00:00",
+      "level": "info",
+      "stage": "analytics",
+      "message": "completed (0 items)",
+      "job_id": "analytics-1795489754-3cc492"
+    },
+    {
+      "t": "2026-11-24T03:09:15+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "completed (0 items)",
+      "job_id": "cleanup-1795489754-9df5f6"
+    },
+    {
+      "t": "2026-11-24T03:09:15+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "freed 0.0 MB across 0 file(s)",
+      "sources": 0,
+      "state_files": 0,
+      "remote": 0
+    },
+    {
+      "t": "2026-11-24T03:09:15+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795489755-86224b"
+    }
+  ]
+}

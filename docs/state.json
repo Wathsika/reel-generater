@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-23T18:38:36+00:00",
+  "generated": "2026-11-24T03:09:15+00:00",
   "jobs": {
     "runs": [
       {
@@ -1449,122 +1449,152 @@
         "items": 0,
         "error": null,
         "meta": {}
+      },
+      {
+        "id": "dashboard-1795459116-e69138",
+        "stage": "dashboard",
+        "status": "ok",
+        "started": "2026-11-23T18:38:36+00:00",
+        "started_ts": 1795459116.1018386,
+        "ended": "2026-11-23T18:38:36+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "discover-1795489752-d03b66",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-24T03:09:12+00:00",
+        "started_ts": 1795489752.8300457,
+        "ended": "2026-11-24T03:09:12+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "waiting list empty"
+        }
+      },
+      {
+        "id": "transcribe-1795489752-336fe6",
+        "stage": "transcribe",
+        "status": "ok",
+        "started": "2026-11-24T03:09:12+00:00",
+        "started_ts": 1795489752.9294026,
+        "ended": "2026-11-24T03:09:12+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "select-1795489752-c62e90",
+        "stage": "select",
+        "status": "ok",
+        "started": "2026-11-24T03:09:12+00:00",
+        "started_ts": 1795489752.9977684,
+        "ended": "2026-11-24T03:09:12+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "render-1795489753-7a237c",
+        "stage": "render",
+        "status": "ok",
+        "started": "2026-11-24T03:09:13+00:00",
+        "started_ts": 1795489753.0694404,
+        "ended": "2026-11-24T03:09:13+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "qa-1795489753-5c928a",
+        "stage": "qa",
+        "status": "ok",
+        "started": "2026-11-24T03:09:13+00:00",
+        "started_ts": 1795489753.1383443,
+        "ended": "2026-11-24T03:09:13+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "upload-1795489753-337b23",
+        "stage": "upload",
+        "status": "ok",
+        "started": "2026-11-24T03:09:13+00:00",
+        "started_ts": 1795489753.2082722,
+        "ended": "2026-11-24T03:09:14+00:00",
+        "duration_s": 1.5,
+        "items": 2,
+        "error": null,
+        "meta": {
+          "failed": 0,
+          "repaired": 2
+        }
+      },
+      {
+        "id": "publish-1795489754-bd2767",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-24T03:09:14+00:00",
+        "started_ts": 1795489754.769725,
+        "ended": "2026-11-24T03:09:14+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "analytics-1795489754-3cc492",
+        "stage": "analytics",
+        "status": "ok",
+        "started": "2026-11-24T03:09:14+00:00",
+        "started_ts": 1795489754.856438,
+        "ended": "2026-11-24T03:09:14+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "cleanup-1795489754-9df5f6",
+        "stage": "cleanup",
+        "status": "ok",
+        "started": "2026-11-24T03:09:14+00:00",
+        "started_ts": 1795489754.9210007,
+        "ended": "2026-11-24T03:09:15+00:00",
+        "duration_s": 0.5,
+        "items": 0,
+        "error": null,
+        "meta": {}
       }
     ],
-    "updated": "2026-11-23T18:38:36+00:00"
+    "updated": "2026-11-24T03:09:15+00:00"
   },
   "queue": {
-    "date": "2026-11-23",
-    "clips": [
-      {
-        "source_key": "https://www.twitch.tv/videos/2933247628|00:00:00-01:15:00",
-        "source_url": "https://www.twitch.tv/videos/2933247628",
-        "source_section": "00:00:00-01:15:00",
-        "source_title": "IM IN GTA 6 🌴 BEST GAMEPLAY 🌴 LETS LOCK IN 🌴",
-        "source_uploader": "bendadonnn",
-        "auto_section": false,
-        "path": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
-        "campaign": "bendadonn-puffco",
-        "settings": {
-          "layout": "crop",
-          "min_duration": 18,
-          "max_duration": 60,
-          "max_clips_per_video": 10,
-          "caption_style": "word",
-          "watermark": "",
-          "require_original_audio": true,
-          "trim_silence": true,
-          "id": "bendadonn-puffco",
-          "name": "BenDaDonnn x Puffco GTA 6",
-          "enabled": true,
-          "source_type": "yt-dlp",
-          "source_section": "00:00:00-01:15:00",
-          "rate_cpm": 1.0,
-          "payout_model": "cpm",
-          "required_hashtags": [],
-          "keywords": [
-            "puffco",
-            "puffco peak",
-            "proxy",
-            "hash butler",
-            "jar",
-            "clouds",
-            "dab",
-            "hits"
-          ],
-          "rules": "Only moments from Ben's Puffco GTA stream. Positive moments only: genuine first-hit and in-session reactions, natural wonder and energy at GTA, clouds / big hits, impressed moments where Ben or chat is hyped, tips and banter about the Hash Butler, and any shoutout or positive energy toward Puffco. Never use complaints, weak hits, frustration, negative framing of the device or sponsor, gambling (slots, blackjack), or anything highly offensive.\n"
-        },
-        "stage": "rendered",
-        "transcript": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.words.json",
-        "duration": 4500.010688,
-        "clips": [
-          {
-            "start": 1619.58,
-            "end": 1675.2,
-            "score": 9,
-            "hook": "Puffco just launched – first hit feels insane!",
-            "title": "First Puffco Hit on GTA Stream – Epic Clouds",
-            "caption": "Just tried the new Puffco on my GTA run, and the clouds were wild. Have you felt this level of hype?",
-            "hashtags": [
-              "#Puffco",
-              "#GTA",
-              "#DabHits",
-              "#CloudChasing"
-            ],
-            "reason": "Shows a genuine first‑hit reaction to Puffco, high energy, mentions the brand and the impressive clouds – perfect positive showcase.",
-            "stage": "qa_passed",
-            "clip_id": "bendadonn-puffco_1619_0",
-            "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-23/bendadonn-puffco_1619_0.mp4",
-            "duration": 55.62,
-            "layout": "crop",
-            "hash": "53fdb5c2299265d3a17dfed5",
-            "meta": {
-              "width": 1080,
-              "height": 1920,
-              "duration": 55.7,
-              "size": 11619956
-            }
-          },
-          {
-            "start": 359.74,
-            "end": 390.16,
-            "score": 8,
-            "hook": "Check out these massive dabs!",
-            "title": "Huge Dabs in the Stream – Cloud Madness",
-            "caption": "The dabs were insane, the room filled with vapor. Who else loves that perfect hit?",
-            "hashtags": [
-              "#Dabs",
-              "#Clouds",
-              "#Puffco",
-              "#VapeLife"
-            ],
-            "reason": "Highlights a clear, enthusiastic moment about dabs and vapor clouds, aligning with the brand’s vibe and staying positive.",
-            "stage": "qa_passed",
-            "clip_id": "bendadonn-puffco_359_1",
-            "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-23/bendadonn-puffco_359_1.mp4",
-            "duration": 30.42,
-            "layout": "crop",
-            "hash": "b89efb790464308199aacbb3",
-            "meta": {
-              "width": 1080,
-              "height": 1920,
-              "duration": 30.5,
-              "size": 17299535
-            }
-          }
-        ],
-        "source_deleted": true
-      }
-    ],
-    "updated": "2026-11-23T18:38:34+00:00",
-    "campaigns": [
-      "bendadonn-puffco"
-    ]
+    "date": "2026-11-24",
+    "clips": [],
+    "updated": "2026-11-24T03:09:14+00:00"
   },
   "rendered": {
-    "date": "2026-11-23",
+    "date": "2026-11-24",
     "clips": [],
-    "updated": "2026-11-23T18:38:34+00:00"
+    "updated": "2026-11-24T03:09:14+00:00"
   },
   "posted": {
     "posts": []
@@ -1575,878 +1605,133 @@
       "2026-11-23": {
         "views": 0,
         "clips": 0
+      },
+      "2026-11-24": {
+        "views": 0,
+        "clips": 0
       }
     },
-    "updated": "2026-11-23T18:38:34+00:00"
+    "updated": "2026-11-24T03:09:14+00:00"
   },
   "log": {
     "entries": [
       {
-        "t": "2026-11-23T12:17:57+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795436277-6b9f73"
-      },
-      {
-        "t": "2026-11-23T12:18:18+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795436298-1202f7"
-      },
-      {
-        "t": "2026-11-23T12:18:53+00:00",
+        "t": "2026-11-24T03:09:12+00:00",
         "level": "info",
         "stage": "discover",
         "message": "completed (0 items)",
-        "job_id": "discover-1795436333-d09b33"
+        "job_id": "discover-1795489752-d03b66"
       },
       {
-        "t": "2026-11-23T12:18:53+00:00",
-        "level": "warn",
-        "stage": "discover",
-        "message": "no enabled campaigns in config/campaigns.yaml"
-      },
-      {
-        "t": "2026-11-23T12:18:53+00:00",
-        "level": "info",
-        "stage": "transcribe",
-        "message": "completed (0 items)",
-        "job_id": "transcribe-1795436333-4d6873"
-      },
-      {
-        "t": "2026-11-23T12:18:53+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "completed (0 items)",
-        "job_id": "select-1795436333-2d8787"
-      },
-      {
-        "t": "2026-11-23T12:18:53+00:00",
-        "level": "info",
-        "stage": "render",
-        "message": "completed (0 items)",
-        "job_id": "render-1795436333-2e5a53"
-      },
-      {
-        "t": "2026-11-23T12:18:54+00:00",
-        "level": "info",
-        "stage": "qa",
-        "message": "completed (0 items)",
-        "job_id": "qa-1795436334-26bdc2"
-      },
-      {
-        "t": "2026-11-23T12:18:54+00:00",
-        "level": "info",
-        "stage": "upload",
-        "message": "completed (0 items)",
-        "job_id": "upload-1795436334-c8ec74"
-      },
-      {
-        "t": "2026-11-23T12:18:54+00:00",
-        "level": "info",
-        "stage": "publish",
-        "message": "completed (0 items)",
-        "job_id": "publish-1795436334-a7c985"
-      },
-      {
-        "t": "2026-11-23T12:18:54+00:00",
-        "level": "info",
-        "stage": "analytics",
-        "message": "completed (0 items)",
-        "job_id": "analytics-1795436334-5bf29f"
-      },
-      {
-        "t": "2026-11-23T12:18:54+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "completed (0 items)",
-        "job_id": "cleanup-1795436334-3a84c9"
-      },
-      {
-        "t": "2026-11-23T12:18:54+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "freed 0.0 MB across 0 file(s)",
-        "sources": 0,
-        "state_files": 0
-      },
-      {
-        "t": "2026-11-23T12:18:54+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795436334-20d1e8"
-      },
-      {
-        "t": "2026-11-23T12:55:32+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795438532-ec0853"
-      },
-      {
-        "t": "2026-11-23T12:59:20+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (0 items)",
-        "job_id": "discover-1795438760-acd81c"
-      },
-      {
-        "t": "2026-11-23T12:59:20+00:00",
-        "level": "warn",
-        "stage": "discover",
-        "message": "no enabled campaigns in config/campaigns.yaml"
-      },
-      {
-        "t": "2026-11-23T12:59:21+00:00",
-        "level": "info",
-        "stage": "transcribe",
-        "message": "completed (0 items)",
-        "job_id": "transcribe-1795438760-96779e"
-      },
-      {
-        "t": "2026-11-23T12:59:21+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "completed (0 items)",
-        "job_id": "select-1795438761-f4a422"
-      },
-      {
-        "t": "2026-11-23T12:59:21+00:00",
-        "level": "info",
-        "stage": "render",
-        "message": "completed (0 items)",
-        "job_id": "render-1795438761-f05e59"
-      },
-      {
-        "t": "2026-11-23T12:59:21+00:00",
-        "level": "info",
-        "stage": "qa",
-        "message": "completed (0 items)",
-        "job_id": "qa-1795438761-a02ccc"
-      },
-      {
-        "t": "2026-11-23T12:59:21+00:00",
-        "level": "info",
-        "stage": "upload",
-        "message": "completed (0 items)",
-        "job_id": "upload-1795438761-cf04a8"
-      },
-      {
-        "t": "2026-11-23T12:59:21+00:00",
-        "level": "info",
-        "stage": "publish",
-        "message": "completed (0 items)",
-        "job_id": "publish-1795438761-993be7"
-      },
-      {
-        "t": "2026-11-23T12:59:21+00:00",
-        "level": "info",
-        "stage": "analytics",
-        "message": "completed (0 items)",
-        "job_id": "analytics-1795438761-0b57af"
-      },
-      {
-        "t": "2026-11-23T12:59:21+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "completed (0 items)",
-        "job_id": "cleanup-1795438761-599e37"
-      },
-      {
-        "t": "2026-11-23T12:59:21+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "freed 0.0 MB across 0 file(s)",
-        "sources": 0,
-        "state_files": 0
-      },
-      {
-        "t": "2026-11-23T12:59:22+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795438762-e63248"
-      },
-      {
-        "t": "2026-11-23T13:09:09+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (0 items)",
-        "job_id": "discover-1795439349-75fbbe"
-      },
-      {
-        "t": "2026-11-23T13:09:09+00:00",
-        "level": "warn",
-        "stage": "discover",
-        "message": "no enabled campaigns in config/campaigns.yaml"
-      },
-      {
-        "t": "2026-11-23T13:09:09+00:00",
-        "level": "info",
-        "stage": "transcribe",
-        "message": "completed (0 items)",
-        "job_id": "transcribe-1795439349-2c4bd3"
-      },
-      {
-        "t": "2026-11-23T13:09:09+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "completed (0 items)",
-        "job_id": "select-1795439349-c6d61b"
-      },
-      {
-        "t": "2026-11-23T13:09:09+00:00",
-        "level": "info",
-        "stage": "render",
-        "message": "completed (0 items)",
-        "job_id": "render-1795439349-598f35"
-      },
-      {
-        "t": "2026-11-23T13:09:09+00:00",
-        "level": "info",
-        "stage": "qa",
-        "message": "completed (0 items)",
-        "job_id": "qa-1795439349-f74855"
-      },
-      {
-        "t": "2026-11-23T13:09:09+00:00",
-        "level": "info",
-        "stage": "upload",
-        "message": "completed (0 items)",
-        "job_id": "upload-1795439349-31c98f"
-      },
-      {
-        "t": "2026-11-23T13:09:10+00:00",
-        "level": "info",
-        "stage": "publish",
-        "message": "completed (0 items)",
-        "job_id": "publish-1795439349-e277f1"
-      },
-      {
-        "t": "2026-11-23T13:09:10+00:00",
-        "level": "info",
-        "stage": "analytics",
-        "message": "completed (0 items)",
-        "job_id": "analytics-1795439350-814a83"
-      },
-      {
-        "t": "2026-11-23T13:09:10+00:00",
-        "level": "warn",
-        "stage": "cleanup",
-        "message": "could not list remote storage",
-        "reason": "Nextcloud not configured (NC_URL / NC_USER / NC_APP_PASSWORD)"
-      },
-      {
-        "t": "2026-11-23T13:09:10+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "completed (0 items)",
-        "job_id": "cleanup-1795439350-4b6831"
-      },
-      {
-        "t": "2026-11-23T13:09:10+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "freed 0.0 MB across 0 file(s)",
-        "sources": 0,
-        "state_files": 0,
-        "remote": 0
-      },
-      {
-        "t": "2026-11-23T13:09:10+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795439350-377a5b"
-      },
-      {
-        "t": "2026-11-23T15:26:36+00:00",
-        "level": "error",
-        "stage": "discover",
-        "message": "download failed: https://download.samplelib.com/mp4/sample-10s.mp4",
-        "reason": "[WinError 2] The system cannot find the file specified"
-      },
-      {
-        "t": "2026-11-23T17:19:24+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "1 pasted link(s), 1 waiting"
-      },
-      {
-        "t": "2026-11-23T17:19:25+00:00",
-        "level": "error",
-        "stage": "discover",
-        "message": "download failed: https://www.twitch.tv/bendadonnn",
-        "reason": "ERROR: [twitch:stream] bendadonnn: The channel is not currently live\n"
-      },
-      {
-        "t": "2026-11-23T17:19:45+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (1 items)",
-        "job_id": "discover-1795454364-0b4992"
-      },
-      {
-        "t": "2026-11-23T17:19:45+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "1 more video(s) waiting",
-        "waiting": 1
-      },
-      {
-        "t": "2026-11-23T17:20:45+00:00",
-        "level": "info",
-        "stage": "transcribe",
-        "message": "completed (1 items)",
-        "job_id": "transcribe-1795454386-51a901"
-      },
-      {
-        "t": "2026-11-23T17:20:46+00:00",
-        "level": "error",
-        "stage": "select",
-        "message": "llm failed for https://www.twitch.tv/videos/2933247628",
-        "reason": "404 Client Error: Not Found for url: https://api.groq.com/openai/v1/chat/completions"
-      },
-      {
-        "t": "2026-11-23T17:20:46+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "completed (0 items)",
-        "job_id": "select-1795454446-bca495"
-      },
-      {
-        "t": "2026-11-23T17:20:46+00:00",
-        "level": "info",
-        "stage": "render",
-        "message": "completed (0 items)",
-        "job_id": "render-1795454446-f9a1f5"
-      },
-      {
-        "t": "2026-11-23T17:20:46+00:00",
-        "level": "info",
-        "stage": "qa",
-        "message": "completed (0 items)",
-        "job_id": "qa-1795454446-faed12"
-      },
-      {
-        "t": "2026-11-23T17:20:46+00:00",
-        "level": "info",
-        "stage": "upload",
-        "message": "completed (0 items)",
-        "job_id": "upload-1795454446-fa807e"
-      },
-      {
-        "t": "2026-11-23T17:20:46+00:00",
-        "level": "info",
-        "stage": "publish",
-        "message": "completed (0 items)",
-        "job_id": "publish-1795454446-7109ba"
-      },
-      {
-        "t": "2026-11-23T17:20:46+00:00",
-        "level": "info",
-        "stage": "analytics",
-        "message": "completed (0 items)",
-        "job_id": "analytics-1795454446-163e7d"
-      },
-      {
-        "t": "2026-11-23T17:20:47+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "completed (0 items)",
-        "job_id": "cleanup-1795454446-460b4b"
-      },
-      {
-        "t": "2026-11-23T17:20:47+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "freed 0.0 MB across 0 file(s)",
-        "sources": 0,
-        "state_files": 0,
-        "remote": 0
-      },
-      {
-        "t": "2026-11-23T17:20:47+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795454447-14f5f5"
-      },
-      {
-        "t": "2026-11-23T17:21:35+00:00",
-        "level": "error",
-        "stage": "discover",
-        "message": "download failed: https://www.twitch.tv/bendadonnn",
-        "reason": "ERROR: [twitch:stream] bendadonnn: The channel is not currently live\n"
-      },
-      {
-        "t": "2026-11-23T17:21:35+00:00",
-        "level": "warn",
-        "stage": "discover",
-        "message": "source dropped after repeated failures",
-        "url": "https://www.twitch.tv/bendadonnn",
-        "tries": 2
-      },
-      {
-        "t": "2026-11-23T17:21:35+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (0 items)",
-        "job_id": "discover-1795454494-e99f62"
-      },
-      {
-        "t": "2026-11-23T17:21:35+00:00",
-        "level": "info",
-        "stage": "transcribe",
-        "message": "completed (0 items)",
-        "job_id": "transcribe-1795454495-3a47b2"
-      },
-      {
-        "t": "2026-11-23T17:21:35+00:00",
-        "level": "info",
-        "stage": "analytics",
-        "message": "completed (0 items)",
-        "job_id": "analytics-1795454495-eb0f6f"
-      },
-      {
-        "t": "2026-11-23T17:21:36+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "completed (0 items)",
-        "job_id": "cleanup-1795454495-95ee2c"
-      },
-      {
-        "t": "2026-11-23T17:21:36+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "freed 0.0 MB across 0 file(s)",
-        "sources": 0,
-        "state_files": 0,
-        "remote": 0
-      },
-      {
-        "t": "2026-11-23T17:21:36+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795454496-4046ea"
-      },
-      {
-        "t": "2026-11-23T17:42:05+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (1 items)",
-        "job_id": "discover-1795455725-24181a"
-      },
-      {
-        "t": "2026-11-23T17:58:42+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (1 items)",
-        "job_id": "discover-1795456691-63f4be"
-      },
-      {
-        "t": "2026-11-23T17:59:51+00:00",
-        "level": "info",
-        "stage": "transcribe",
-        "message": "completed (1 items)",
-        "job_id": "transcribe-1795456722-604049"
-      },
-      {
-        "t": "2026-11-23T17:59:55+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-23T17:59:55+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "completed (1 items)",
-        "job_id": "select-1795456791-92aa99"
-      },
-      {
-        "t": "2026-11-23T17:59:55+00:00",
-        "level": "info",
-        "stage": "render",
-        "message": "completed (0 items)",
-        "job_id": "render-1795456795-2c7600"
-      },
-      {
-        "t": "2026-11-23T17:59:55+00:00",
-        "level": "info",
-        "stage": "qa",
-        "message": "completed (0 items)",
-        "job_id": "qa-1795456795-5856f9"
-      },
-      {
-        "t": "2026-11-23T17:59:55+00:00",
-        "level": "info",
-        "stage": "upload",
-        "message": "completed (0 items)",
-        "job_id": "upload-1795456795-769c5f"
-      },
-      {
-        "t": "2026-11-23T17:59:55+00:00",
-        "level": "info",
-        "stage": "publish",
-        "message": "completed (0 items)",
-        "job_id": "publish-1795456795-279c45"
-      },
-      {
-        "t": "2026-11-23T17:59:55+00:00",
-        "level": "info",
-        "stage": "analytics",
-        "message": "completed (0 items)",
-        "job_id": "analytics-1795456795-e68ce6"
-      },
-      {
-        "t": "2026-11-23T17:59:56+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "completed (3 items)",
-        "job_id": "cleanup-1795456795-27a59c"
-      },
-      {
-        "t": "2026-11-23T17:59:56+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "freed 4083.74 MB across 3 file(s)",
-        "sources": 1,
-        "state_files": 0,
-        "remote": 0
-      },
-      {
-        "t": "2026-11-23T17:59:56+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795456796-b5007b"
-      },
-      {
-        "t": "2026-11-23T18:15:28+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (1 items)",
-        "job_id": "discover-1795457708-6cf2b7"
-      },
-      {
-        "t": "2026-11-23T18:16:11+00:00",
-        "level": "info",
-        "stage": "transcribe",
-        "message": "completed (1 items)",
-        "job_id": "transcribe-1795457728-8d9dc4"
-      },
-      {
-        "t": "2026-11-23T18:16:15+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-23T18:16:16+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "completed (2 items)",
-        "job_id": "select-1795457771-dad0d7"
-      },
-      {
-        "t": "2026-11-23T18:17:01+00:00",
-        "level": "info",
-        "stage": "render",
-        "message": "completed (2 items)",
-        "job_id": "render-1795457776-f83754"
-      },
-      {
-        "t": "2026-11-23T18:17:01+00:00",
-        "level": "info",
-        "stage": "qa",
-        "message": "completed (2 items)",
-        "job_id": "qa-1795457821-0f01d6"
-      },
-      {
-        "t": "2026-11-23T18:17:08+00:00",
-        "level": "info",
-        "stage": "upload",
-        "message": "completed (2 items)",
-        "job_id": "upload-1795457821-4e62c6"
-      },
-      {
-        "t": "2026-11-23T18:17:08+00:00",
-        "level": "error",
-        "stage": "publish",
-        "message": "every platform rejected every clip - check the tokens"
-      },
-      {
-        "t": "2026-11-23T18:17:08+00:00",
-        "level": "error",
-        "stage": "publish",
-        "message": "job failed",
-        "job_id": "publish-1795457828-377417"
-      },
-      {
-        "t": "2026-11-23T18:17:08+00:00",
-        "level": "info",
-        "stage": "analytics",
-        "message": "completed (0 items)",
-        "job_id": "analytics-1795457828-980c48"
-      },
-      {
-        "t": "2026-11-23T18:17:09+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "completed (3 items)",
-        "job_id": "cleanup-1795457829-e40f1d"
-      },
-      {
-        "t": "2026-11-23T18:17:09+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "freed 4083.74 MB across 3 file(s)",
-        "sources": 1,
-        "state_files": 0,
-        "remote": 0
-      },
-      {
-        "t": "2026-11-23T18:17:09+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795457829-f4a232"
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "3 pasted link(s), 3 waiting"
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (1 items)",
-        "job_id": "discover-1795458279-8f1e41"
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "2 more video(s) waiting",
-        "waiting": 2
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (1 items)",
-        "job_id": "discover-1795458279-227869"
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "1 more video(s) waiting",
-        "waiting": 1
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (1 items)",
-        "job_id": "discover-1795458279-f84ccd"
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (0 items)",
-        "job_id": "discover-1795458279-b90d2b"
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
+        "t": "2026-11-24T03:09:12+00:00",
         "level": "info",
         "stage": "discover",
         "message": "nothing waiting - paste a link or add one to campaigns.yaml"
       },
       {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (0 items)",
-        "job_id": "discover-1795458279-a38e78"
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "nothing waiting - paste a link or add one to campaigns.yaml"
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "1 pasted link(s), 1 waiting"
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (1 items)",
-        "job_id": "discover-1795458279-9de3f9"
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "1 pasted link(s), 1 waiting"
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (0 items)",
-        "job_id": "discover-1795458279-aa68d2"
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "1 more video(s) waiting",
-        "waiting": 1
-      },
-      {
-        "t": "2026-11-23T18:24:39+00:00",
-        "level": "warn",
-        "stage": "discover",
-        "message": "source dropped after repeated failures",
-        "url": "https://ex.com/bad",
-        "tries": 2
-      },
-      {
-        "t": "2026-11-23T18:24:40+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (0 items)",
-        "job_id": "discover-1795458279-6b3180"
-      },
-      {
-        "t": "2026-11-23T18:24:40+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (0 items)",
-        "job_id": "discover-1795458280-3e9374"
-      },
-      {
-        "t": "2026-11-23T18:24:40+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "nothing waiting - paste a link or add one to campaigns.yaml"
-      },
-      {
-        "t": "2026-11-23T18:24:40+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "completed (10 items)",
-        "job_id": "select-1795458280-a99967"
-      },
-      {
-        "t": "2026-11-23T18:24:40+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-23T18:38:34+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (0 items)",
-        "job_id": "discover-1795459114-736e29"
-      },
-      {
-        "t": "2026-11-23T18:38:34+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "nothing waiting - paste a link or add one to campaigns.yaml"
-      },
-      {
-        "t": "2026-11-23T18:38:34+00:00",
+        "t": "2026-11-24T03:09:12+00:00",
         "level": "info",
         "stage": "transcribe",
         "message": "completed (0 items)",
-        "job_id": "transcribe-1795459114-de2064"
+        "job_id": "transcribe-1795489752-336fe6"
       },
       {
-        "t": "2026-11-23T18:38:34+00:00",
+        "t": "2026-11-24T03:09:13+00:00",
         "level": "info",
         "stage": "select",
         "message": "completed (0 items)",
-        "job_id": "select-1795459114-c3f58e"
+        "job_id": "select-1795489752-c62e90"
       },
       {
-        "t": "2026-11-23T18:38:34+00:00",
+        "t": "2026-11-24T03:09:13+00:00",
         "level": "info",
         "stage": "render",
         "message": "completed (0 items)",
-        "job_id": "render-1795459114-d1056c"
+        "job_id": "render-1795489753-7a237c"
       },
       {
-        "t": "2026-11-23T18:38:34+00:00",
+        "t": "2026-11-24T03:09:13+00:00",
         "level": "info",
         "stage": "qa",
         "message": "completed (0 items)",
-        "job_id": "qa-1795459114-2207ac"
+        "job_id": "qa-1795489753-5c928a"
       },
       {
-        "t": "2026-11-23T18:38:34+00:00",
+        "t": "2026-11-24T03:09:14+00:00",
         "level": "info",
         "stage": "upload",
-        "message": "completed (0 items)",
-        "job_id": "upload-1795459114-0ce343"
+        "message": "rebuilt the public link of an earlier upload",
+        "clip_id": "bendadonn-puffco_1619_0"
       },
       {
-        "t": "2026-11-23T18:38:34+00:00",
+        "t": "2026-11-24T03:09:14+00:00",
+        "level": "info",
+        "stage": "upload",
+        "message": "rebuilt the public link of an earlier upload",
+        "clip_id": "bendadonn-puffco_359_1"
+      },
+      {
+        "t": "2026-11-24T03:09:14+00:00",
+        "level": "info",
+        "stage": "upload",
+        "message": "completed (2 items)",
+        "job_id": "upload-1795489753-337b23"
+      },
+      {
+        "t": "2026-11-24T03:09:14+00:00",
         "level": "warn",
         "stage": "publish",
         "message": "instagram is enabled but its credentials are missing - skipped until they are added"
       },
       {
-        "t": "2026-11-23T18:38:34+00:00",
+        "t": "2026-11-24T03:09:14+00:00",
         "level": "warn",
         "stage": "publish",
         "message": "facebook is enabled but its credentials are missing - skipped until they are added"
       },
       {
-        "t": "2026-11-23T18:38:34+00:00",
+        "t": "2026-11-24T03:09:14+00:00",
         "level": "warn",
         "stage": "publish",
         "message": "tiktok is enabled but its credentials are missing - skipped until they are added"
       },
       {
-        "t": "2026-11-23T18:38:34+00:00",
+        "t": "2026-11-24T03:09:14+00:00",
+        "level": "info",
+        "stage": "publish",
+        "message": "auto_approve=false - waiting for manual approval",
+        "clip_id": "bendadonn-puffco_1619_0"
+      },
+      {
+        "t": "2026-11-24T03:09:14+00:00",
+        "level": "info",
+        "stage": "publish",
+        "message": "auto_approve=false - waiting for manual approval",
+        "clip_id": "bendadonn-puffco_359_1"
+      },
+      {
+        "t": "2026-11-24T03:09:14+00:00",
         "level": "info",
         "stage": "publish",
         "message": "completed (0 items)",
-        "job_id": "publish-1795459114-b47849"
+        "job_id": "publish-1795489754-bd2767"
       },
       {
-        "t": "2026-11-23T18:38:34+00:00",
+        "t": "2026-11-24T03:09:14+00:00",
         "level": "info",
         "stage": "analytics",
         "message": "completed (0 items)",
-        "job_id": "analytics-1795459114-48a367"
+        "job_id": "analytics-1795489754-3cc492"
       },
       {
-        "t": "2026-11-23T18:38:36+00:00",
+        "t": "2026-11-24T03:09:15+00:00",
         "level": "info",
         "stage": "cleanup",
         "message": "completed (0 items)",
-        "job_id": "cleanup-1795459114-e17ac9"
+        "job_id": "cleanup-1795489754-9df5f6"
       },
       {
-        "t": "2026-11-23T18:38:36+00:00",
+        "t": "2026-11-24T03:09:15+00:00",
         "level": "info",
         "stage": "cleanup",
         "message": "freed 0.0 MB across 0 file(s)",
@@ -2488,7 +1773,7 @@
     ]
   },
   "storage": {
-    "updated": "2026-11-23T18:38:36+00:00",
+    "updated": "2026-11-24T03:09:15+00:00",
     "freed_mb": 0.0,
     "files_deleted": 0,
     "sources_deleted": 0,
@@ -2497,7 +1782,7 @@
     "remote_days": 7,
     "work_mb": 0.0,
     "out_mb": 0.0,
-    "state_mb": 0.06,
+    "state_mb": 0.07,
     "dry_run": false
   }
 }
