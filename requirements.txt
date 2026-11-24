@@ -6,6 +6,11 @@ yt-dlp>=2025.1.1
 openai>=1.50.0
 Pillow>=10.4.0
 
+# Face-aware 9:16 cropping (pipeline/crop.py). Headless = no GUI libraries.
+# 4.x is pinned deliberately: 5.x no longer bundles the Haar cascade fallback
+# and its ONNX engine needs a dynamic-shape model.
+opencv-python-headless>=4.10,<5
+
 # Optional local fallbacks (only needed if you disable cloud APIs):
 # faster-whisper>=1.1.0   # local transcription, ~500MB model
 # llama-cpp-python       # local LLM, use a Q4 GGUF model (~5GB RAM)

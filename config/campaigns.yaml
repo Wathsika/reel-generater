@@ -12,14 +12,42 @@
 # ---------------------------------------------------------------------------
 
 defaults:
-  layout: crop              # crop | split_v | gameplay_bg
+  # auto = crop when the source survives a 9:16 crop (16:9 and squarer),
+  #        blurred background when it does not (21:9, letterboxed, ultrawide).
+  # crop | fit | split_v | gameplay_bg | auto
+  layout: auto
+  min_crop_keep: 0.30
+  # Where the 9:16 window sits inside a 16:9 frame.
+  #   center = middle slice (right for gameplay)
+  #   face   = follow the speaker, so a podcast / talking head stays in frame
+  #            (pipeline/crop.py; ignores a small webcam face in the corner)
+  crop_mode: center
   min_duration: 18          # seconds - most campaigns want >= 15s
   max_duration: 60          # seconds - TikTok sweet spot; raise to 90 for CPM >= 1min campaigns
   # How many clips to cut from one source is decided per video: the model
   # returns as many distinct moments as the transcript genuinely supports.
   # This is only a ceiling so a chatty 75-minute stream cannot produce 30.
   max_clips_per_video: 10
-  caption_style: word       # word (one word at a time) | chunk (karaoke sweep)
+
+  # ---- captions -----------------------------------------------------------
+  # chunk = three words at a time, white words fill with the accent colour as
+  # they are spoken (the look most clipped reels use). word = one word at a
+  # time. Both use the fonts bundled in assets/fonts.
+  caption_style: chunk
+  caption_font: Anton              # Anton | Archivo Black
+  caption_font_size: 92
+  caption_accent: "#FACC15"        # colour the spoken words turn
+  caption_color: "#FFFFFF"         # colour before they are spoken
+  caption_outline: "#0A0A0F"
+  caption_uppercase: true
+  # The hook is the big line at the top of the clip.
+  hook_font: Archivo Black
+  hook_size: 54
+  hook_bg: "#7C3AED"               # solid bar behind the hook
+  hook_color: "#FFFFFF"
+  hook_seconds: 3.4
+  hook_y: 300                      # pixels from the top (keep clear of app UI)
+
   watermark: "@yourhandle"  # REQUIRED by most campaigns - change this
   require_original_audio: true
   trim_silence: true
@@ -60,6 +88,7 @@ campaigns:
       - "#podcastclips"
     watermark: "@yourhandle"
     layout: split_v                  # speaker top / gameplay bottom
+    crop_mode: face                  # keep the speaker centred
     # Optional: a rights-cleared gameplay clip to use as the bottom half
     # (many campaigns supply one). Leave null to use `crop` instead.
     gameplay_source: null
@@ -84,12 +113,16 @@ campaigns:
     max_clips_per_video: 10            # ceiling only - the model picks the real number
     min_duration: 18
     max_duration: 60
-    layout: crop
-    caption_style: word
+    layout: auto                       # 16:9 stream -> crop; ultrawide -> blurred bg
+    caption_style: chunk
     watermark: ""                      # campaign asks for no watermark
     required_hashtags: []
     # Fed to the moment picker so it targets the brief, not random chatter.
     keywords: ["puffco", "puffco peak", "proxy", "hash butler", "jar", "clouds", "dab", "hits"]
+    # The brief pays for Puffco content, so a clip that never says the product
+    # is worthless even if it is a great moment. Moments that do not mention a
+    # keyword are dropped (unless nothing at all mentions it).
+    must_mention: true
     rules: >
       Only moments from Ben's Puffco GTA stream. Positive moments only:
       genuine first-hit and in-session reactions, natural wonder and energy at

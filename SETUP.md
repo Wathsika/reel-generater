@@ -321,6 +321,42 @@ proves Meta/TikTok can fetch from your storage.
 | `STATE_TOKENS` | TikTok tokens (JSON from Part 6) |
 | `SECRETS_ADMIN_PAT` | lets CI save rotated tokens (see Part 8) |
 | `GEMINI_API_KEY` | LLM fallback (optional) |
+| `YTDLP_COOKIES` | videos that ask for a login ("confirm you're not a bot") |
+
+### Optional shortcut — one key instead of three apps (Postiz)
+
+Parts 4–6 are the slow part: three developer apps, three reviews, three token
+flows. [Postiz](https://github.com/gitroomhq/postiz-app) does that for you —
+you click "connect" for Instagram, Facebook, TikTok and YouTube once in its web
+UI, then this pipeline posts with a single API key.
+
+1. Get a Postiz account (cloud: `postiz.com`, or self-host it if you already run
+   Postgres + Redis + Temporal — self-hosting also means you create the
+   platform apps yourself, so it is not the shortcut people expect).
+2. In Postiz: **Settings → Public API**, copy the key.
+3. In Postiz: connect each channel you want.
+4. Add two repository secrets: `POSTIZ_URL`, `POSTIZ_API_KEY`.
+
+`POSTIZ_URL` can be `https://api.postiz.com/public/v1` or your own host
+(`https://postiz.example.com` — the `/api/public/v1` part is added for you).
+
+Check it worked — locally or in any workflow log:
+
+```
+python -m pipeline.postiz
+```
+
+It prints the channels it can see and never prints the key. Then
+`posting.transport` in `config/accounts.yaml` decides which road is used:
+
+| value | meaning |
+|---|---|
+| `auto` (default) | Postiz for any channel it has, the platform API for the rest |
+| `postiz` | only Postiz (use this once every channel lives there) |
+| `direct` | only the platform APIs from Parts 4–6 |
+
+Nothing breaks if you skip this: with no Postiz secrets, the direct APIs are
+used exactly as before.
 
 ### Part 8 — `SECRETS_ADMIN_PAT`
 
@@ -353,8 +389,14 @@ campaigns:
       - "https://the-url-the-rights-holder-gave-you"
     watermark: "@yourhandle"
     required_hashtags: ["#their-tag"]
-    layout: crop                      # crop | split_v | gameplay_bg
+    layout: auto                      # auto | crop | fit | split_v | gameplay_bg
 ```
+
+`layout: auto` looks at the source first. A 16:9 recording survives a 9:16
+crop; a 21:9 or letterboxed one does not, so those are shown whole over a
+blurred background instead of having half the action cut off. The caption
+font, colours, hook bar and size are all configurable right there — see the
+"Clip look" table in the README.
 
 > For a first test you can use **any public video you own the rights to**
 > (your own unlisted YouTube link, or a CC0 clip).

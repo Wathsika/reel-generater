@@ -1,7 +1,9 @@
 """Stage 4: render vertical clips with ffmpeg.
 
 Layouts:
-  crop        - 9:16 centre crop of the single source (default)
+  auto        - crop when the source survives a 9:16 crop, otherwise `fit`
+  crop        - 9:16 centre crop of the single source
+  fit         - whole frame in the middle, blurred copy behind (wide sources)
   split_v     - speaker top / gameplay bottom (needs campaign gameplay_source)
   gameplay_bg - gameplay full-screen with the speaker in a top-left box
 """
@@ -15,9 +17,14 @@ import subprocess
 import sys
 
 from . import captions as cap
-from . import config, jobs, state
+from . import config, crop, fetch, jobs, state
 
 W, H = 1080, 1920
+
+# Below this share of the picture, a centre crop throws away too much (a 21:9
+# source keeps 24%, a 16:9 keeps 32%). Such sources get the blurred-background
+# layout instead, which keeps the whole frame readable.
+MIN_CROP_KEEP = 0.30
 
 # Where the logo sits by default: bottom-right, clear of the caption block
 # (captions live around y=1200-1360) and clear of the hook (top centre).
@@ -75,63 +82,143 @@ def _logo_input(logo: pathlib.Path, dur: float) -> list[str]:
     return ["-loop", "1", "-t", str(dur), "-i", str(logo)]
 
 
+def _ass(name: str, fonts: str = "") -> str:
+    """The `ass` filter with the bundled fonts, so the design never falls back
+    to a random system font on a runner."""
+    return f"ass={name}" + (f":fontsdir={fonts}" if fonts else "")
+
+
 def _crop_graph(
     src: str, start: float, dur: float, ass_name: str,
     logo: pathlib.Path | None = None, settings: dict | None = None,
+    fonts: str = "", x_offset: int | None = None,
 ) -> list[str]:
+    geom = "crop='min(iw,ih*9/16)':'min(ih,iw*16/9)'"
+    if x_offset is not None:
+        # Face-following crop (pipeline/crop.py): the same window width, moved
+        # horizontally so the speaker stays in frame.
+        geom += f":{max(0, int(x_offset))}:0"
     base = (
-        f"crop='min(iw,ih*9/16)':'min(ih,iw*16/9)',"
-        f"scale={W}:{H}:flags=lanczos,setsar=1,ass={ass_name}"
+        f"{geom},"
+        f"scale={W}:{H}:flags=lanczos,setsar=1,{_ass(ass_name, fonts)}"
     )
     head = ["-ss", str(start), "-t", str(dur), "-i", src]
     if logo is None:
-        return [*head, "-vf", base, "-map", "0:v", "-map", "0:a"]
+        return [*head, "-vf", base, "-map", "0:v", "-map", "0:a?"]
     pre, ov = _logo_filter(1, settings or {})
     fc = f"[0:v]{base}[v0];{pre}[lg];[v0][lg]{ov}[v]"
-    return [*head, *_logo_input(logo, dur), "-filter_complex", fc, "-map", "[v]", "-map", "0:a"]
+    return [*head, *_logo_input(logo, dur), "-filter_complex", fc, "-map", "[v]", "-map", "0:a?"]
+
+
+def _fit_graph(
+    src: str, start: float, dur: float, ass_name: str,
+    logo: pathlib.Path | None = None, settings: dict | None = None,
+    fonts: str = "",
+) -> list[str]:
+    """Whole frame, centred, over a blurred zoom of itself.
+
+    This is how a 21:9 or letterboxed source becomes a watchable reel without
+    cutting off half the picture.
+    """
+    base = (
+        f"split=2[bg][fg];"
+        # blur a tiny copy and blow it back up: cheap, and it becomes a soft
+        # wash instead of a recognisable (and distracting) second copy
+        f"[bg]scale=270:480:force_original_aspect_ratio=increase,crop=270:480,"
+        f"gblur=sigma=14,eq=brightness=-0.18:saturation=0.8,scale={W}:{H}[bgb];"
+        f"[fg]scale={W - 40}:-2:flags=lanczos[fgs];"
+        f"[bgb][fgs]overlay=(W-w)/2:(H-h)/2,setsar=1,{_ass(ass_name, fonts)}"
+    )
+    head = ["-ss", str(start), "-t", str(dur), "-i", src]
+    if logo is None:
+        return [*head, "-vf", base, "-map", "0:v", "-map", "0:a?"]
+    pre, ov = _logo_filter(1, settings or {})
+    fc = f"[0:v]{base}[v0];{pre}[lg];[v0][lg]{ov}[v]"
+    return [*head, *_logo_input(logo, dur), "-filter_complex", fc, "-map", "[v]", "-map", "0:a?"]
 
 
 def _split_graph(
     src: str, gameplay: str, start: float, dur: float, ass_name: str,
     logo: pathlib.Path | None = None, settings: dict | None = None,
+    fonts: str = "",
 ) -> list[str]:
     fc = (
         f"[1:v]scale={W}:960:force_original_aspect_ratio=increase,"
         f"crop={W}:960,setsar=1[top];"
         f"[0:v]scale={W}:960:force_original_aspect_ratio=increase,"
         f"crop={W}:960,setsar=1,setsar=1[bot];"
-        f"[top][bot]vstack=inputs=2,ass={ass_name}"
+        f"[top][bot]vstack=inputs=2,{_ass(ass_name, fonts)}"
     )
     head = [
         "-stream_loop", "-1", "-t", str(dur), "-i", gameplay,
         "-ss", str(start), "-t", str(dur), "-i", src,
     ]
     if logo is None:
-        return [*head, "-filter_complex", fc + "[v]", "-map", "[v]", "-map", "1:a"]
+        return [*head, "-filter_complex", fc + "[v]", "-map", "[v]", "-map", "1:a?"]
     pre, ov = _logo_filter(2, settings or {})
     fc = f"{fc}[v0];{pre}[lg];[v0][lg]{ov}[v]"
-    return [*head, *_logo_input(logo, dur), "-filter_complex", fc, "-map", "[v]", "-map", "1:a"]
+    return [*head, *_logo_input(logo, dur), "-filter_complex", fc, "-map", "[v]", "-map", "1:a?"]
 
 
 def _gameplay_bg_graph(
     src: str, gameplay: str, start: float, dur: float, ass_name: str,
     logo: pathlib.Path | None = None, settings: dict | None = None,
+    fonts: str = "",
 ) -> list[str]:
     fc = (
         f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,"
         f"crop={W}:{H},setsar=1[bg];"
         f"[1:v]scale=520:-2[pc];"
-        f"[bg][pc]overlay=24:24,ass={ass_name}"
+        f"[bg][pc]overlay=24:24,{_ass(ass_name, fonts)}"
     )
     head = [
         "-stream_loop", "-1", "-t", str(dur), "-i", gameplay,
         "-ss", str(start), "-t", str(dur), "-i", src,
     ]
     if logo is None:
-        return [*head, "-filter_complex", fc + "[v]", "-map", "[v]", "-map", "1:a"]
+        return [*head, "-filter_complex", fc + "[v]", "-map", "[v]", "-map", "1:a?"]
     pre, ov = _logo_filter(2, settings or {})
     fc = f"{fc}[v0];{pre}[lg];[v0][lg]{ov}[v]"
-    return [*head, *_logo_input(logo, dur), "-filter_complex", fc, "-map", "[v]", "-map", "1:a"]
+    return [*head, *_logo_input(logo, dur), "-filter_complex", fc, "-map", "[v]", "-map", "1:a?"]
+
+
+def probe_size(path: str) -> tuple[int, int]:
+    """(width, height) of the first video stream, or (0, 0)."""
+    try:
+        proc = subprocess.run(
+            [config.ffprobe_bin(), "-v", "error", "-select_streams", "v:0",
+             "-show_entries", "stream=width,height", "-of", "csv=p=0", path],
+            capture_output=True, text=True, timeout=120,
+        )
+        if proc.returncode != 0:
+            return 0, 0
+        first = (proc.stdout or "").strip().splitlines()[0]
+        w, h = [int(float(x)) for x in first.split(",")[:2]]
+        return w, h
+    except (subprocess.SubprocessError, ValueError, IndexError, OSError):
+        return 0, 0
+
+
+def reel_fit(width: int, height: int) -> float:
+    """How much of the frame a 9:16 centre crop keeps (0..1).
+
+    9:16 -> 1.0, 16:9 -> 0.32, 21:9 -> 0.24, 4:5 -> 0.70.
+    """
+    if width <= 0 or height <= 0:
+        return 1.0
+    crop_w = min(width, height * 9 / 16)
+    crop_h = min(height, width * 16 / 9)
+    return round((crop_w * crop_h) / (width * height), 3)
+
+
+def choose_layout(requested: str, width: int, height: int, min_keep: float = MIN_CROP_KEEP) -> str:
+    """Resolve `auto` into the layout that actually suits this source."""
+    req = (requested or "auto").lower()
+    if req != "auto":
+        return req
+    fit = reel_fit(width, height)
+    return "crop" if fit >= min_keep else "fit"
+
 
 
 def _resolve_local(ref: str) -> pathlib.Path | None:
@@ -192,19 +279,10 @@ def _fetch_gameplay(url: str) -> pathlib.Path | None:
         p = pathlib.Path(url[6:])
         return p if p.is_file() else None
     dest = config.WORK / "gameplay" / ("".join(c if c.isalnum() else "_" for c in url)[-60:] + ".mp4")
-    if dest.exists() and dest.stat().st_size > 0:
-        return dest
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        subprocess.run(
-            [*config.ytdlp_cmd(), "-f", "bv*[height<=1080]+ba/b[height<=1080]/b",
-             "--merge-output-format", "mp4", "-o", str(dest), "--no-playlist", url],
-            check=True, capture_output=True, timeout=1800,
-        )
-        return dest if dest.exists() else None
-    except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired) as exc:
-        state.warn("render", "gameplay download failed", reason=str(exc)[:200])
-        return None
+    got = fetch.download(url, dest, height=1080, tries=1)
+    if got is None:
+        state.warn("render", "gameplay download failed", url=url[:120])
+    return got
 
 
 def run() -> int:
@@ -229,7 +307,7 @@ def run() -> int:
             continue
         waiting += len(pending)
         settings = item.get("settings", {})
-        layout = str(settings.get("layout", "crop"))
+        layout = str(settings.get("layout", "auto"))
 
         # ffmpeg runs with cwd set to the caption dir (so the ass= filter can
         # use a plain filename), so every path must be absolute here.
@@ -237,6 +315,28 @@ def run() -> int:
             item["path"] = str(pathlib.Path(item["path"]).resolve())
         if item.get("transcript"):
             item["transcript"] = str(pathlib.Path(item["transcript"]).resolve())
+
+        # Check the frame shape before cutting anything. A 16:9 gameplay source
+        # survives the vertical crop; a 21:9 or a letterboxed one does not, and
+        # forcing it produces a clip with the action cut off. Recorded on the
+        # item so the dashboard can explain the choice.
+        src_w, src_h = probe_size(item["path"])
+        keep = reel_fit(src_w, src_h)
+        item["source_size"] = [src_w, src_h]
+        item["reel_fit"] = keep
+        layout = choose_layout(layout, src_w, src_h,
+                               float(settings.get("min_crop_keep") or MIN_CROP_KEEP))
+        item["layout"] = layout
+        if src_w and keep < float(settings.get("min_crop_keep") or MIN_CROP_KEEP):
+            state.warn("render",
+                       f"source is {src_w}x{src_h}: a 9:16 crop would keep only "
+                       f"{int(keep * 100)}% of the picture - using the blurred "
+                       f"background layout",
+                       source=item.get("source_url", "")[:100], layout=layout)
+        else:
+            state.info("render",
+                       f"source {src_w}x{src_h} keeps {int(keep * 100)}% in a 9:16 crop",
+                       layout=layout)
 
         words = _load_words(item)
         gameplay_path: pathlib.Path | None = None
@@ -248,6 +348,7 @@ def run() -> int:
                 layout = "crop"
             else:
                 gameplay_path = gameplay_path.resolve()
+        fonts = cap.fontsdir(cap_dir)
 
         # Campaign logos are mandatory for some campaigns (e.g. ClipUp). The
         # text watermark above is separate and can coexist with it.
@@ -265,11 +366,25 @@ def run() -> int:
                 ass_path = cap.from_clip(clip, words, cap_dir, settings, safe_id)
                 dur = float(clip["end"]) - float(clip["start"])
                 if layout == "split_v":
-                    args = _split_graph(item["path"], str(gameplay_path), float(clip["start"]), dur, ass_path.name, logo_path, settings)
+                    args = _split_graph(item["path"], str(gameplay_path), float(clip["start"]), dur, ass_path.name, logo_path, settings, fonts)
                 elif layout == "gameplay_bg":
-                    args = _gameplay_bg_graph(item["path"], str(gameplay_path), float(clip["start"]), dur, ass_path.name, logo_path, settings)
+                    args = _gameplay_bg_graph(item["path"], str(gameplay_path), float(clip["start"]), dur, ass_path.name, logo_path, settings, fonts)
+                elif layout == "fit":
+                    args = _fit_graph(item["path"], float(clip["start"]), dur, ass_path.name, logo_path, settings, fonts)
                 else:
-                    args = _crop_graph(item["path"], float(clip["start"]), dur, ass_path.name, logo_path, settings)
+                    x_offset = None
+                    if str(settings.get("crop_mode") or "center").lower() == "face":
+                        plan = crop.plan(item["path"], float(clip["start"]),
+                                         float(clip["end"]), src_w, src_h)
+                        x_offset = plan["x"]
+                        clip["crop"] = plan
+                        if plan["x"] is not None:
+                            state.info("render", "crop follows the speaker",
+                                       clip_id=safe_id, x=plan["x"],
+                                       reason=plan["reason"])
+                    args = _crop_graph(item["path"], float(clip["start"]), dur,
+                                       ass_path.name, logo_path, settings, fonts,
+                                       x_offset=x_offset)
 
                 cmd = [config.ffmpeg_bin(), "-y", *args, *(_base_args()), str(out_path)]
                 # ass filter resolves relative to cwd - run ffmpeg inside the caption dir

@@ -303,11 +303,20 @@ function render(d){
 
   // queue table
   const qb = document.getElementById("queue");
+  const shape = i => {
+    const s = i.source_size;
+    if(!s || !s[0]) return "-";
+    const keep = Math.round((i.reel_fit ?? 0) * 100);
+    const lay = i.layout || "";
+    const note = lay === "fit" ? `blurred bg · keeps ${keep}%` : `${lay} · keeps ${keep}%`;
+    return `<span class="mono">${s[0]}×${s[1]}</span><div class="d">${esc(note)}</div>`;
+  };
   if(!q.length) qb.innerHTML = `<div class="empty">No sources discovered yet.</div>`;
-  else qb.innerHTML = `<table><thead><tr><th>Source</th><th>Campaign</th><th>Window</th><th>Stage</th><th>Clips</th><th>Duration</th></tr></thead><tbody>` +
-    q.map(i=>`<tr><td class="mono" style="max-width:340px;overflow:hidden;text-overflow:ellipsis" title="${esc(i.source_title||i.source_url)}">${esc(i.source_title||i.source_url)}</td>
+  else qb.innerHTML = `<table><thead><tr><th>Source</th><th>Campaign</th><th>Window</th><th>Shape</th><th>Stage</th><th>Clips</th><th>Duration</th></tr></thead><tbody>` +
+    q.map(i=>`<tr><td class="mono" style="max-width:300px;overflow:hidden;text-overflow:ellipsis" title="${esc(i.source_title||i.source_url)}">${esc(i.source_title||i.source_url)}</td>
       <td>${esc(i.campaign||"-")}</td>
       <td class="mono">${esc(i.source_section||"auto")}${i.auto_section?" *":""}</td>
+      <td>${shape(i)}</td>
       <td>${tag(i.stage)}</td>
       <td>${(i.clips||[]).length}</td><td class="mono">${i.duration?Math.round(i.duration)+"s":"-"}</td></tr>`).join("") + "</tbody></table>";
 

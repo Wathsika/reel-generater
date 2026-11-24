@@ -65,6 +65,12 @@ jobs:
       FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
       TT_CLIENT_KEY: ${{ secrets.TT_CLIENT_KEY }}
       TT_CLIENT_SECRET: ${{ secrets.TT_CLIENT_SECRET }}
+      # Postiz: one key for Instagram / Facebook / TikTok / YouTube instead of
+      # the three developer apps above. Both blank = the direct APIs are used.
+      POSTIZ_URL: ${{ secrets.POSTIZ_URL }}
+      POSTIZ_API_KEY: ${{ secrets.POSTIZ_API_KEY }}
+      # Optional yt-dlp cookies (Netscape format) for age/bot-checked videos.
+      YTDLP_COOKIES: ${{ secrets.YTDLP_COOKIES }}
       WHISPER_BACKEND: groq
 
     steps:

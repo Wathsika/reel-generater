@@ -2,17 +2,33 @@
 
 Only official APIs. Each platform posts independently so one failure never
 blocks the others; results land in state/posted.json which the dashboard reads.
+
+Two transports:
+
+  * **Postiz** (`pipeline/postiz.py`) - one API key, and the accounts are
+    connected by clicking through OAuth in the Postiz UI. Preferred when
+    POSTIZ_URL + POSTIZ_API_KEY are set, because it removes three separate
+    developer apps, three token flows and three upload protocols.
+  * **direct** - the platform APIs implemented below. Used for any platform
+    that has no Postiz channel, and for everything when Postiz is not set up.
+
+`posting.transport` in config/accounts.yaml can force one: auto (default),
+postiz or direct.
 """
 from __future__ import annotations
 
 import argparse
+import pathlib
 import sys
+import tempfile
 import time
 
-from . import jobs, state, tokens
+from . import jobs, postiz, state, tokens
 
 POLL_INTERVAL = 10
 POLL_TIMEOUT = 600
+
+PLATFORMS = ("instagram", "facebook", "tiktok", "youtube")
 
 
 # --------------------------------------------------------------------------
@@ -214,17 +230,78 @@ def _build_caption(clip: dict) -> str:
     return "\n\n".join(p for p in parts if p)
 
 
+# Credentials each platform needs when we talk to its API directly.
+DIRECT_CREDS = {
+    "instagram": ("IG_USER_ID", "IG_ACCESS_TOKEN"),
+    "facebook": ("FB_PAGE_ID", "FB_PAGE_TOKEN"),
+    "tiktok": ("TT_CLIENT_KEY", "TT_CLIENT_SECRET"),
+}
+
+
 def _platform_ready(name: str, cfg: dict) -> bool:
-    """Enabled *and* able to authenticate. A checkbox without tokens is not a
-    platform, it is a red run waiting to happen."""
+    """Can we post with the platform's own API?
+
+    Enabled *and* able to authenticate: a checkbox without tokens is not a
+    platform, it is a red run waiting to happen.
+    """
     if not cfg.get(name, {}).get("enabled"):
         return False
-    need = {
-        "instagram": ("IG_USER_ID", "IG_ACCESS_TOKEN"),
-        "facebook": ("FB_PAGE_ID", "FB_PAGE_TOKEN"),
-        "tiktok": ("TT_CLIENT_KEY", "TT_CLIENT_SECRET"),
-    }[name]
+    need = DIRECT_CREDS.get(name)
+    if not need:
+        # YouTube has no direct implementation here; Postiz can do it.
+        return False
     return all(state.config.env(k) for k in need)
+
+
+def _postiz_ready(name: str) -> bool:
+    if not postiz.configured():
+        return False
+    try:
+        return postiz.integration_for(name) is not None
+    except Exception as exc:
+        state.warn("publish", f"postiz could not list channels for {name}",
+                   reason=str(exc)[:200])
+        return False
+
+
+def _transport(name: str, cfg: dict, mode: str) -> str | None:
+    """How this platform will be posted to: 'postiz', 'direct' or None."""
+    if not cfg.get(name, {}).get("enabled"):
+        return None
+    has_direct = _platform_ready(name, cfg)
+    has_postiz = _postiz_ready(name)
+    if mode == "postiz":
+        return "postiz" if has_postiz else None
+    if mode == "direct":
+        return "direct" if has_direct else None
+    # auto: Postiz wins - one credential fewer to expire.
+    return "postiz" if has_postiz else ("direct" if has_direct else None)
+
+
+def _local_file(clip: dict) -> str:
+    """A local copy of the clip for Postiz's multipart upload.
+
+    Clips rendered in this run are still on disk. Older ones are not (runners
+    are ephemeral), so fall back to downloading the public copy.
+    """
+    path = (clip.get("path") or "").strip()
+    if path and pathlib.Path(path).is_file():
+        return path
+    url = (clip.get("r2_url") or "").strip()
+    if not url:
+        raise RuntimeError("no local file and no public URL to upload")
+    import requests
+
+    dest = pathlib.Path(tempfile.gettempdir()) / f"postiz_{clip.get('clip_id') or 'clip'}.mp4"
+    with requests.get(url, stream=True, timeout=300) as resp:
+        resp.raise_for_status()
+        with open(dest, "wb") as fh:
+            for chunk in resp.iter_content(1 << 20):
+                if chunk:
+                    fh.write(chunk)
+    if dest.stat().st_size == 0:
+        raise RuntimeError("downloaded clip is empty")
+    return str(dest)
 
 
 def run() -> int:
@@ -238,15 +315,25 @@ def run() -> int:
     failed = 0
     no_url = 0
 
-    ready = {name: _platform_ready(name, platforms)
-             for name in ("instagram", "facebook", "tiktok")}
-    for name, ok in ready.items():
-        if platforms.get(name, {}).get("enabled") and not ok:
-            state.warn("publish", f"{name} is enabled but its credentials are "
-                       f"missing - skipped until they are added")
-    if auto and not any(ready.values()):
+    mode = str(accounts.get("posting", {}).get("transport") or "auto").lower()
+    routes = {name: _transport(name, platforms, mode) for name in PLATFORMS}
+    for name in PLATFORMS:
+        if not platforms.get(name, {}).get("enabled") or routes[name]:
+            continue
+        if mode == "auto":
+            state.warn("publish", f"{name} is enabled but has neither direct "
+                       "credentials nor a Postiz channel - skipped until one is added")
+        else:
+            state.warn("publish", f"{name} is enabled but transport '{mode}' "
+                       f"cannot post to it")
+
+    if auto and not any(routes.values()):
+        hint = ""
+        if postiz.configured():
+            hint = (" Postiz is reachable but has no connected channel, so open "
+                    "its UI and connect Instagram/Facebook/TikTok once.")
         state.info("publish", "no platform is connected yet - clips stay in storage, "
-                   "nothing is lost; add the tokens and they will post next run")
+                   "nothing is lost; add the tokens and they will post next run" + hint)
         jobs.finish(job, status="ok", items=0, note="no platform credentials")
         return 0
 
@@ -288,7 +375,11 @@ def run() -> int:
                 clip["error"] = f"daily posting limit reached ({cap}/day)"
                 state.save_rendered(rendered)
                 continue
-            if not clip.get("r2_url"):
+            # Only the direct transport needs a public URL - Meta and TikTok pull
+            # the file themselves. Postiz uploads the local copy, so a storage
+            # link hiccup no longer blocks posting.
+            needs_url = any(r == "direct" for r in routes.values())
+            if needs_url and not clip.get("r2_url"):
                 clip["stage"] = "failed"
                 clip["error"] = "no public URL from storage"
                 failed += 1
@@ -299,33 +390,43 @@ def run() -> int:
                 continue
 
             caption = _build_caption(clip)
+            title = str(clip.get("title") or clip.get("hook") or "clip")
             results: list[dict] = []
             errors: list[str] = []
 
-            if ready["instagram"]:
+            # A Postiz post needs a file, not a URL, so upload the clip once and
+            # reuse that media for every Postiz channel.
+            media: dict | None = None
+            if "postiz" in routes.values():
                 try:
-                    results.append(publish_instagram(clip["r2_url"], caption))
+                    media = postiz.upload(_local_file(clip))
                 except Exception as exc:
-                    errors.append(f"instagram: {str(exc)[:200]}")
-                    state.error("publish", "instagram failed", clip_id=clip.get("clip_id"),
-                                reason=str(exc)[:300])
+                    errors.append(f"postiz upload: {str(exc)[:200]}")
+                    state.error("publish", "postiz upload failed",
+                                clip_id=clip.get("clip_id"), reason=str(exc)[:300])
 
-            if ready["facebook"]:
+            for name in PLATFORMS:
+                route = routes.get(name)
+                if not route:
+                    continue
+                options = dict(platforms.get(name) or {})
                 try:
-                    results.append(publish_facebook(clip["r2_url"], caption,
-                                                    local_path=clip.get("path")))
+                    if route == "postiz":
+                        if media is None:
+                            raise RuntimeError("the upload failed - see the error above")
+                        results.append(postiz.publish(name, media, caption,
+                                                      title=title, options=options))
+                    elif name == "instagram":
+                        results.append(publish_instagram(clip["r2_url"], caption))
+                    elif name == "facebook":
+                        results.append(publish_facebook(clip["r2_url"], caption,
+                                                        local_path=clip.get("path")))
+                    elif name == "tiktok":
+                        results.append(publish_tiktok(clip["r2_url"], caption,
+                                                      draft_mode=bool(options.get("draft_mode", True))))
                 except Exception as exc:
-                    errors.append(f"facebook: {str(exc)[:200]}")
-                    state.error("publish", "facebook failed", clip_id=clip.get("clip_id"),
-                                reason=str(exc)[:300])
-
-            if ready["tiktok"]:
-                try:
-                    results.append(publish_tiktok(clip["r2_url"], caption,
-                                                  draft_mode=bool(platforms["tiktok"].get("draft_mode", True))))
-                except Exception as exc:
-                    errors.append(f"tiktok: {str(exc)[:200]}")
-                    state.error("publish", "tiktok failed", clip_id=clip.get("clip_id"),
+                    errors.append(f"{name}: {str(exc)[:200]}")
+                    state.error("publish", f"{name} failed", clip_id=clip.get("clip_id"),
                                 reason=str(exc)[:300])
 
             if results:

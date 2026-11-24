@@ -25,7 +25,7 @@ import re
 import subprocess
 import sys
 
-from . import config, heatmap, jobs, state
+from . import config, fetch, heatmap, jobs, state
 
 DEFAULT_WINDOW = 4500       # 75 min - one transcription budget unit
 MAX_WINDOW = 7200           # never transcribe more than 2h in one go
@@ -34,9 +34,6 @@ MAX_PENDING = 50            # guard against a paste of 500 links
 
 
 def _download(url: str, dest: pathlib.Path, section: str | None = None) -> pathlib.Path | None:
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    if dest.exists() and dest.stat().st_size > 0:
-        return dest
     if url.startswith("local:"):
         src = pathlib.Path(url[6:])
         if src.is_file():
@@ -44,34 +41,9 @@ def _download(url: str, dest: pathlib.Path, section: str | None = None) -> pathl
         state.error("discover", f"local source missing: {src}")
         return None
     if url.startswith("http://") or url.startswith("https://"):
-        cmd = [
-            *config.ytdlp_cmd(),
-            "-f", "bv*[height<=1080]+ba/b[height<=1080]/b",
-            "--merge-output-format", "mp4",
-            "-o", str(dest),
-            "--no-playlist",
-        ]
-        if section:
-            # stream VODs are hours long: pull only the interesting window
-            cmd += ["--download-sections", f"*{section}"]
-            ffmpeg = config.ffmpeg_bin()
-            ffdir = pathlib.Path(ffmpeg).parent
-            if str(ffdir) not in {".", ""}:
-                cmd += ["--ffmpeg-location", str(ffdir)]
-        cmd.append(url)
-        try:
-            subprocess.run(
-                cmd,
-                check=True,
-                capture_output=True,
-                timeout=1800,
-            )
-            return dest if dest.exists() else None
-        except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired) as exc:
-            stderr = getattr(exc, "stderr", b"") or b""
-            reason = stderr.decode("utf-8", "replace")[-300:] if stderr else str(exc)[:300]
-            state.error("discover", f"download failed: {url}", reason=reason)
-            return None
+        # All the yt-dlp detail (format choice, retries, verifying the file is
+        # whole) lives in pipeline/fetch.py.
+        return fetch.download(url, dest, section=section)
     return None
 
 

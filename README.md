@@ -147,9 +147,31 @@ campaigns:
     sources: ["https://...supplied-by-the-rights-holder..."]
     watermark: "@yourhandle"     # most campaigns require this
     required_hashtags: ["#their-tag"]
-    layout: crop                 # crop | split_v | gameplay_bg
+    layout: auto                 # auto | crop | fit | split_v | gameplay_bg
     gameplay_source: null        # set if they supply gameplay for split view
 ```
+
+**Clip look.** The defaults live under `defaults:` in
+`config/campaigns.yaml`, and every campaign can override them:
+
+| Setting | Default | What it does |
+|---|---|---|
+| `layout` | `auto` | `crop` cuts the middle 9:16 slice. `auto` checks the source first: if a crop would keep less than `min_crop_keep` (30%) of the picture - anything wider than 16:9 - it switches to `fit` instead, which shows the whole frame over a blurred copy of itself. |
+| `caption_style` | `chunk` | `chunk` = three words, white until spoken then filled in the accent colour. `word` = one word at a time. |
+| `caption_font` | `Anton` | Bundled in `assets/fonts` (SIL OFL licence), so it renders the same on a runner with no fonts installed. `Archivo Black` is the alternative. |
+| `caption_font_size` | `92` | Big enough to read on a phone. |
+| `caption_accent` | `#FACC15` | Colour the spoken words turn. |
+| `caption_color` | `#FFFFFF` | Colour of words before they are spoken. |
+| `caption_outline` | `#0A0A0F` | Outline + shadow, keeps text readable over bright gameplay. |
+| `hook_bg` | `#7C3AED` | Solid bar behind the hook at the top of the clip. Long hooks shrink and wrap instead of being cut off. |
+| `hook_seconds` | `3.4` | How long the hook stays on screen. |
+
+**Moment picking.** The transcript is read in several passes (one LLM call
+per ~15 minutes of footage) so a long stream is covered end to end. Every clip
+must come with a verbatim quote; the quote is searched in the transcript and
+the clip is moved to where those words are actually spoken. Clips whose quote
+cannot be found are dropped, and `score < 5` is never posted. Campaigns that
+need the product mentioned set `must_mention: true` plus `keywords:`.
 
 **Adding videos without editing files.** *Actions → clip-pipeline → Run
 workflow* has two inputs:
@@ -223,6 +245,23 @@ Locally: `python -m pipeline.dashboard` then open `docs/index.html`.
 | 9 | `pipeline/cleanup.py` | Deletes sources + uploaded clips, prunes old state |
 | 10 | `pipeline/dashboard.py` | Renders `docs/index.html` |
 
+## Built on three existing tools
+
+Three well-known open-source projects solve parts of this problem. Rather than
+reinvent them, here is exactly what came from each and what did not:
+
+| Tool | What we use | What we do NOT use, and why |
+|---|---|---|
+| **[yt-dlp](https://github.com/yt-dlp/yt-dlp)** | The downloader itself (`pipeline/fetch.py`): Twitch VODs and YouTube, `--download-sections` for one window, H.264/AAC preference so Meta does not refuse the file, 10 retries, and a probe that rejects a half-finished download instead of reusing it forever. | Nothing - it is the whole download step. |
+| **[ClipsAI](https://github.com/ClipsAI/clipsai)** | Its **reframe** idea (`pipeline/crop.py`): sample frames from a clip, find the speaker's face, and move the 9:16 window onto them instead of taking the middle slice. | Its **clip finding** (splits on speaker turns - wrong for a solo streamer, and our LLM picker already does better), and its **dependency stack** (WhisperX + PyTorch + pyannote needs several GB, minutes on every free runner and a HuggingFace token). We use a 230 KB YuNet model through OpenCV instead: no torch, no token, and it ignores the tiny webcam face in the corner of a gameplay stream so the game is not thrown away. Off by default; enable per campaign with `crop_mode: face`. |
+| **[Postiz](https://github.com/gitroomhq/postiz-app)** | The **publishing transport** (`pipeline/postiz.py`): you connect Instagram, Facebook, TikTok and YouTube once in its UI, and the pipeline posts with one API key. Removes three developer apps, three token refreshes and three upload protocols. | Its **scheduler UI** - we only call `POST /posts` with `type: now`. Its self-hosted edition needs Postgres, Redis and Temporal plus your own approved apps on each platform, so Postiz Cloud (paid) is the realistic option; direct APIs still work if you would rather do the app review yourself. |
+
+Neither ClipsAI nor Postiz is required. Without `POSTIZ_URL`/`POSTIZ_API_KEY`
+the pipeline uses the direct platform APIs; with `crop_mode: center` (the
+default) it takes the middle slice. `python -m pipeline.postiz` prints which
+channels are connected, and `python -m pipeline.crop <video>` shows what the
+face detector sees.
+
 ## Publishing targets
 
 All three are wired and independent — one failing never blocks the others.
@@ -232,6 +271,10 @@ All three are wired and independent — one failing never blocks the others.
 | **Instagram Reels** | IG Graph `/media` → `/media_publish` | Needs Business/Creator account + `instagram_content_publish` |
 | **Facebook Reels** | FB Graph `/video_reels` **3-phase** (`start` → upload → `finish`) | Needs a **Page** access token, not a user token |
 | **TikTok** | Content Posting API | Direct Post needs app audit; `draft_mode: true` until then |
+
+With Postiz configured, the same three (plus YouTube and X) go through
+`POST /upload` + `POST /posts` instead, and `posting.transport` in
+`config/accounts.yaml` decides which path is used (`auto` prefers Postiz).
 
 Facebook Reels is **enabled by default** in `config/accounts.yaml`. It uploads the
 local file to Meta (the public URL is only a fallback), which is why cleanup runs
