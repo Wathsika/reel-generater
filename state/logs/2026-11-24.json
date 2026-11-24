@@ -827,6 +827,111 @@
       "stage": "dashboard",
       "message": "completed (1 items)",
       "job_id": "dashboard-1795545223-292a8e"
+    },
+    {
+      "t": "2026-11-24T19:50:11+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "1 pasted link(s), 1 waiting"
+    },
+    {
+      "t": "2026-11-24T19:50:13+00:00",
+      "level": "warn",
+      "stage": "discover",
+      "message": "download failed (attempt 1/2)",
+      "reason": "ERROR: [youtube] q1jR850CE_o: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies | You",
+      "url": "https://www.youtube.com/watch?v=q1jR850CE_o&t=7s"
+    },
+    {
+      "t": "2026-11-24T19:50:14+00:00",
+      "level": "warn",
+      "stage": "discover",
+      "message": "download failed (attempt 2/2)",
+      "reason": "ERROR: [youtube] q1jR850CE_o: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies | You",
+      "url": "https://www.youtube.com/watch?v=q1jR850CE_o&t=7s"
+    },
+    {
+      "t": "2026-11-24T19:50:14+00:00",
+      "level": "error",
+      "stage": "discover",
+      "message": "download failed: https://www.youtube.com/watch?v=q1jR850CE_o&t=7s",
+      "reason": "ERROR: [youtube] q1jR850CE_o: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies | You"
+    },
+    {
+      "t": "2026-11-24T19:50:14+00:00",
+      "level": "error",
+      "stage": "discover",
+      "message": "no source could be downloaded - nothing to clip this run",
+      "sources": 1
+    },
+    {
+      "t": "2026-11-24T19:50:14+00:00",
+      "level": "error",
+      "stage": "discover",
+      "message": "job failed",
+      "job_id": "discover-1795549811-675421"
+    },
+    {
+      "t": "2026-11-24T19:50:14+00:00",
+      "level": "info",
+      "stage": "upload",
+      "message": "completed (0 items)",
+      "job_id": "upload-1795549814-4827a2"
+    },
+    {
+      "t": "2026-11-24T19:50:15+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "instagram is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-24T19:50:15+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "facebook is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-24T19:50:15+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "tiktok is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-24T19:50:15+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "completed (0 items)",
+      "job_id": "publish-1795549815-984193"
+    },
+    {
+      "t": "2026-11-24T19:50:15+00:00",
+      "level": "info",
+      "stage": "analytics",
+      "message": "completed (0 items)",
+      "job_id": "analytics-1795549815-00718d"
+    },
+    {
+      "t": "2026-11-24T19:50:16+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "completed (0 items)",
+      "job_id": "cleanup-1795549815-0fe9e5"
+    },
+    {
+      "t": "2026-11-24T19:50:16+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "freed 0.0 MB across 0 file(s)",
+      "sources": 0,
+      "state_files": 0,
+      "remote": 0
+    },
+    {
+      "t": "2026-11-24T19:50:16+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795549816-a28628"
     }
   ]
 }
