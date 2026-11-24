@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-24T15:36:03+00:00",
+  "generated": "2026-11-24T16:41:56+00:00",
   "jobs": {
     "runs": [
       {
@@ -1872,9 +1872,142 @@
         "items": 0,
         "error": null,
         "meta": {}
+      },
+      {
+        "id": "dashboard-1795534563-704b2f",
+        "stage": "dashboard",
+        "status": "ok",
+        "started": "2026-11-24T15:36:03+00:00",
+        "started_ts": 1795534563.356215,
+        "ended": "2026-11-24T15:36:03+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "discover-1795538509-be57c8",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-24T16:41:49+00:00",
+        "started_ts": 1795538509.1209612,
+        "ended": "2026-11-24T16:41:54+00:00",
+        "duration_s": 5.3,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "1 still waiting"
+        }
+      },
+      {
+        "id": "transcribe-1795538514-b74f71",
+        "stage": "transcribe",
+        "status": "ok",
+        "started": "2026-11-24T16:41:54+00:00",
+        "started_ts": 1795538514.4766686,
+        "ended": "2026-11-24T16:41:54+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "select-1795538514-5b5699",
+        "stage": "select",
+        "status": "ok",
+        "started": "2026-11-24T16:41:54+00:00",
+        "started_ts": 1795538514.541554,
+        "ended": "2026-11-24T16:41:54+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "render-1795538514-f6e26b",
+        "stage": "render",
+        "status": "ok",
+        "started": "2026-11-24T16:41:54+00:00",
+        "started_ts": 1795538514.6154459,
+        "ended": "2026-11-24T16:41:54+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "qa-1795538514-5780e4",
+        "stage": "qa",
+        "status": "ok",
+        "started": "2026-11-24T16:41:54+00:00",
+        "started_ts": 1795538514.688549,
+        "ended": "2026-11-24T16:41:54+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "upload-1795538514-325fb2",
+        "stage": "upload",
+        "status": "ok",
+        "started": "2026-11-24T16:41:54+00:00",
+        "started_ts": 1795538514.7583086,
+        "ended": "2026-11-24T16:41:54+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0,
+          "repaired": 0
+        }
+      },
+      {
+        "id": "publish-1795538514-0e3ba1",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-24T16:41:54+00:00",
+        "started_ts": 1795538514.8436654,
+        "ended": "2026-11-24T16:41:54+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "analytics-1795538514-fc81f8",
+        "stage": "analytics",
+        "status": "ok",
+        "started": "2026-11-24T16:41:54+00:00",
+        "started_ts": 1795538514.9300823,
+        "ended": "2026-11-24T16:41:54+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "cleanup-1795538514-c4da6c",
+        "stage": "cleanup",
+        "status": "ok",
+        "started": "2026-11-24T16:41:54+00:00",
+        "started_ts": 1795538514.9938278,
+        "ended": "2026-11-24T16:41:56+00:00",
+        "duration_s": 1.2,
+        "items": 0,
+        "error": null,
+        "meta": {}
       }
     ],
-    "updated": "2026-11-24T15:36:03+00:00"
+    "updated": "2026-11-24T16:41:56+00:00"
   },
   "queue": {
     "date": "2026-11-24",
@@ -1987,7 +2120,7 @@
         "source_deleted": true
       }
     ],
-    "updated": "2026-11-24T15:36:02+00:00",
+    "updated": "2026-11-24T16:41:54+00:00",
     "campaigns": [
       "bendadonn-puffco"
     ]
@@ -2024,7 +2157,7 @@
         "local_deleted": true
       }
     ],
-    "updated": "2026-11-24T15:36:02+00:00"
+    "updated": "2026-11-24T16:41:54+00:00"
   },
   "posted": {
     "posts": []
@@ -2041,7 +2174,7 @@
         "clips": 0
       }
     },
-    "updated": "2026-11-24T15:36:01+00:00"
+    "updated": "2026-11-24T16:41:54+00:00"
   },
   "log": {
     "entries": [
@@ -2472,6 +2605,146 @@
         "sources": 0,
         "state_files": 0,
         "remote": 0
+      },
+      {
+        "t": "2026-11-24T15:36:03+00:00",
+        "level": "info",
+        "stage": "dashboard",
+        "message": "completed (1 items)",
+        "job_id": "dashboard-1795534563-704b2f"
+      },
+      {
+        "t": "2026-11-24T16:41:49+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "1 pasted link(s), 1 waiting"
+      },
+      {
+        "t": "2026-11-24T16:41:53+00:00",
+        "level": "warn",
+        "stage": "discover",
+        "message": "download failed (attempt 1/2)",
+        "reason": "ERROR: [youtube] q1jR850CE_o: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://git",
+        "url": "https://www.youtube.com/watch?v=q1jR850CE_o"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "warn",
+        "stage": "discover",
+        "message": "download failed (attempt 2/2)",
+        "reason": "ERROR: [youtube] q1jR850CE_o: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://git",
+        "url": "https://www.youtube.com/watch?v=q1jR850CE_o"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "error",
+        "stage": "discover",
+        "message": "download failed: https://www.youtube.com/watch?v=q1jR850CE_o",
+        "reason": "ERROR: [youtube] q1jR850CE_o: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://git"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (0 items)",
+        "job_id": "discover-1795538509-be57c8"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "1 more video(s) waiting",
+        "waiting": 1
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "info",
+        "stage": "transcribe",
+        "message": "completed (0 items)",
+        "job_id": "transcribe-1795538514-b74f71"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "completed (0 items)",
+        "job_id": "select-1795538514-5b5699"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "info",
+        "stage": "render",
+        "message": "completed (0 items)",
+        "job_id": "render-1795538514-f6e26b"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "info",
+        "stage": "qa",
+        "message": "completed (0 items)",
+        "job_id": "qa-1795538514-5780e4"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "info",
+        "stage": "upload",
+        "message": "completed (0 items)",
+        "job_id": "upload-1795538514-325fb2"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "instagram is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "facebook is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "tiktok is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "info",
+        "stage": "publish",
+        "message": "auto_approve=false - waiting for manual approval",
+        "clip_id": "bendadonn-puffco_380_0"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "info",
+        "stage": "publish",
+        "message": "completed (0 items)",
+        "job_id": "publish-1795538514-0e3ba1"
+      },
+      {
+        "t": "2026-11-24T16:41:54+00:00",
+        "level": "info",
+        "stage": "analytics",
+        "message": "completed (0 items)",
+        "job_id": "analytics-1795538514-fc81f8"
+      },
+      {
+        "t": "2026-11-24T16:41:56+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "completed (0 items)",
+        "job_id": "cleanup-1795538514-c4da6c"
+      },
+      {
+        "t": "2026-11-24T16:41:56+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "freed 0.0 MB across 0 file(s)",
+        "sources": 0,
+        "state_files": 0,
+        "remote": 0
       }
     ]
   },
@@ -2507,7 +2780,7 @@
     ]
   },
   "storage": {
-    "updated": "2026-11-24T15:36:03+00:00",
+    "updated": "2026-11-24T16:41:56+00:00",
     "freed_mb": 0.0,
     "files_deleted": 0,
     "sources_deleted": 0,
@@ -2516,7 +2789,7 @@
     "remote_days": 7,
     "work_mb": 0.0,
     "out_mb": 0.0,
-    "state_mb": 0.09,
+    "state_mb": 0.1,
     "dry_run": false
   }
 }
