@@ -121,6 +121,13 @@ def run() -> tuple[int, int]:
                     "hashtags": clip.get("hashtags", []),
                     "duration": clip.get("duration"),
                     "meta": clip.get("meta"),
+                    # Which shape this came from and how it was fitted. Lost
+                    # before, so the dashboard's Shape column was blank for
+                    # every clip that reached the manifest.
+                    "layout": clip.get("layout") or item.get("layout"),
+                    "source_size": item.get("source_size"),
+                    "reel_fit": item.get("reel_fit"),
+                    "crop": clip.get("crop"),
                     "stage": "qa_passed",
                     "r2_url": None,
                 }
