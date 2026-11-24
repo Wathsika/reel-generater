@@ -22,10 +22,11 @@
         "duration": 55.7,
         "size": 11619956
       },
-      "stage": "uploaded",
+      "stage": "skipped",
       "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-23/bendadonn-puffco_1619_0.mp4",
       "storage_key": "2026-11-23/bendadonn-puffco_1619_0.mp4",
-      "storage_backend": "nextcloud"
+      "storage_backend": "nextcloud",
+      "error": "superseded: rendered before the picker/caption rewrite, not published"
     },
     {
       "clip_id": "bendadonn-puffco_359_1",
@@ -48,10 +49,11 @@
         "duration": 30.5,
         "size": 17299535
       },
-      "stage": "uploaded",
+      "stage": "skipped",
       "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-23/bendadonn-puffco_359_1.mp4",
       "storage_key": "2026-11-23/bendadonn-puffco_359_1.mp4",
-      "storage_backend": "nextcloud"
+      "storage_backend": "nextcloud",
+      "error": "superseded: rendered before the picker/caption rewrite, not published"
     }
   ],
   "updated": "2026-11-24T03:09:14+00:00"
