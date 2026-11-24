@@ -2172,7 +2172,88 @@
       "items": 1,
       "error": null,
       "meta": {}
+    },
+    {
+      "id": "discover-1795545217-81aa0b",
+      "stage": "discover",
+      "status": "failed",
+      "started": "2026-11-24T18:33:37+00:00",
+      "started_ts": 1795545217.1134813,
+      "ended": "2026-11-24T18:33:41+00:00",
+      "duration_s": 4.6,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 1,
+        "note": "download failed - the reason is in the log"
+      }
+    },
+    {
+      "id": "upload-1795545221-17e0b6",
+      "stage": "upload",
+      "status": "ok",
+      "started": "2026-11-24T18:33:41+00:00",
+      "started_ts": 1795545221.8117008,
+      "ended": "2026-11-24T18:33:41+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 0,
+        "repaired": 0
+      }
+    },
+    {
+      "id": "publish-1795545221-faf2ee",
+      "stage": "publish",
+      "status": "ok",
+      "started": "2026-11-24T18:33:41+00:00",
+      "started_ts": 1795545221.8775492,
+      "ended": "2026-11-24T18:33:41+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 0,
+        "note": null
+      }
+    },
+    {
+      "id": "analytics-1795545221-69b009",
+      "stage": "analytics",
+      "status": "ok",
+      "started": "2026-11-24T18:33:41+00:00",
+      "started_ts": 1795545221.9673553,
+      "ended": "2026-11-24T18:33:41+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "cleanup-1795545222-3058b5",
+      "stage": "cleanup",
+      "status": "ok",
+      "started": "2026-11-24T18:33:42+00:00",
+      "started_ts": 1795545222.0153925,
+      "ended": "2026-11-24T18:33:43+00:00",
+      "duration_s": 1.1,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "dashboard-1795545223-292a8e",
+      "stage": "dashboard",
+      "status": "ok",
+      "started": "2026-11-24T18:33:43+00:00",
+      "started_ts": 1795545223.186041,
+      "ended": "2026-11-24T18:33:43+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
     }
   ],
-  "updated": "2026-11-24T18:08:20+00:00"
+  "updated": "2026-11-24T18:33:43+00:00"
 }
