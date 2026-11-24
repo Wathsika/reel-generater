@@ -206,6 +206,9 @@ def download(
             dest.unlink(missing_ok=True)
 
     state.error("discover", f"download failed: {url}", reason=last or "unknown")
+    # Also surface it on the run page. A red job whose only line is
+    # "Process completed with exit code 1" tells nobody what to fix.
+    print(f"::error title=Download refused::{last or 'yt-dlp could not fetch this URL'}")
     return None
 
 

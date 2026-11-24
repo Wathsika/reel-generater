@@ -467,6 +467,9 @@ def run(limit: int | None = 1) -> int:
     if failed_sources and not added:
         state.error("discover", "no source could be downloaded - nothing to clip this run",
                     sources=len(failed_sources))
+        print("::error title=No clip this run::Nothing could be downloaded, so no "
+              "clip was made. The reason is in the 'Stage 1' step (usually YouTube "
+              "asking this server to sign in). Paste a Twitch video link instead.")
         jobs.finish(job, status="failed", items=0, failed=len(failed_sources),
                     note="download failed - the reason is in the log")
         return -1
