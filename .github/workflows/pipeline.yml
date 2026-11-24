@@ -75,12 +75,12 @@ jobs:
 
     steps:
       - name: Checkout (with state)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
@@ -213,6 +213,12 @@ jobs:
     needs: produce-and-publish
     if: always()
     runs-on: ubuntu-latest
+    # GitHub keeps one Pages site per repo. Two deployments at the same time
+    # delete/overwrite each other's artifact, which is what produces the
+    # "No artifacts named github-pages were found" annotation. Serialise them.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     permissions:
       pages: write
       id-token: write
@@ -221,7 +227,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Ensure dashboard exists
         run: |
@@ -232,18 +238,22 @@ jobs:
           fi
 
       - name: Configure Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: Upload dashboard artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: docs
 
       - name: Deploy to Pages
         id: deployment
-        # GitHub occasionally loses the just-uploaded artifact ("no artifacts
-        # named github-pages were found"). That turned an otherwise green run
-        # red and made the pipeline look broken; the dashboard is also
-        # committed to docs/, so a retry on the next run is enough.
+        # GitHub's Pages API is occasionally unreachable for a few seconds
+        # ("no artifacts named github-pages were found" /
+        # "fetching artifact metadata failed"). deploy-pages v5 retries on its
+        # own; if it still fails the dashboard is also committed to docs/, so
+        # the next run catches up. A Pages outage must not redden the pipeline.
         continue-on-error: true
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
+        with:
+          timeout: 900000
+          error_count: 20
