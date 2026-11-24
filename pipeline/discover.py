@@ -51,7 +51,8 @@ def _probe(url: str) -> dict:
     """VOD metadata without downloading: duration, title, uploader."""
     try:
         proc = subprocess.run(
-            [*config.ytdlp_cmd(), "-J", "--no-warnings", url],
+            [*config.ytdlp_cmd(), "-J", "--no-warnings",
+             "--retries", "3", "--socket-timeout", "30", *fetch._cookies(), url],
             capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180,
         )
         if proc.returncode != 0:
