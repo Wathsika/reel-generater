@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-24T19:50:16+00:00",
+  "generated": "2026-11-24T20:03:14+00:00",
   "jobs": {
     "runs": [
       {
@@ -2324,9 +2324,90 @@
         "items": 0,
         "error": null,
         "meta": {}
+      },
+      {
+        "id": "dashboard-1795549816-a28628",
+        "stage": "dashboard",
+        "status": "ok",
+        "started": "2026-11-24T19:50:16+00:00",
+        "started_ts": 1795549816.235973,
+        "ended": "2026-11-24T19:50:16+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "discover-1795550587-c661de",
+        "stage": "discover",
+        "status": "failed",
+        "started": "2026-11-24T20:03:07+00:00",
+        "started_ts": 1795550587.9894533,
+        "ended": "2026-11-24T20:03:13+00:00",
+        "duration_s": 5.3,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 1,
+          "note": "download failed - the reason is in the log"
+        }
+      },
+      {
+        "id": "upload-1795550593-677313",
+        "stage": "upload",
+        "status": "ok",
+        "started": "2026-11-24T20:03:13+00:00",
+        "started_ts": 1795550593.3062654,
+        "ended": "2026-11-24T20:03:13+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0,
+          "repaired": 0
+        }
+      },
+      {
+        "id": "publish-1795550593-e2ddfe",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-24T20:03:13+00:00",
+        "started_ts": 1795550593.371204,
+        "ended": "2026-11-24T20:03:13+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0,
+          "note": null
+        }
+      },
+      {
+        "id": "analytics-1795550593-dbcdd1",
+        "stage": "analytics",
+        "status": "ok",
+        "started": "2026-11-24T20:03:13+00:00",
+        "started_ts": 1795550593.4381292,
+        "ended": "2026-11-24T20:03:13+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "cleanup-1795550593-510009",
+        "stage": "cleanup",
+        "status": "ok",
+        "started": "2026-11-24T20:03:13+00:00",
+        "started_ts": 1795550593.4909477,
+        "ended": "2026-11-24T20:03:14+00:00",
+        "duration_s": 1.2,
+        "items": 0,
+        "error": null,
+        "meta": {}
       }
     ],
-    "updated": "2026-11-24T19:50:16+00:00"
+    "updated": "2026-11-24T20:03:14+00:00"
   },
   "queue": {
     "date": "2026-11-24",
@@ -2439,7 +2520,7 @@
         "source_deleted": true
       }
     ],
-    "updated": "2026-11-24T19:50:15+00:00",
+    "updated": "2026-11-24T20:03:13+00:00",
     "campaigns": [
       "bendadonn-puffco"
     ]
@@ -2478,7 +2559,7 @@
         "error": "not in storage any more - the public link serves no video, so this clip has to be rendered again"
       }
     ],
-    "updated": "2026-11-24T19:50:15+00:00"
+    "updated": "2026-11-24T20:03:13+00:00"
   },
   "posted": {
     "posts": []
@@ -2495,7 +2576,7 @@
         "clips": 0
       }
     },
-    "updated": "2026-11-24T19:50:15+00:00"
+    "updated": "2026-11-24T20:03:13+00:00"
   },
   "log": {
     "entries": [
@@ -3424,6 +3505,125 @@
         "sources": 0,
         "state_files": 0,
         "remote": 0
+      },
+      {
+        "t": "2026-11-24T19:50:16+00:00",
+        "level": "info",
+        "stage": "dashboard",
+        "message": "completed (1 items)",
+        "job_id": "dashboard-1795549816-a28628"
+      },
+      {
+        "t": "2026-11-24T20:03:08+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "queued a pasted link",
+        "url": "https://www.youtube.com/watch?v=q1jR850CE_o&t=7s"
+      },
+      {
+        "t": "2026-11-24T20:03:08+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "1 pasted link(s), 1 waiting"
+      },
+      {
+        "t": "2026-11-24T20:03:10+00:00",
+        "level": "warn",
+        "stage": "discover",
+        "message": "download failed (attempt 1/2)",
+        "reason": "ERROR: [youtube] q1jR850CE_o: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies | You",
+        "url": "https://www.youtube.com/watch?v=q1jR850CE_o&t=7s"
+      },
+      {
+        "t": "2026-11-24T20:03:12+00:00",
+        "level": "warn",
+        "stage": "discover",
+        "message": "download failed (attempt 2/2)",
+        "reason": "ERROR: [youtube] q1jR850CE_o: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies | You",
+        "url": "https://www.youtube.com/watch?v=q1jR850CE_o&t=7s"
+      },
+      {
+        "t": "2026-11-24T20:03:12+00:00",
+        "level": "error",
+        "stage": "discover",
+        "message": "download failed: https://www.youtube.com/watch?v=q1jR850CE_o&t=7s",
+        "reason": "ERROR: [youtube] q1jR850CE_o: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies | You"
+      },
+      {
+        "t": "2026-11-24T20:03:13+00:00",
+        "level": "warn",
+        "stage": "discover",
+        "message": "already handled today - paste it again tomorrow to redo",
+        "url": "https://www.twitch.tv/videos/2933247628"
+      },
+      {
+        "t": "2026-11-24T20:03:13+00:00",
+        "level": "error",
+        "stage": "discover",
+        "message": "no source could be downloaded - nothing to clip this run",
+        "sources": 1
+      },
+      {
+        "t": "2026-11-24T20:03:13+00:00",
+        "level": "error",
+        "stage": "discover",
+        "message": "job failed",
+        "job_id": "discover-1795550587-c661de"
+      },
+      {
+        "t": "2026-11-24T20:03:13+00:00",
+        "level": "info",
+        "stage": "upload",
+        "message": "completed (0 items)",
+        "job_id": "upload-1795550593-677313"
+      },
+      {
+        "t": "2026-11-24T20:03:13+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "instagram is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+      },
+      {
+        "t": "2026-11-24T20:03:13+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "facebook is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+      },
+      {
+        "t": "2026-11-24T20:03:13+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "tiktok is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+      },
+      {
+        "t": "2026-11-24T20:03:13+00:00",
+        "level": "info",
+        "stage": "publish",
+        "message": "completed (0 items)",
+        "job_id": "publish-1795550593-e2ddfe"
+      },
+      {
+        "t": "2026-11-24T20:03:13+00:00",
+        "level": "info",
+        "stage": "analytics",
+        "message": "completed (0 items)",
+        "job_id": "analytics-1795550593-dbcdd1"
+      },
+      {
+        "t": "2026-11-24T20:03:14+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "completed (0 items)",
+        "job_id": "cleanup-1795550593-510009"
+      },
+      {
+        "t": "2026-11-24T20:03:14+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "freed 0.0 MB across 0 file(s)",
+        "sources": 0,
+        "state_files": 0,
+        "remote": 0
       }
     ]
   },
@@ -3459,7 +3659,7 @@
     ]
   },
   "storage": {
-    "updated": "2026-11-24T19:50:16+00:00",
+    "updated": "2026-11-24T20:03:14+00:00",
     "freed_mb": 0.0,
     "files_deleted": 0,
     "sources_deleted": 0,
@@ -3468,7 +3668,7 @@
     "remote_days": 7,
     "work_mb": 0.0,
     "out_mb": 0.0,
-    "state_mb": 0.12,
+    "state_mb": 0.13,
     "dry_run": false
   }
 }
