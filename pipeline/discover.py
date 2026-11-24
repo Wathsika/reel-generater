@@ -210,6 +210,17 @@ def _absorb(seen: dict, pending: list[dict]) -> list[dict]:
         # pasting a link means "do it again", even if it was processed before
         seen.pop(url, None)
         changed = True
+        if ("youtube.com" in url or "youtu.be" in url) and not (
+            config.env("YTDLP_COOKIES") or ""
+        ).strip():
+            # Warn on the run page straight away. YouTube asks datacenter IPs
+            # such as GitHub's runners to "confirm you're not a bot", which no
+            # amount of retrying can answer; saying so here saves a red run.
+            print("::warning title=YouTube source::YouTube usually refuses "
+                  "downloads from GitHub's servers ('confirm you're not a bot'). "
+                  "If Stage 1 fails, use a Twitch/Kick link, or add the "
+                  "YTDLP_COOKIES secret.")
+        state.info("discover", "queued a pasted link", url=url[:120])
     if changed:
         _save_seen(seen)
     state.info("discover", f"{len(pasted)} pasted link(s), {len(pending)} waiting"
