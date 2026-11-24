@@ -1592,7 +1592,31 @@
       "items": 1,
       "error": null,
       "meta": {}
+    },
+    {
+      "id": "analytics-1795492880-33e28f",
+      "stage": "analytics",
+      "status": "ok",
+      "started": "2026-11-24T04:01:20+00:00",
+      "started_ts": 1795492880.3064795,
+      "ended": "2026-11-24T04:01:20+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "dashboard-1795492880-6c1bb4",
+      "stage": "dashboard",
+      "status": "ok",
+      "started": "2026-11-24T04:01:20+00:00",
+      "started_ts": 1795492880.3996267,
+      "ended": "2026-11-24T04:01:20+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
     }
   ],
-  "updated": "2026-11-24T03:09:15+00:00"
+  "updated": "2026-11-24T04:01:20+00:00"
 }

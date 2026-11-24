@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-24T03:09:15+00:00",
+  "generated": "2026-11-24T04:01:20+00:00",
   "jobs": {
     "runs": [
       {
@@ -1582,9 +1582,33 @@
         "items": 0,
         "error": null,
         "meta": {}
+      },
+      {
+        "id": "dashboard-1795489755-86224b",
+        "stage": "dashboard",
+        "status": "ok",
+        "started": "2026-11-24T03:09:15+00:00",
+        "started_ts": 1795489755.503676,
+        "ended": "2026-11-24T03:09:15+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "analytics-1795492880-33e28f",
+        "stage": "analytics",
+        "status": "ok",
+        "started": "2026-11-24T04:01:20+00:00",
+        "started_ts": 1795492880.3064795,
+        "ended": "2026-11-24T04:01:20+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
       }
     ],
-    "updated": "2026-11-24T03:09:15+00:00"
+    "updated": "2026-11-24T04:01:20+00:00"
   },
   "queue": {
     "date": "2026-11-24",
@@ -1611,7 +1635,7 @@
         "clips": 0
       }
     },
-    "updated": "2026-11-24T03:09:14+00:00"
+    "updated": "2026-11-24T04:01:20+00:00"
   },
   "log": {
     "entries": [
@@ -1738,6 +1762,20 @@
         "sources": 0,
         "state_files": 0,
         "remote": 0
+      },
+      {
+        "t": "2026-11-24T03:09:15+00:00",
+        "level": "info",
+        "stage": "dashboard",
+        "message": "completed (1 items)",
+        "job_id": "dashboard-1795489755-86224b"
+      },
+      {
+        "t": "2026-11-24T04:01:20+00:00",
+        "level": "info",
+        "stage": "analytics",
+        "message": "completed (0 items)",
+        "job_id": "analytics-1795492880-33e28f"
       }
     ]
   },
@@ -1764,8 +1802,8 @@
     "storage_backend": {
       "backend": "Nextcloud",
       "bucket": "Clips",
-      "configured": true,
-      "public": true,
+      "configured": false,
+      "public": false,
       "folder": "Clips"
     },
     "campaigns": [
