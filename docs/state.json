@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-24T20:12:42+00:00",
+  "generated": "2026-11-24T20:16:19+00:00",
   "jobs": {
     "runs": [
       {
@@ -2539,9 +2539,142 @@
         "items": 0,
         "error": null,
         "meta": {}
+      },
+      {
+        "id": "dashboard-1795551162-884815",
+        "stage": "dashboard",
+        "status": "ok",
+        "started": "2026-11-24T20:12:42+00:00",
+        "started_ts": 1795551162.4918776,
+        "ended": "2026-11-24T20:12:42+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "discover-1795551378-44b41b",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-24T20:16:18+00:00",
+        "started_ts": 1795551378.672901,
+        "ended": "2026-11-24T20:16:18+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "waiting list empty"
+        }
+      },
+      {
+        "id": "transcribe-1795551378-ae3589",
+        "stage": "transcribe",
+        "status": "ok",
+        "started": "2026-11-24T20:16:18+00:00",
+        "started_ts": 1795551378.7648337,
+        "ended": "2026-11-24T20:16:18+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "select-1795551378-495853",
+        "stage": "select",
+        "status": "ok",
+        "started": "2026-11-24T20:16:18+00:00",
+        "started_ts": 1795551378.825622,
+        "ended": "2026-11-24T20:16:18+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "render-1795551378-1bce55",
+        "stage": "render",
+        "status": "ok",
+        "started": "2026-11-24T20:16:18+00:00",
+        "started_ts": 1795551378.8935263,
+        "ended": "2026-11-24T20:16:18+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "qa-1795551378-2ce649",
+        "stage": "qa",
+        "status": "ok",
+        "started": "2026-11-24T20:16:18+00:00",
+        "started_ts": 1795551378.9567122,
+        "ended": "2026-11-24T20:16:18+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "upload-1795551379-3940d1",
+        "stage": "upload",
+        "status": "ok",
+        "started": "2026-11-24T20:16:19+00:00",
+        "started_ts": 1795551379.0190392,
+        "ended": "2026-11-24T20:16:19+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0,
+          "repaired": 0
+        }
+      },
+      {
+        "id": "publish-1795551379-11d928",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-24T20:16:19+00:00",
+        "started_ts": 1795551379.0987682,
+        "ended": "2026-11-24T20:16:19+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "no platform credentials"
+        }
+      },
+      {
+        "id": "analytics-1795551379-9aad60",
+        "stage": "analytics",
+        "status": "ok",
+        "started": "2026-11-24T20:16:19+00:00",
+        "started_ts": 1795551379.1785223,
+        "ended": "2026-11-24T20:16:19+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "cleanup-1795551379-c8ced7",
+        "stage": "cleanup",
+        "status": "ok",
+        "started": "2026-11-24T20:16:19+00:00",
+        "started_ts": 1795551379.237179,
+        "ended": "2026-11-24T20:16:19+00:00",
+        "duration_s": 0.5,
+        "items": 0,
+        "error": null,
+        "meta": {}
       }
     ],
-    "updated": "2026-11-24T20:12:42+00:00"
+    "updated": "2026-11-24T20:16:19+00:00"
   },
   "queue": {
     "date": "2026-11-24",
@@ -2654,7 +2787,7 @@
         "source_deleted": true
       }
     ],
-    "updated": "2026-11-24T20:12:41+00:00",
+    "updated": "2026-11-24T20:16:19+00:00",
     "campaigns": [
       "bendadonn-puffco"
     ]
@@ -2693,7 +2826,7 @@
         "error": "not in storage any more - the public link serves no video, so this clip has to be rendered again"
       }
     ],
-    "updated": "2026-11-24T20:12:41+00:00"
+    "updated": "2026-11-24T20:16:19+00:00"
   },
   "posted": {
     "posts": []
@@ -2710,7 +2843,7 @@
         "clips": 0
       }
     },
-    "updated": "2026-11-24T20:12:41+00:00"
+    "updated": "2026-11-24T20:16:19+00:00"
   },
   "log": {
     "entries": [
@@ -3862,6 +3995,128 @@
         "sources": 0,
         "state_files": 0,
         "remote": 0
+      },
+      {
+        "t": "2026-11-24T20:12:42+00:00",
+        "level": "info",
+        "stage": "dashboard",
+        "message": "completed (1 items)",
+        "job_id": "dashboard-1795551162-884815"
+      },
+      {
+        "t": "2026-11-24T20:16:18+00:00",
+        "level": "error",
+        "stage": "discover",
+        "message": "YouTube links cannot be downloaded from GitHub's servers (YouTube asks the runner to prove it is human). Nothing was queued. Use the campaign's Twitch link, or add a YTDLP_COOKIES secret and paste it again.",
+        "url": "https://www.youtube.com/watch?v=q1jR850CE_o&t=7s"
+      },
+      {
+        "t": "2026-11-24T20:16:18+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "1 pasted link(s), 0 waiting, 1 rejected"
+      },
+      {
+        "t": "2026-11-24T20:16:18+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (0 items)",
+        "job_id": "discover-1795551378-44b41b"
+      },
+      {
+        "t": "2026-11-24T20:16:18+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "nothing waiting - paste a link or add one to campaigns.yaml"
+      },
+      {
+        "t": "2026-11-24T20:16:18+00:00",
+        "level": "info",
+        "stage": "transcribe",
+        "message": "completed (0 items)",
+        "job_id": "transcribe-1795551378-ae3589"
+      },
+      {
+        "t": "2026-11-24T20:16:18+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "completed (0 items)",
+        "job_id": "select-1795551378-495853"
+      },
+      {
+        "t": "2026-11-24T20:16:18+00:00",
+        "level": "info",
+        "stage": "render",
+        "message": "completed (0 items)",
+        "job_id": "render-1795551378-1bce55"
+      },
+      {
+        "t": "2026-11-24T20:16:18+00:00",
+        "level": "info",
+        "stage": "qa",
+        "message": "completed (0 items)",
+        "job_id": "qa-1795551378-2ce649"
+      },
+      {
+        "t": "2026-11-24T20:16:19+00:00",
+        "level": "info",
+        "stage": "upload",
+        "message": "completed (0 items)",
+        "job_id": "upload-1795551379-3940d1"
+      },
+      {
+        "t": "2026-11-24T20:16:19+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "instagram is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+      },
+      {
+        "t": "2026-11-24T20:16:19+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "facebook is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+      },
+      {
+        "t": "2026-11-24T20:16:19+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "tiktok is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+      },
+      {
+        "t": "2026-11-24T20:16:19+00:00",
+        "level": "info",
+        "stage": "publish",
+        "message": "no platform is connected yet - clips stay in storage, nothing is lost; add the tokens and they will post next run"
+      },
+      {
+        "t": "2026-11-24T20:16:19+00:00",
+        "level": "info",
+        "stage": "publish",
+        "message": "completed (0 items)",
+        "job_id": "publish-1795551379-11d928"
+      },
+      {
+        "t": "2026-11-24T20:16:19+00:00",
+        "level": "info",
+        "stage": "analytics",
+        "message": "completed (0 items)",
+        "job_id": "analytics-1795551379-9aad60"
+      },
+      {
+        "t": "2026-11-24T20:16:19+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "completed (0 items)",
+        "job_id": "cleanup-1795551379-c8ced7"
+      },
+      {
+        "t": "2026-11-24T20:16:19+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "freed 0.0 MB across 0 file(s)",
+        "sources": 0,
+        "state_files": 0,
+        "remote": 0
       }
     ]
   },
@@ -3897,7 +4152,7 @@
     ]
   },
   "storage": {
-    "updated": "2026-11-24T20:12:42+00:00",
+    "updated": "2026-11-24T20:16:19+00:00",
     "freed_mb": 0.0,
     "files_deleted": 0,
     "sources_deleted": 0,
@@ -3906,7 +4161,7 @@
     "remote_days": 7,
     "work_mb": 0.0,
     "out_mb": 0.0,
-    "state_mb": 0.13,
+    "state_mb": 0.14,
     "dry_run": false
   }
 }
