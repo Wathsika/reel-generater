@@ -2,6 +2,11 @@ posting:
   max_clips_per_day: 6
   min_gap_minutes: 45
   auto_approve: false
+  # How clips reach the platforms.
+  #   auto   = Postiz when it is set up and the channel is connected, otherwise
+  #            the platform's own API (default)
+  #   postiz = only Postiz (one key, accounts connected in its UI)
+  #   direct = only the platform APIs (IG_USER_ID, FB_PAGE_ID, TT_CLIENT_KEY...)
   transport: auto
   post_times_utc:
   - 06:30
@@ -20,6 +25,8 @@ platforms:
     page_only: true
   tiktok:
     enabled: true
+    # true = the clip goes to the TikTok inbox (UPLOAD) because the app has
+    # not passed the audit yet; false = DIRECT_POST, published immediately.
     draft_mode: true
     privacy_level: PUBLIC_TO_EVERYONE
     disable_comment: false
@@ -27,6 +34,7 @@ platforms:
     disable_stitch: false
     cover_timestamp_ms: 1000
   youtube:
+    # Only reachable through Postiz - there is no direct uploader here.
     enabled: false
     visibility: public
 niches:

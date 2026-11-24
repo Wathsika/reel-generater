@@ -106,11 +106,22 @@ jobs:
           AUTO_APPROVE: ${{ github.event.inputs.auto_approve }}
         run: |
           python - <<'PY'
-          import os, pathlib, yaml
+          import os, pathlib, re, sys
+          value = os.environ["AUTO_APPROVE"].lower() == "true"
           p = pathlib.Path("config/accounts.yaml")
-          d = yaml.safe_load(p.read_text()) or {}
-          d.setdefault("posting", {})["auto_approve"] = os.environ["AUTO_APPROVE"].lower() == "true"
-          p.write_text(yaml.safe_dump(d, sort_keys=False))
+          text = p.read_text(encoding="utf-8")
+          wanted = "true" if value else "false"
+          # Replace only the one line. A full yaml.safe_dump() round-trip would
+          # erase every comment in the file and churn ~40 lines in the state
+          # commit on every dispatch.
+          new, n = re.subn(r"(?m)^(\s*auto_approve:\s*).*$", r"\g<1>" + wanted, text)
+          if n == 0:
+              sys.exit("config/accounts.yaml has no posting.auto_approve line to update")
+          if new != text:
+              p.write_text(new, encoding="utf-8")
+              print("auto_approve ->", wanted)
+          else:
+              print("auto_approve already", wanted)
           PY
 
       - name: "Stage 1 - take the next video"
