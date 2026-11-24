@@ -363,6 +363,39 @@ def public_url(bucket: str, key: str) -> str:
     return f"{base}/{urllib.parse.quote(key)}"
 
 
+def verify_url(url: str, timeout: int = 60) -> bool:
+    """Does this public link really serve video bytes to an anonymous caller?
+
+    One ranged GET, the way Meta and TikTok fetch a file. An HTML answer (a
+    share page, a login screen, a 404 page) counts as broken - that is the
+    difference between "we uploaded it" and "the file is still there".
+    """
+    if not url:
+        return False
+    import time
+
+    import requests
+
+    for attempt in (1, 2):
+        try:
+            with requests.get(
+                url, stream=True, timeout=timeout, allow_redirects=True,
+                headers={"Range": "bytes=0-0",
+                         "User-Agent": "clip-pipeline-check/1.0"},
+            ) as r:
+                code = r.status_code
+                ctype = (r.headers.get("Content-Type") or "").lower()
+            if code in (200, 206) and ctype.startswith(
+                ("video/", "application/octet-stream", "binary/octet-stream")
+            ):
+                return True
+        except Exception:
+            pass
+        if attempt == 1:
+            time.sleep(3)      # one retry: a blip must not throw a clip away
+    return False
+
+
 def build_url(key: str) -> str:
     """Public URL for an object already in storage, without uploading it again.
 
@@ -461,6 +494,51 @@ def run() -> int:
         if changed:
             state.save_rendered(manifest)
 
+    # Then verify. "Uploaded" is a claim, not a fact: on 2026-11-24 a clip was
+    # marked uploaded and its link verified, yet the file was gone from the
+    # Nextcloud share later that day and every run kept saying "waiting for
+    # approval" with a URL that answered 404. A link nobody re-checks is how
+    # that goes unnoticed, so each not-yet-published clip gets one ranged GET.
+    for manifest in manifests:
+        changed = False
+        for clip in manifest.get("clips", []):
+            if clip.get("stage") != "uploaded":
+                continue
+            url = str(clip.get("r2_url") or "")
+            if not url:
+                continue                      # the repair pass above owns this
+            if verify_url(url):
+                if clip.get("url_ok") is not True:
+                    clip["url_ok"] = True
+                    changed = True
+                continue
+            fresh = ""
+            if clip.get("storage_key"):
+                try:
+                    fresh = build_url(clip["storage_key"])
+                except Exception as exc:
+                    state.warn("upload", "stored link is dead and cannot be rebuilt",
+                               clip_id=clip.get("clip_id"), reason=str(exc)[:200])
+            if fresh and verify_url(fresh):
+                clip["r2_url"] = fresh
+                clip["url_ok"] = True
+                clip.pop("error", None)
+                repaired += 1
+                changed = True
+                state.info("upload", "the storage link had moved - repaired",
+                           clip_id=clip.get("clip_id"))
+                continue
+            clip["stage"] = "failed"
+            clip["url_ok"] = False
+            clip["error"] = ("not in storage any more - the public link serves no "
+                             "video, so this clip has to be rendered again")
+            failed += 1
+            changed = True
+            state.error("upload", f"{clip.get('clip_id')} is missing from storage",
+                        reason=url)
+        if changed:
+            state.save_rendered(manifest)
+
     for clip in rendered.get("clips", []):
         if clip.get("stage") not in {"qa_passed", "uploaded"}:
             continue
@@ -493,6 +571,8 @@ def run() -> int:
             clip["r2_url"] = upload(path, key)
             clip["storage_key"] = key
             clip["storage_backend"] = backend()
+            # Prove the link now, so publish never posts a URL that 404s.
+            clip["url_ok"] = verify_url(clip["r2_url"])
             clip["stage"] = "uploaded"
             done += 1
         except Exception as exc:

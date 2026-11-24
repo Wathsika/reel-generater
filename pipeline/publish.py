@@ -314,6 +314,7 @@ def run() -> int:
     posted = 0
     failed = 0
     no_url = 0
+    waiting = 0
 
     mode = str(accounts.get("posting", {}).get("transport") or "auto").lower()
     routes = {name: _transport(name, platforms, mode) for name in PLATFORMS}
@@ -365,6 +366,7 @@ def run() -> int:
             if clip.get("stage") == "published":
                 continue
             if not auto:
+                waiting += 1
                 state.info("publish", "auto_approve=false - waiting for manual approval",
                            clip_id=clip.get("clip_id"))
                 continue
@@ -385,6 +387,18 @@ def run() -> int:
                 failed += 1
                 no_url += 1
                 state.error("publish", "clip has no public URL - storage did not produce one",
+                            clip_id=clip.get("clip_id"))
+                state.save_rendered(rendered)
+                continue
+
+            # The upload stage now proves the link serves bytes. If it did not,
+            # posting would only burn a platform call and report a confusing
+            # failure there, so stop here with the real reason.
+            if clip.get("url_ok") is False:
+                clip["stage"] = "failed"
+                clip["error"] = "the storage link serves no video - upload it again"
+                failed += 1
+                state.error("publish", "storage link is dead - not posting",
                             clip_id=clip.get("clip_id"))
                 state.save_rendered(rendered)
                 continue
@@ -456,7 +470,18 @@ def run() -> int:
         jobs.finish(job, status="failed", items=0, failed=failed)
         return -1
 
-    jobs.finish(job, status="ok" if not failed else "partial", items=posted, failed=failed)
+    # A green run while every clip waits for approval is easy to misread as
+    # "the pipeline did nothing". Say the count out loud, and put it in the job
+    # note so the dashboard row explains it too.
+    if waiting and not posted and not failed:
+        state.info("publish",
+                   f"{waiting} clip(s) are uploaded and waiting for approval - "
+                   "next run with auto_approve ticked will post them",
+                   waiting=waiting)
+
+    note = f"{waiting} waiting for approval" if (waiting and not posted) else None
+    jobs.finish(job, status="ok" if not failed else "partial", items=posted,
+                failed=failed, note=note)
     return posted
 
 

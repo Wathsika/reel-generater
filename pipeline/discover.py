@@ -365,6 +365,7 @@ def run(limit: int | None = 1) -> int:
             existing.add(c.get("source_url"))
 
     added = 0
+    failed_sources: list[str] = []
     for cand in todo:
         if limit is not None and added >= limit:
             break
@@ -404,6 +405,7 @@ def run(limit: int | None = 1) -> int:
         if got is None:
             # Failure: try once more on a later run, then drop it so the queue
             # keeps moving and the chain of runs eventually stops.
+            failed_sources.append(url)
             tries = cand["tries"] + 1
             pending = [p for p in pending if p["url"] != url]
             if cand["from_pending"] and tries < MAX_TRIES:
@@ -456,6 +458,19 @@ def run(limit: int | None = 1) -> int:
     state.save_queue(queue)
 
     remaining = len(_candidates(campaigns, defaults, pending, seen))
+
+    # A run that downloaded nothing because the source was refused is NOT a
+    # success. On 2026-11-24 a YouTube link hit "Sign in to confirm you're not
+    # a bot", the run stayed green, and nothing reached storage - which looks
+    # exactly like the pipeline being broken. Return non-zero so GitHub shows
+    # the red run, the log carries the reason, and no follow-up run is chained.
+    if failed_sources and not added:
+        state.error("discover", "no source could be downloaded - nothing to clip this run",
+                    sources=len(failed_sources))
+        jobs.finish(job, status="failed", items=0, failed=len(failed_sources),
+                    note="download failed - the reason is in the log")
+        return -1
+
     jobs.finish(job, status="ok", items=added,
                 note=f"{remaining} still waiting" if remaining else "queue empty")
     if remaining:
@@ -481,7 +496,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     n = run(limit=args.limit)
     print(f"discovered {n} source(s)")
-    return 0
+    return 0 if n >= 0 else 1
 
 
 if __name__ == "__main__":

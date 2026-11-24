@@ -220,6 +220,7 @@ The dashboard's **Storage** card shows `Remote pruned` and the retentions.
 | URL returns `401`/`403` | share has a password, or app password is wrong |
 | `content-type: application/octet-stream` | the object was not stored as `.mp4`; keep keys ending in `.mp4` |
 | `PROPFIND` fails during cleanup | Nextcloud's DAV is behind a proxy that blocks `PROPFIND`; allow it, or set `--remote-days 0` and prune manually |
+| A clip vanished from the folder later | the stored link is a **folder share** of `NC_FOLDER`. Deleting/recreating that share, emptying the folder, or a retention app on the VPS changes or breaks the links. The upload stage re-checks each stored link every run and marks a clip `failed` (with the URL in the log) instead of posting a dead link; re-paste the source to cut it again |
 
 > If Nextcloud keeps fighting you, Option A on the same VPS is ~15 minutes and
 > removes this whole class of failure. The backend is a single secret switch.
@@ -469,4 +470,6 @@ from picking good campaigns and good hooks.
 | `TikTok not authorised` | run Part 6, save `STATE_TOKENS` |
 | `ffmpeg failed` | check the Actions log; usually a bad source URL |
 | TikTok posts fail | audit not approved → keep `draft_mode: true` |
-| Nothing published | `auto_approve: true` in `config/accounts.yaml` |
+| Nothing published | tick **auto_approve** on the next run, or set `auto_approve: true` in `config/accounts.yaml` |
+| Run is green but no new clip appears | a green run only means "every stage ran". Check the run's `discover` step first: if it says `no source could be downloaded`, the link was refused (YouTube bot check → add a `YTDLP_COOKIES` secret, or paste the Twitch VOD link). If the clip table says `waiting for approval`, the clip is in Nextcloud but not posted yet |
+| A clip that was in Nextcloud is gone | the upload stage re-checks every stored link each run. A clip whose public link stops serving video becomes `failed` with the reason in the log instead of being posted. Re-paste the source video to cut it again |

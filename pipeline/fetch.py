@@ -190,9 +190,16 @@ def download(
         err = (proc.stderr or b"").decode("utf-8", "replace")
         lines = [l for l in err.splitlines()
                  if l.strip() and not l.startswith(("WARNING", "[download]"))]
-        last = (lines[-1] if lines else f"exit code {proc.returncode}")[:300]
+        last = (lines[-1] if lines else f"exit code {proc.returncode}")
         if proc.returncode == 0:
             last = "the file finished but is not a usable video"
+        if "not a bot" in err.lower() or "sign in to confirm" in err.lower():
+            # Datacenter IPs are asked to prove they are human. Nothing in the
+            # pipeline can answer that: it needs a signed-in session.
+            last += (" | YouTube wants a signed-in session from this runner: add a "
+                     "YTDLP_COOKIES secret (a cookies.txt exported from a logged-in "
+                     "browser) or paste the original Twitch URL instead.")
+        last = last[:420]
         state.warn("discover", f"download failed (attempt {attempt}/{tries})",
                    reason=last, url=url[:110])
         if dest.is_file() and not looks_complete(dest, expect):
