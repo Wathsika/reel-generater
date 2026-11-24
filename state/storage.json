@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-24T03:09:15+00:00",
-  "freed_mb": 0.0,
-  "files_deleted": 0,
-  "sources_deleted": 0,
+  "updated": "2026-11-24T08:01:47+00:00",
+  "freed_mb": 4093.74,
+  "files_deleted": 5,
+  "sources_deleted": 1,
   "state_files_deleted": 0,
   "remote_deleted": 0,
   "remote_days": 7,
   "work_mb": 0.0,
   "out_mb": 0.0,
-  "state_mb": 0.07,
+  "state_mb": 0.09,
   "dry_run": false
 }

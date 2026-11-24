@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-24T07:56:07+00:00",
+  "generated": "2026-11-24T08:01:47+00:00",
   "jobs": {
     "runs": [
       {
@@ -1618,19 +1618,280 @@
         "items": 1,
         "error": null,
         "meta": {}
+      },
+      {
+        "id": "discover-1795507179-c3d0c1",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-24T07:59:39+00:00",
+        "started_ts": 1795507179.977916,
+        "ended": "2026-11-24T08:00:12+00:00",
+        "duration_s": 32.7,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "note": "queue empty"
+        }
+      },
+      {
+        "id": "transcribe-1795507212-b24075",
+        "stage": "transcribe",
+        "status": "ok",
+        "started": "2026-11-24T08:00:12+00:00",
+        "started_ts": 1795507212.7333856,
+        "ended": "2026-11-24T08:01:16+00:00",
+        "duration_s": 63.5,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "select-1795507276-ec4425",
+        "stage": "select",
+        "status": "ok",
+        "started": "2026-11-24T08:01:16+00:00",
+        "started_ts": 1795507276.3454208,
+        "ended": "2026-11-24T08:01:28+00:00",
+        "duration_s": 12.5,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "render-1795507288-eea0c5",
+        "stage": "render",
+        "status": "ok",
+        "started": "2026-11-24T08:01:28+00:00",
+        "started_ts": 1795507288.9120817,
+        "ended": "2026-11-24T08:01:42+00:00",
+        "duration_s": 13.5,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "qa-1795507302-60bd16",
+        "stage": "qa",
+        "status": "ok",
+        "started": "2026-11-24T08:01:42+00:00",
+        "started_ts": 1795507302.527154,
+        "ended": "2026-11-24T08:01:42+00:00",
+        "duration_s": 0.1,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "upload-1795507302-e1e049",
+        "stage": "upload",
+        "status": "ok",
+        "started": "2026-11-24T08:01:42+00:00",
+        "started_ts": 1795507302.6729333,
+        "ended": "2026-11-24T08:01:46+00:00",
+        "duration_s": 3.4,
+        "items": 1,
+        "error": null,
+        "meta": {
+          "failed": 0,
+          "repaired": 0
+        }
+      },
+      {
+        "id": "publish-1795507306-9dcd0e",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-24T08:01:46+00:00",
+        "started_ts": 1795507306.1147487,
+        "ended": "2026-11-24T08:01:46+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "analytics-1795507306-a88ab8",
+        "stage": "analytics",
+        "status": "ok",
+        "started": "2026-11-24T08:01:46+00:00",
+        "started_ts": 1795507306.2028003,
+        "ended": "2026-11-24T08:01:46+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "cleanup-1795507306-95b5e9",
+        "stage": "cleanup",
+        "status": "ok",
+        "started": "2026-11-24T08:01:46+00:00",
+        "started_ts": 1795507306.2705324,
+        "ended": "2026-11-24T08:01:47+00:00",
+        "duration_s": 0.7,
+        "items": 5,
+        "error": null,
+        "meta": {}
       }
     ],
-    "updated": "2026-11-24T04:01:20+00:00"
+    "updated": "2026-11-24T08:01:47+00:00"
   },
   "queue": {
     "date": "2026-11-24",
-    "clips": [],
-    "updated": "2026-11-24T03:09:14+00:00"
+    "clips": [
+      {
+        "source_key": "https://www.twitch.tv/videos/2933247628|00:00:00-01:15:00",
+        "source_url": "https://www.twitch.tv/videos/2933247628",
+        "source_section": "00:00:00-01:15:00",
+        "source_title": "IM IN GTA 6 🌴 BEST GAMEPLAY 🌴 LETS LOCK IN 🌴",
+        "source_uploader": "bendadonnn",
+        "auto_section": true,
+        "path": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
+        "campaign": "bendadonn-puffco",
+        "settings": {
+          "layout": "auto",
+          "min_crop_keep": 0.3,
+          "crop_mode": "center",
+          "min_duration": 18,
+          "max_duration": 60,
+          "max_clips_per_video": 10,
+          "caption_style": "chunk",
+          "caption_font": "Anton",
+          "caption_font_size": 92,
+          "caption_accent": "#FACC15",
+          "caption_color": "#FFFFFF",
+          "caption_outline": "#0A0A0F",
+          "caption_uppercase": true,
+          "hook_font": "Archivo Black",
+          "hook_size": 54,
+          "hook_bg": "#7C3AED",
+          "hook_color": "#FFFFFF",
+          "hook_seconds": 3.4,
+          "hook_y": 300,
+          "watermark": "",
+          "require_original_audio": true,
+          "trim_silence": true,
+          "id": "bendadonn-puffco",
+          "name": "BenDaDonnn x Puffco GTA 6",
+          "enabled": true,
+          "source_type": "yt-dlp",
+          "source_section": "00:00:00-01:15:00",
+          "rate_cpm": 1.0,
+          "payout_model": "cpm",
+          "required_hashtags": [],
+          "keywords": [
+            "puffco",
+            "puffco peak",
+            "proxy",
+            "hash butler",
+            "jar",
+            "clouds",
+            "dab",
+            "hits"
+          ],
+          "must_mention": true,
+          "rules": "Only moments from Ben's Puffco GTA stream. Positive moments only: genuine first-hit and in-session reactions, natural wonder and energy at GTA, clouds / big hits, impressed moments where Ben or chat is hyped, tips and banter about the Hash Butler, and any shoutout or positive energy toward Puffco. Never use complaints, weak hits, frustration, negative framing of the device or sponsor, gambling (slots, blackjack), or anything highly offensive.\n",
+          "focus_seconds": [
+            0,
+            300,
+            600,
+            1050,
+            1350,
+            3450,
+            4200,
+            6600
+          ]
+        },
+        "stage": "rendered",
+        "transcript": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.words.json",
+        "duration": 4500.010688,
+        "clips": [
+          {
+            "start": 380.46,
+            "end": 401,
+            "score": 8,
+            "quote": "Let me get a puffy. Do y'all see this shit right here? These is dabs.",
+            "verify": "quote",
+            "hook": "First puff & dabs! 🌬️💨",
+            "title": "Ben's first puff on stream – massive clouds!",
+            "caption": "Caught Ben pulling a puff and showing off the dabs. Who else loves those clouds?",
+            "hashtags": [
+              "#Puffco",
+              "#GTAstream",
+              "#Dabs",
+              "#Clouds",
+              "#FirstHit"
+            ],
+            "reason": "Positive brand‑related moment with a clear puff reference, dabs on screen, and immediate hype – perfect for short‑form viral energy.",
+            "stage": "qa_passed",
+            "clip_id": "bendadonn-puffco_380_0",
+            "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-24/bendadonn-puffco_380_0.mp4",
+            "duration": 20.54,
+            "layout": "crop",
+            "hash": "51ff56ed2511981039cdb7cc",
+            "meta": {
+              "width": 1080,
+              "height": 1920,
+              "duration": 20.633333,
+              "size": 10485439
+            }
+          }
+        ],
+        "windows": 6,
+        "source_size": [
+          1920,
+          1080
+        ],
+        "reel_fit": 0.316,
+        "layout": "crop",
+        "source_deleted": true
+      }
+    ],
+    "updated": "2026-11-24T08:01:46+00:00",
+    "campaigns": [
+      "bendadonn-puffco"
+    ]
   },
   "rendered": {
     "date": "2026-11-24",
-    "clips": [],
-    "updated": "2026-11-24T03:09:14+00:00"
+    "clips": [
+      {
+        "clip_id": "bendadonn-puffco_380_0",
+        "campaign": "bendadonn-puffco",
+        "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-24/bendadonn-puffco_380_0.mp4",
+        "hash": "51ff56ed2511981039cdb7cc",
+        "hook": "First puff & dabs! 🌬️💨",
+        "title": "Ben's first puff on stream – massive clouds!",
+        "caption": "Caught Ben pulling a puff and showing off the dabs. Who else loves those clouds?",
+        "hashtags": [
+          "#Puffco",
+          "#GTAstream",
+          "#Dabs",
+          "#Clouds",
+          "#FirstHit"
+        ],
+        "duration": 20.54,
+        "meta": {
+          "width": 1080,
+          "height": 1920,
+          "duration": 20.633333,
+          "size": 10485439
+        },
+        "stage": "uploaded",
+        "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-24/bendadonn-puffco_380_0.mp4",
+        "storage_key": "2026-11-24/bendadonn-puffco_380_0.mp4",
+        "storage_backend": "nextcloud",
+        "local_deleted": true
+      }
+    ],
+    "updated": "2026-11-24T08:01:46+00:00"
   },
   "posted": {
     "posts": []
@@ -1647,7 +1908,7 @@
         "clips": 0
       }
     },
-    "updated": "2026-11-24T04:01:20+00:00"
+    "updated": "2026-11-24T08:01:46+00:00"
   },
   "log": {
     "entries": [
@@ -1795,6 +2056,179 @@
         "stage": "dashboard",
         "message": "completed (1 items)",
         "job_id": "dashboard-1795492880-6c1bb4"
+      },
+      {
+        "t": "2026-11-24T07:59:39+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "1 pasted link(s), 1 waiting"
+      },
+      {
+        "t": "2026-11-24T07:59:52+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "auto window 00:00:00-01:15:00 for https://www.twitch.tv/videos/2933247628",
+        "source": "bendadonnn"
+      },
+      {
+        "t": "2026-11-24T08:00:12+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "downloaded https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
+        "size_mb": 4057.6,
+        "duration_s": 4500,
+        "size": "1920x1080"
+      },
+      {
+        "t": "2026-11-24T08:00:12+00:00",
+        "level": "info",
+        "stage": "discover",
+        "message": "completed (1 items)",
+        "job_id": "discover-1795507179-c3d0c1"
+      },
+      {
+        "t": "2026-11-24T08:01:16+00:00",
+        "level": "info",
+        "stage": "transcribe",
+        "message": "completed (1 items)",
+        "job_id": "transcribe-1795507212-b24075"
+      },
+      {
+        "t": "2026-11-24T08:01:20+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "groq model in use: openai/gpt-oss-120b"
+      },
+      {
+        "t": "2026-11-24T08:01:24+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "groq model in use: openai/gpt-oss-120b"
+      },
+      {
+        "t": "2026-11-24T08:01:26+00:00",
+        "level": "warn",
+        "stage": "select",
+        "message": "window 2/6 failed",
+        "reason": "groq: openai/gpt-oss-120b: HTTP 429; allam-2-7b: HTTP 429; canopylabs/orpheus-arabic-saudi: HTTP 400 {\"error\":{\"message\":\"The model `canopylabs/orpheus-arabic-saudi` requires terms acceptance. Please "
+      },
+      {
+        "t": "2026-11-24T08:01:27+00:00",
+        "level": "warn",
+        "stage": "select",
+        "message": "window 3/6 failed",
+        "reason": "groq: openai/gpt-oss-120b: HTTP 429; allam-2-7b: HTTP 429; canopylabs/orpheus-arabic-saudi: HTTP 400 {\"error\":{\"message\":\"The model `canopylabs/orpheus-arabic-saudi` requires terms acceptance. Please "
+      },
+      {
+        "t": "2026-11-24T08:01:27+00:00",
+        "level": "warn",
+        "stage": "select",
+        "message": "window 4/6 failed",
+        "reason": "groq: openai/gpt-oss-120b: HTTP 429; allam-2-7b: HTTP 429; canopylabs/orpheus-arabic-saudi: HTTP 400 {\"error\":{\"message\":\"The model `canopylabs/orpheus-arabic-saudi` requires terms acceptance. Please "
+      },
+      {
+        "t": "2026-11-24T08:01:28+00:00",
+        "level": "warn",
+        "stage": "select",
+        "message": "window 5/6 failed",
+        "reason": "groq: openai/gpt-oss-120b: HTTP 429; allam-2-7b: HTTP 429; canopylabs/orpheus-arabic-saudi: HTTP 400 {\"error\":{\"message\":\"The model `canopylabs/orpheus-arabic-saudi` requires terms acceptance. Please "
+      },
+      {
+        "t": "2026-11-24T08:01:28+00:00",
+        "level": "warn",
+        "stage": "select",
+        "message": "window 6/6 failed",
+        "reason": "groq: openai/gpt-oss-120b: HTTP 429; allam-2-7b: HTTP 429; canopylabs/orpheus-arabic-saudi: HTTP 400 {\"error\":{\"message\":\"The model `canopylabs/orpheus-arabic-saudi` requires terms acceptance. Please "
+      },
+      {
+        "t": "2026-11-24T08:01:28+00:00",
+        "level": "info",
+        "stage": "select",
+        "message": "completed (1 items)",
+        "job_id": "select-1795507276-ec4425"
+      },
+      {
+        "t": "2026-11-24T08:01:29+00:00",
+        "level": "info",
+        "stage": "render",
+        "message": "source 1920x1080 keeps 31% in a 9:16 crop",
+        "layout": "crop"
+      },
+      {
+        "t": "2026-11-24T08:01:42+00:00",
+        "level": "info",
+        "stage": "render",
+        "message": "completed (1 items)",
+        "job_id": "render-1795507288-eea0c5"
+      },
+      {
+        "t": "2026-11-24T08:01:42+00:00",
+        "level": "info",
+        "stage": "qa",
+        "message": "completed (1 items)",
+        "job_id": "qa-1795507302-60bd16"
+      },
+      {
+        "t": "2026-11-24T08:01:46+00:00",
+        "level": "info",
+        "stage": "upload",
+        "message": "completed (1 items)",
+        "job_id": "upload-1795507302-e1e049"
+      },
+      {
+        "t": "2026-11-24T08:01:46+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "instagram is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+      },
+      {
+        "t": "2026-11-24T08:01:46+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "facebook is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+      },
+      {
+        "t": "2026-11-24T08:01:46+00:00",
+        "level": "warn",
+        "stage": "publish",
+        "message": "tiktok is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+      },
+      {
+        "t": "2026-11-24T08:01:46+00:00",
+        "level": "info",
+        "stage": "publish",
+        "message": "auto_approve=false - waiting for manual approval",
+        "clip_id": "bendadonn-puffco_380_0"
+      },
+      {
+        "t": "2026-11-24T08:01:46+00:00",
+        "level": "info",
+        "stage": "publish",
+        "message": "completed (0 items)",
+        "job_id": "publish-1795507306-9dcd0e"
+      },
+      {
+        "t": "2026-11-24T08:01:46+00:00",
+        "level": "info",
+        "stage": "analytics",
+        "message": "completed (0 items)",
+        "job_id": "analytics-1795507306-a88ab8"
+      },
+      {
+        "t": "2026-11-24T08:01:47+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "completed (5 items)",
+        "job_id": "cleanup-1795507306-95b5e9"
+      },
+      {
+        "t": "2026-11-24T08:01:47+00:00",
+        "level": "info",
+        "stage": "cleanup",
+        "message": "freed 4093.74 MB across 5 file(s)",
+        "sources": 1,
+        "state_files": 0,
+        "remote": 0
       }
     ]
   },
@@ -1815,14 +2249,14 @@
       "last_refresh": null
     },
     "llm": {
-      "groq": false,
+      "groq": true,
       "gemini": false
     },
     "storage_backend": {
       "backend": "Nextcloud",
       "bucket": "Clips",
-      "configured": false,
-      "public": false,
+      "configured": true,
+      "public": true,
       "folder": "Clips"
     },
     "campaigns": [
@@ -1830,16 +2264,16 @@
     ]
   },
   "storage": {
-    "updated": "2026-11-24T03:09:15+00:00",
-    "freed_mb": 0.0,
-    "files_deleted": 0,
-    "sources_deleted": 0,
+    "updated": "2026-11-24T08:01:47+00:00",
+    "freed_mb": 4093.74,
+    "files_deleted": 5,
+    "sources_deleted": 1,
     "state_files_deleted": 0,
     "remote_deleted": 0,
     "remote_days": 7,
     "work_mb": 0.0,
     "out_mb": 0.0,
-    "state_mb": 0.07,
+    "state_mb": 0.09,
     "dry_run": false
   }
 }

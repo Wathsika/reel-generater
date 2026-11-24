@@ -1,5 +1,116 @@
 {
   "date": "2026-11-24",
-  "clips": [],
-  "updated": "2026-11-24T03:09:14+00:00"
+  "clips": [
+    {
+      "source_key": "https://www.twitch.tv/videos/2933247628|00:00:00-01:15:00",
+      "source_url": "https://www.twitch.tv/videos/2933247628",
+      "source_section": "00:00:00-01:15:00",
+      "source_title": "IM IN GTA 6 🌴 BEST GAMEPLAY 🌴 LETS LOCK IN 🌴",
+      "source_uploader": "bendadonnn",
+      "auto_section": true,
+      "path": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
+      "campaign": "bendadonn-puffco",
+      "settings": {
+        "layout": "auto",
+        "min_crop_keep": 0.3,
+        "crop_mode": "center",
+        "min_duration": 18,
+        "max_duration": 60,
+        "max_clips_per_video": 10,
+        "caption_style": "chunk",
+        "caption_font": "Anton",
+        "caption_font_size": 92,
+        "caption_accent": "#FACC15",
+        "caption_color": "#FFFFFF",
+        "caption_outline": "#0A0A0F",
+        "caption_uppercase": true,
+        "hook_font": "Archivo Black",
+        "hook_size": 54,
+        "hook_bg": "#7C3AED",
+        "hook_color": "#FFFFFF",
+        "hook_seconds": 3.4,
+        "hook_y": 300,
+        "watermark": "",
+        "require_original_audio": true,
+        "trim_silence": true,
+        "id": "bendadonn-puffco",
+        "name": "BenDaDonnn x Puffco GTA 6",
+        "enabled": true,
+        "source_type": "yt-dlp",
+        "source_section": "00:00:00-01:15:00",
+        "rate_cpm": 1.0,
+        "payout_model": "cpm",
+        "required_hashtags": [],
+        "keywords": [
+          "puffco",
+          "puffco peak",
+          "proxy",
+          "hash butler",
+          "jar",
+          "clouds",
+          "dab",
+          "hits"
+        ],
+        "must_mention": true,
+        "rules": "Only moments from Ben's Puffco GTA stream. Positive moments only: genuine first-hit and in-session reactions, natural wonder and energy at GTA, clouds / big hits, impressed moments where Ben or chat is hyped, tips and banter about the Hash Butler, and any shoutout or positive energy toward Puffco. Never use complaints, weak hits, frustration, negative framing of the device or sponsor, gambling (slots, blackjack), or anything highly offensive.\n",
+        "focus_seconds": [
+          0,
+          300,
+          600,
+          1050,
+          1350,
+          3450,
+          4200,
+          6600
+        ]
+      },
+      "stage": "rendered",
+      "transcript": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.words.json",
+      "duration": 4500.010688,
+      "clips": [
+        {
+          "start": 380.46,
+          "end": 401,
+          "score": 8,
+          "quote": "Let me get a puffy. Do y'all see this shit right here? These is dabs.",
+          "verify": "quote",
+          "hook": "First puff & dabs! 🌬️💨",
+          "title": "Ben's first puff on stream – massive clouds!",
+          "caption": "Caught Ben pulling a puff and showing off the dabs. Who else loves those clouds?",
+          "hashtags": [
+            "#Puffco",
+            "#GTAstream",
+            "#Dabs",
+            "#Clouds",
+            "#FirstHit"
+          ],
+          "reason": "Positive brand‑related moment with a clear puff reference, dabs on screen, and immediate hype – perfect for short‑form viral energy.",
+          "stage": "qa_passed",
+          "clip_id": "bendadonn-puffco_380_0",
+          "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-24/bendadonn-puffco_380_0.mp4",
+          "duration": 20.54,
+          "layout": "crop",
+          "hash": "51ff56ed2511981039cdb7cc",
+          "meta": {
+            "width": 1080,
+            "height": 1920,
+            "duration": 20.633333,
+            "size": 10485439
+          }
+        }
+      ],
+      "windows": 6,
+      "source_size": [
+        1920,
+        1080
+      ],
+      "reel_fit": 0.316,
+      "layout": "crop",
+      "source_deleted": true
+    }
+  ],
+  "updated": "2026-11-24T08:01:46+00:00",
+  "campaigns": [
+    "bendadonn-puffco"
+  ]
 }

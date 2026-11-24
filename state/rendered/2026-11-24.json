@@ -1,5 +1,34 @@
 {
   "date": "2026-11-24",
-  "clips": [],
-  "updated": "2026-11-24T03:09:14+00:00"
+  "clips": [
+    {
+      "clip_id": "bendadonn-puffco_380_0",
+      "campaign": "bendadonn-puffco",
+      "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-24/bendadonn-puffco_380_0.mp4",
+      "hash": "51ff56ed2511981039cdb7cc",
+      "hook": "First puff & dabs! 🌬️💨",
+      "title": "Ben's first puff on stream – massive clouds!",
+      "caption": "Caught Ben pulling a puff and showing off the dabs. Who else loves those clouds?",
+      "hashtags": [
+        "#Puffco",
+        "#GTAstream",
+        "#Dabs",
+        "#Clouds",
+        "#FirstHit"
+      ],
+      "duration": 20.54,
+      "meta": {
+        "width": 1080,
+        "height": 1920,
+        "duration": 20.633333,
+        "size": 10485439
+      },
+      "stage": "uploaded",
+      "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-24/bendadonn-puffco_380_0.mp4",
+      "storage_key": "2026-11-24/bendadonn-puffco_380_0.mp4",
+      "storage_backend": "nextcloud",
+      "local_deleted": true
+    }
+  ],
+  "updated": "2026-11-24T08:01:46+00:00"
 }

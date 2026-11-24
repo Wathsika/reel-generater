@@ -144,6 +144,186 @@
       "stage": "dashboard",
       "message": "completed (1 items)",
       "job_id": "dashboard-1795492880-6c1bb4"
+    },
+    {
+      "t": "2026-11-24T07:59:39+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "1 pasted link(s), 1 waiting"
+    },
+    {
+      "t": "2026-11-24T07:59:52+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "auto window 00:00:00-01:15:00 for https://www.twitch.tv/videos/2933247628",
+      "source": "bendadonnn"
+    },
+    {
+      "t": "2026-11-24T08:00:12+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "downloaded https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
+      "size_mb": 4057.6,
+      "duration_s": 4500,
+      "size": "1920x1080"
+    },
+    {
+      "t": "2026-11-24T08:00:12+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (1 items)",
+      "job_id": "discover-1795507179-c3d0c1"
+    },
+    {
+      "t": "2026-11-24T08:01:16+00:00",
+      "level": "info",
+      "stage": "transcribe",
+      "message": "completed (1 items)",
+      "job_id": "transcribe-1795507212-b24075"
+    },
+    {
+      "t": "2026-11-24T08:01:20+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-24T08:01:24+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-24T08:01:26+00:00",
+      "level": "warn",
+      "stage": "select",
+      "message": "window 2/6 failed",
+      "reason": "groq: openai/gpt-oss-120b: HTTP 429; allam-2-7b: HTTP 429; canopylabs/orpheus-arabic-saudi: HTTP 400 {\"error\":{\"message\":\"The model `canopylabs/orpheus-arabic-saudi` requires terms acceptance. Please "
+    },
+    {
+      "t": "2026-11-24T08:01:27+00:00",
+      "level": "warn",
+      "stage": "select",
+      "message": "window 3/6 failed",
+      "reason": "groq: openai/gpt-oss-120b: HTTP 429; allam-2-7b: HTTP 429; canopylabs/orpheus-arabic-saudi: HTTP 400 {\"error\":{\"message\":\"The model `canopylabs/orpheus-arabic-saudi` requires terms acceptance. Please "
+    },
+    {
+      "t": "2026-11-24T08:01:27+00:00",
+      "level": "warn",
+      "stage": "select",
+      "message": "window 4/6 failed",
+      "reason": "groq: openai/gpt-oss-120b: HTTP 429; allam-2-7b: HTTP 429; canopylabs/orpheus-arabic-saudi: HTTP 400 {\"error\":{\"message\":\"The model `canopylabs/orpheus-arabic-saudi` requires terms acceptance. Please "
+    },
+    {
+      "t": "2026-11-24T08:01:28+00:00",
+      "level": "warn",
+      "stage": "select",
+      "message": "window 5/6 failed",
+      "reason": "groq: openai/gpt-oss-120b: HTTP 429; allam-2-7b: HTTP 429; canopylabs/orpheus-arabic-saudi: HTTP 400 {\"error\":{\"message\":\"The model `canopylabs/orpheus-arabic-saudi` requires terms acceptance. Please "
+    },
+    {
+      "t": "2026-11-24T08:01:28+00:00",
+      "level": "warn",
+      "stage": "select",
+      "message": "window 6/6 failed",
+      "reason": "groq: openai/gpt-oss-120b: HTTP 429; allam-2-7b: HTTP 429; canopylabs/orpheus-arabic-saudi: HTTP 400 {\"error\":{\"message\":\"The model `canopylabs/orpheus-arabic-saudi` requires terms acceptance. Please "
+    },
+    {
+      "t": "2026-11-24T08:01:28+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "completed (1 items)",
+      "job_id": "select-1795507276-ec4425"
+    },
+    {
+      "t": "2026-11-24T08:01:29+00:00",
+      "level": "info",
+      "stage": "render",
+      "message": "source 1920x1080 keeps 31% in a 9:16 crop",
+      "layout": "crop"
+    },
+    {
+      "t": "2026-11-24T08:01:42+00:00",
+      "level": "info",
+      "stage": "render",
+      "message": "completed (1 items)",
+      "job_id": "render-1795507288-eea0c5"
+    },
+    {
+      "t": "2026-11-24T08:01:42+00:00",
+      "level": "info",
+      "stage": "qa",
+      "message": "completed (1 items)",
+      "job_id": "qa-1795507302-60bd16"
+    },
+    {
+      "t": "2026-11-24T08:01:46+00:00",
+      "level": "info",
+      "stage": "upload",
+      "message": "completed (1 items)",
+      "job_id": "upload-1795507302-e1e049"
+    },
+    {
+      "t": "2026-11-24T08:01:46+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "instagram is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-24T08:01:46+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "facebook is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-24T08:01:46+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "tiktok is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-24T08:01:46+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "auto_approve=false - waiting for manual approval",
+      "clip_id": "bendadonn-puffco_380_0"
+    },
+    {
+      "t": "2026-11-24T08:01:46+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "completed (0 items)",
+      "job_id": "publish-1795507306-9dcd0e"
+    },
+    {
+      "t": "2026-11-24T08:01:46+00:00",
+      "level": "info",
+      "stage": "analytics",
+      "message": "completed (0 items)",
+      "job_id": "analytics-1795507306-a88ab8"
+    },
+    {
+      "t": "2026-11-24T08:01:47+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "completed (5 items)",
+      "job_id": "cleanup-1795507306-95b5e9"
+    },
+    {
+      "t": "2026-11-24T08:01:47+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "freed 4093.74 MB across 5 file(s)",
+      "sources": 1,
+      "state_files": 0,
+      "remote": 0
+    },
+    {
+      "t": "2026-11-24T08:01:47+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795507307-7ba50f"
     }
   ]
 }
