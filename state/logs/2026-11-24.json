@@ -574,6 +574,140 @@
       "stage": "dashboard",
       "message": "completed (1 items)",
       "job_id": "dashboard-1795538516-c7b4c7"
+    },
+    {
+      "t": "2026-11-24T16:43:11+00:00",
+      "level": "warn",
+      "stage": "discover",
+      "message": "download failed (attempt 1/2)",
+      "reason": "ERROR: [youtube] q1jR850CE_o: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://git",
+      "url": "https://www.youtube.com/watch?v=q1jR850CE_o"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "warn",
+      "stage": "discover",
+      "message": "download failed (attempt 2/2)",
+      "reason": "ERROR: [youtube] q1jR850CE_o: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://git",
+      "url": "https://www.youtube.com/watch?v=q1jR850CE_o"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "error",
+      "stage": "discover",
+      "message": "download failed: https://www.youtube.com/watch?v=q1jR850CE_o",
+      "reason": "ERROR: [youtube] q1jR850CE_o: Sign in to confirm you’re not a bot. This helps protect our community. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Also see  https://git"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "warn",
+      "stage": "discover",
+      "message": "source dropped after repeated failures",
+      "url": "https://www.youtube.com/watch?v=q1jR850CE_o",
+      "tries": 2
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (0 items)",
+      "job_id": "discover-1795538588-e88341"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "info",
+      "stage": "transcribe",
+      "message": "completed (0 items)",
+      "job_id": "transcribe-1795538592-157617"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "completed (0 items)",
+      "job_id": "select-1795538592-9449b3"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "info",
+      "stage": "render",
+      "message": "completed (0 items)",
+      "job_id": "render-1795538592-15c8c0"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "info",
+      "stage": "qa",
+      "message": "completed (0 items)",
+      "job_id": "qa-1795538592-362013"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "info",
+      "stage": "upload",
+      "message": "completed (0 items)",
+      "job_id": "upload-1795538592-421a8a"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "instagram is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "facebook is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "tiktok is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "no platform is connected yet - clips stay in storage, nothing is lost; add the tokens and they will post next run"
+    },
+    {
+      "t": "2026-11-24T16:43:12+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "completed (0 items)",
+      "job_id": "publish-1795538592-f0cee3"
+    },
+    {
+      "t": "2026-11-24T16:43:13+00:00",
+      "level": "info",
+      "stage": "analytics",
+      "message": "completed (0 items)",
+      "job_id": "analytics-1795538592-d9f561"
+    },
+    {
+      "t": "2026-11-24T16:43:13+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "completed (0 items)",
+      "job_id": "cleanup-1795538593-aaae51"
+    },
+    {
+      "t": "2026-11-24T16:43:13+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "freed 0.0 MB across 0 file(s)",
+      "sources": 0,
+      "state_files": 0,
+      "remote": 0
+    },
+    {
+      "t": "2026-11-24T16:43:13+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795538593-aad264"
     }
   ]
 }
