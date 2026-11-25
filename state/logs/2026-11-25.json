@@ -495,6 +495,20 @@
       "stage": "discover",
       "message": "giving up on a video that keeps failing",
       "url": "https://www.twitch.tv/videos/2933247628"
+    },
+    {
+      "t": "2026-11-25T02:43:27+00:00",
+      "level": "info",
+      "stage": "analytics",
+      "message": "completed (0 items)",
+      "job_id": "analytics-1795574607-cfc3f4"
+    },
+    {
+      "t": "2026-11-25T02:43:27+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795574607-51df62"
     }
   ]
 }
