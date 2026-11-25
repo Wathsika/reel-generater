@@ -1,0 +1,110 @@
+{
+  "date": "2026-11-25",
+  "clips": [
+    {
+      "clip_id": "bendadonn-puffco_385_0",
+      "campaign": "bendadonn-puffco",
+      "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_385_0.mp4",
+      "hash": "bfcfe17ebdfad31bd90c09e6",
+      "hook": "Do y'all see this? These is dabs!",
+      "title": "First dabs on stream – massive hype!",
+      "caption": "Caught the moment we pulled out the dabs – the vibe was insane! 🚀",
+      "hashtags": [
+        "#Puffco",
+        "#Dabs",
+        "#GTAStream"
+      ],
+      "duration": 19.78,
+      "meta": {
+        "width": 1080,
+        "height": 1920,
+        "duration": 19.833333,
+        "size": 9710278
+      },
+      "layout": "crop",
+      "source_size": [
+        1920,
+        1080
+      ],
+      "reel_fit": 0.316,
+      "crop": null,
+      "stage": "uploaded",
+      "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-25/bendadonn-puffco_385_0.mp4",
+      "storage_key": "2026-11-25/bendadonn-puffco_385_0.mp4",
+      "storage_backend": "nextcloud",
+      "url_ok": true,
+      "local_deleted": true
+    },
+    {
+      "clip_id": "bendadonn-puffco_1216_1",
+      "campaign": "bendadonn-puffco",
+      "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_1216_1.mp4",
+      "hash": "fd898ba6931c73c342a463d9",
+      "hook": "Every GTA death = a fresh dab!",
+      "title": "Dying in GTA? Time for a hit or dab!",
+      "caption": "We turn every in‑game death into a hit – the hype is real! Who else does this?",
+      "hashtags": [
+        "#GTA",
+        "#Dab",
+        "#Hits"
+      ],
+      "duration": 29.92,
+      "meta": {
+        "width": 1080,
+        "height": 1920,
+        "duration": 30.0,
+        "size": 15737349
+      },
+      "layout": "crop",
+      "source_size": [
+        1920,
+        1080
+      ],
+      "reel_fit": 0.316,
+      "crop": null,
+      "stage": "uploaded",
+      "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-25/bendadonn-puffco_1216_1.mp4",
+      "storage_key": "2026-11-25/bendadonn-puffco_1216_1.mp4",
+      "storage_backend": "nextcloud",
+      "url_ok": true,
+      "local_deleted": true
+    },
+    {
+      "clip_id": "bendadonn-puffco_1635_2",
+      "campaign": "bendadonn-puffco",
+      "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_1635_2.mp4",
+      "hash": "7330a0ae5221b4320d6119ab",
+      "hook": "What's the situation? What's happening here?",
+      "title": "Clip 1: Puffco GTA Stream - Surprise!",
+      "caption": "Get ready for an unexpected moment in Ben's Puffco GTA stream!",
+      "hashtags": [
+        "Ben's Puffco GTA stream",
+        "Ben's GTA stream",
+        "Puffco GTA stream",
+        "Ben's stream",
+        "Clips from Ben's Puffco GTA stream"
+      ],
+      "duration": 60.0,
+      "meta": {
+        "width": 1080,
+        "height": 1920,
+        "duration": 60.066016,
+        "size": 16555721
+      },
+      "layout": "crop",
+      "source_size": [
+        1920,
+        1080
+      ],
+      "reel_fit": 0.316,
+      "crop": null,
+      "stage": "uploaded",
+      "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-25/bendadonn-puffco_1635_2.mp4",
+      "storage_key": "2026-11-25/bendadonn-puffco_1635_2.mp4",
+      "storage_backend": "nextcloud",
+      "url_ok": true,
+      "local_deleted": true
+    }
+  ],
+  "updated": "2026-11-25T01:21:47+00:00"
+}

@@ -1,0 +1,162 @@
+{
+  "date": "2026-11-25",
+  "clips": [
+    {
+      "source_key": "https://www.twitch.tv/videos/2933247628|00:00:00-01:15:00",
+      "source_url": "https://www.twitch.tv/videos/2933247628",
+      "source_section": "00:00:00-01:15:00",
+      "source_title": "IM IN GTA 6 🌴 BEST GAMEPLAY 🌴 LETS LOCK IN 🌴",
+      "source_uploader": "bendadonnn",
+      "auto_section": false,
+      "path": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
+      "campaign": "bendadonn-puffco",
+      "settings": {
+        "layout": "auto",
+        "min_crop_keep": 0.3,
+        "crop_mode": "center",
+        "min_duration": 18,
+        "max_duration": 60,
+        "max_clips_per_video": 10,
+        "caption_style": "chunk",
+        "caption_font": "Anton",
+        "caption_font_size": 92,
+        "caption_accent": "#FACC15",
+        "caption_color": "#FFFFFF",
+        "caption_outline": "#0A0A0F",
+        "caption_uppercase": true,
+        "hook_font": "Archivo Black",
+        "hook_size": 54,
+        "hook_bg": "#7C3AED",
+        "hook_color": "#FFFFFF",
+        "hook_seconds": 3.4,
+        "hook_y": 300,
+        "watermark": "",
+        "require_original_audio": true,
+        "trim_silence": true,
+        "id": "bendadonn-puffco",
+        "name": "BenDaDonnn x Puffco GTA 6",
+        "enabled": true,
+        "source_type": "yt-dlp",
+        "source_section": "00:00:00-01:15:00",
+        "rate_cpm": 1.0,
+        "payout_model": "cpm",
+        "required_hashtags": [],
+        "keywords": [
+          "puffco",
+          "puffco peak",
+          "proxy",
+          "hash butler",
+          "jar",
+          "clouds",
+          "dab",
+          "hits"
+        ],
+        "must_mention": true,
+        "rules": "Only moments from Ben's Puffco GTA stream. Positive moments only: genuine first-hit and in-session reactions, natural wonder and energy at GTA, clouds / big hits, impressed moments where Ben or chat is hyped, tips and banter about the Hash Butler, and any shoutout or positive energy toward Puffco. Never use complaints, weak hits, frustration, negative framing of the device or sponsor, gambling (slots, blackjack), or anything highly offensive.\n"
+      },
+      "stage": "rendered",
+      "transcript": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.words.json",
+      "duration": 4500.010688,
+      "clips": [
+        {
+          "start": 385.5,
+          "end": 405.28,
+          "score": 6,
+          "quote": "These is dabs.",
+          "verify": "quote",
+          "hook": "Do y'all see this? These is dabs!",
+          "title": "First dabs on stream – massive hype!",
+          "caption": "Caught the moment we pulled out the dabs – the vibe was insane! 🚀",
+          "hashtags": [
+            "#Puffco",
+            "#Dabs",
+            "#GTAStream"
+          ],
+          "reason": "Shows a spontaneous hype moment with dabs, a clear reaction that stands alone and includes a required keyword, giving viewers instant excitement.",
+          "stage": "qa_passed",
+          "clip_id": "bendadonn-puffco_385_0",
+          "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_385_0.mp4",
+          "duration": 19.78,
+          "layout": "crop",
+          "hash": "bfcfe17ebdfad31bd90c09e6",
+          "meta": {
+            "width": 1080,
+            "height": 1920,
+            "duration": 19.833333,
+            "size": 9710278
+          }
+        },
+        {
+          "start": 1216.94,
+          "end": 1246.86,
+          "score": 7,
+          "quote": "Anytime I die, we gotta take a hit or a dab",
+          "verify": "quote",
+          "hook": "Every GTA death = a fresh dab!",
+          "title": "Dying in GTA? Time for a hit or dab!",
+          "caption": "We turn every in‑game death into a hit – the hype is real! Who else does this?",
+          "hashtags": [
+            "#GTA",
+            "#Dab",
+            "#Hits"
+          ],
+          "reason": "Positive, energetic banter linking game deaths to taking a dab/hit, contains the required word \"dab\" and works as a self‑contained hype moment.",
+          "stage": "qa_passed",
+          "clip_id": "bendadonn-puffco_1216_1",
+          "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_1216_1.mp4",
+          "duration": 29.92,
+          "layout": "crop",
+          "hash": "fd898ba6931c73c342a463d9",
+          "meta": {
+            "width": 1080,
+            "height": 1920,
+            "duration": 30.0,
+            "size": 15737349
+          }
+        },
+        {
+          "start": 1635.12,
+          "end": 1695.12,
+          "score": 8,
+          "quote": "Hey, what's going on?",
+          "verify": "none",
+          "hook": "What's the situation? What's happening here?",
+          "title": "Clip 1: Puffco GTA Stream - Surprise!",
+          "caption": "Get ready for an unexpected moment in Ben's Puffco GTA stream!",
+          "hashtags": [
+            "Ben's Puffco GTA stream",
+            "Ben's GTA stream",
+            "Puffco GTA stream",
+            "Ben's stream",
+            "Clips from Ben's Puffco GTA stream"
+          ],
+          "reason": "",
+          "stage": "qa_passed",
+          "clip_id": "bendadonn-puffco_1635_2",
+          "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_1635_2.mp4",
+          "duration": 60.0,
+          "layout": "crop",
+          "hash": "7330a0ae5221b4320d6119ab",
+          "meta": {
+            "width": 1080,
+            "height": 1920,
+            "duration": 60.066016,
+            "size": 16555721
+          }
+        }
+      ],
+      "windows": 6,
+      "source_size": [
+        1920,
+        1080
+      ],
+      "reel_fit": 0.316,
+      "layout": "crop",
+      "source_deleted": true
+    }
+  ],
+  "updated": "2026-11-25T01:21:47+00:00",
+  "campaigns": [
+    "bendadonn-puffco"
+  ]
+}
