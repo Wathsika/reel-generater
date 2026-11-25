@@ -241,6 +241,260 @@
       "level": "info",
       "stage": "discover",
       "message": "1 unfinished video(s) queued again"
+    },
+    {
+      "t": "2026-11-25T01:22:40+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "cutting this video again - its earlier clips are no longer in storage",
+      "url": "https://www.twitch.tv/videos/2933247628"
+    },
+    {
+      "t": "2026-11-25T01:22:57+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "downloaded https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
+      "size_mb": 4057.6,
+      "duration_s": 4500,
+      "size": "1920x1080"
+    },
+    {
+      "t": "2026-11-25T01:22:57+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (1 items)",
+      "job_id": "discover-1795569759-216e21"
+    },
+    {
+      "t": "2026-11-25T01:22:57+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "1 more video(s) waiting",
+      "waiting": 1
+    },
+    {
+      "t": "2026-11-25T01:24:07+00:00",
+      "level": "info",
+      "stage": "transcribe",
+      "message": "completed (1 items)",
+      "job_id": "transcribe-1795569778-18635b"
+    },
+    {
+      "t": "2026-11-25T01:24:10+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-25T01:24:13+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-25T01:24:15+00:00",
+      "level": "warn",
+      "stage": "select",
+      "message": "every groq model is rate-limited - waiting, then retrying once",
+      "seconds": 45,
+      "part": "part 2 of 6 of the recording"
+    },
+    {
+      "t": "2026-11-25T01:25:07+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-25T01:25:09+00:00",
+      "level": "warn",
+      "stage": "select",
+      "message": "every groq model is rate-limited - waiting, then retrying once",
+      "seconds": 45,
+      "part": "part 3 of 6 of the recording"
+    },
+    {
+      "t": "2026-11-25T01:25:57+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-25T01:25:58+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-25T01:26:00+00:00",
+      "level": "warn",
+      "stage": "select",
+      "message": "every groq model is rate-limited - waiting, then retrying once",
+      "seconds": 45,
+      "part": "part 4 of 6 of the recording"
+    },
+    {
+      "t": "2026-11-25T01:26:47+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-25T01:26:53+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-25T01:26:55+00:00",
+      "level": "warn",
+      "stage": "select",
+      "message": "every groq model is rate-limited - waiting, then retrying once",
+      "seconds": 45,
+      "part": "part 5 of 6 of the recording"
+    },
+    {
+      "t": "2026-11-25T01:27:44+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-25T01:27:46+00:00",
+      "level": "warn",
+      "stage": "select",
+      "message": "every groq model is rate-limited - waiting, then retrying once",
+      "seconds": 45,
+      "part": "part 5 of 6 of the recording"
+    },
+    {
+      "t": "2026-11-25T01:28:36+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-25T01:28:37+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-25T01:28:38+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "groq model in use: openai/gpt-oss-120b"
+    },
+    {
+      "t": "2026-11-25T01:28:38+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "dropped moments that never mention the product",
+      "dropped": 5,
+      "kept": 3
+    },
+    {
+      "t": "2026-11-25T01:28:38+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "completed (3 items)",
+      "job_id": "select-1795569847-efda65"
+    },
+    {
+      "t": "2026-11-25T01:28:38+00:00",
+      "level": "info",
+      "stage": "render",
+      "message": "source 1920x1080 keeps 31% in a 9:16 crop",
+      "layout": "crop"
+    },
+    {
+      "t": "2026-11-25T01:29:33+00:00",
+      "level": "info",
+      "stage": "render",
+      "message": "completed (3 items)",
+      "job_id": "render-1795570118-3d3471"
+    },
+    {
+      "t": "2026-11-25T01:29:33+00:00",
+      "level": "info",
+      "stage": "qa",
+      "message": "completed (3 items)",
+      "job_id": "qa-1795570173-9cff36"
+    },
+    {
+      "t": "2026-11-25T01:29:48+00:00",
+      "level": "info",
+      "stage": "upload",
+      "message": "completed (3 items)",
+      "job_id": "upload-1795570173-17b5f4"
+    },
+    {
+      "t": "2026-11-25T01:29:48+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "instagram is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-25T01:29:48+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "facebook is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-25T01:29:48+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "tiktok is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-25T01:29:48+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "no platform is connected yet - clips stay in storage, nothing is lost; add the tokens and they will post next run"
+    },
+    {
+      "t": "2026-11-25T01:29:48+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "completed (0 items)",
+      "job_id": "publish-1795570188-242265"
+    },
+    {
+      "t": "2026-11-25T01:29:48+00:00",
+      "level": "info",
+      "stage": "analytics",
+      "message": "completed (0 items)",
+      "job_id": "analytics-1795570188-f4be48"
+    },
+    {
+      "t": "2026-11-25T01:29:49+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "completed (9 items)",
+      "job_id": "cleanup-1795570188-c0f912"
+    },
+    {
+      "t": "2026-11-25T01:29:49+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "freed 4124.4 MB across 9 file(s)",
+      "sources": 1,
+      "state_files": 0,
+      "remote": 0
+    },
+    {
+      "t": "2026-11-25T01:29:49+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795570189-4cf164"
+    },
+    {
+      "t": "2026-11-25T01:29:49+00:00",
+      "level": "warn",
+      "stage": "discover",
+      "message": "giving up on a video that keeps failing",
+      "url": "https://www.twitch.tv/videos/2933247628"
     }
   ]
 }

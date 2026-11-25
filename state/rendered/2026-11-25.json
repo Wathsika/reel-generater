@@ -104,7 +104,109 @@
       "storage_backend": "nextcloud",
       "url_ok": true,
       "local_deleted": true
+    },
+    {
+      "clip_id": "bendadonn-puffco_383_0",
+      "campaign": "bendadonn-puffco",
+      "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_383_0.mp4",
+      "hash": "ac09649eedbbe9beb8e8cc94",
+      "hook": "Epic dab cloud! 😲🔥",
+      "title": "First puffco dab hit – massive clouds on stream!",
+      "caption": "Did you see those clouds? This dab was insane!",
+      "hashtags": [
+        "#Puffco",
+        "#DabHits",
+        "#GTAStream"
+      ],
+      "duration": 20.5,
+      "meta": {
+        "width": 1080,
+        "height": 1920,
+        "duration": 20.566667,
+        "size": 10186588
+      },
+      "layout": "crop",
+      "source_size": [
+        1920,
+        1080
+      ],
+      "reel_fit": 0.316,
+      "crop": null,
+      "stage": "uploaded",
+      "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-25/bendadonn-puffco_383_0.mp4",
+      "storage_key": "2026-11-25/bendadonn-puffco_383_0.mp4",
+      "storage_backend": "nextcloud",
+      "url_ok": true,
+      "local_deleted": true
+    },
+    {
+      "clip_id": "bendadonn-puffco_1217_1",
+      "campaign": "bendadonn-puffco",
+      "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_1217_1.mp4",
+      "hash": "43d26df27b763158b155bade",
+      "hook": "First dab after a kill! 🚀",
+      "title": "Taking the dab after every death",
+      "caption": "Every time I die we hit a dab—it's the hype!",
+      "hashtags": [
+        "#Puffco",
+        "#DabLife",
+        "#GTAStream"
+      ],
+      "duration": 34.92,
+      "meta": {
+        "width": 1080,
+        "height": 1920,
+        "duration": 35.0,
+        "size": 17494807
+      },
+      "layout": "crop",
+      "source_size": [
+        1920,
+        1080
+      ],
+      "reel_fit": 0.316,
+      "crop": null,
+      "stage": "uploaded",
+      "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-25/bendadonn-puffco_1217_1.mp4",
+      "storage_key": "2026-11-25/bendadonn-puffco_1217_1.mp4",
+      "storage_backend": "nextcloud",
+      "url_ok": true,
+      "local_deleted": true
+    },
+    {
+      "clip_id": "bendadonn-puffco_1630_2",
+      "campaign": "bendadonn-puffco",
+      "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_1630_2.mp4",
+      "hash": "5e6766a3c9a01cd4171e80fd",
+      "hook": "Puffco hype in the chat!",
+      "title": "Puffco shoutout while gaming",
+      "caption": "Chat goes wild for Puffco as we fire up the game.",
+      "hashtags": [
+        "#Puffco",
+        "#GTA",
+        "#StreamerLife"
+      ],
+      "duration": 60.0,
+      "meta": {
+        "width": 1080,
+        "height": 1920,
+        "duration": 60.066016,
+        "size": 14938451
+      },
+      "layout": "crop",
+      "source_size": [
+        1920,
+        1080
+      ],
+      "reel_fit": 0.316,
+      "crop": null,
+      "stage": "uploaded",
+      "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-25/bendadonn-puffco_1630_2.mp4",
+      "storage_key": "2026-11-25/bendadonn-puffco_1630_2.mp4",
+      "storage_backend": "nextcloud",
+      "url_ok": true,
+      "local_deleted": true
     }
   ],
-  "updated": "2026-11-25T01:21:47+00:00"
+  "updated": "2026-11-25T01:29:48+00:00"
 }
