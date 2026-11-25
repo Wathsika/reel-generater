@@ -3105,7 +3105,31 @@
       "items": 1,
       "error": null,
       "meta": {}
+    },
+    {
+      "id": "analytics-1795627850-4d7c63",
+      "stage": "analytics",
+      "status": "ok",
+      "started": "2026-11-25T17:30:50+00:00",
+      "started_ts": 1795627850.6884522,
+      "ended": "2026-11-25T17:30:50+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "dashboard-1795627850-7300a1",
+      "stage": "dashboard",
+      "status": "ok",
+      "started": "2026-11-25T17:30:50+00:00",
+      "started_ts": 1795627850.7940676,
+      "ended": "2026-11-25T17:30:50+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
     }
   ],
-  "updated": "2026-11-25T15:21:33+00:00"
+  "updated": "2026-11-25T17:30:50+00:00"
 }

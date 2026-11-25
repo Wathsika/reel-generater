@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-25T15:21:33+00:00",
+  "generated": "2026-11-25T17:30:50+00:00",
   "jobs": {
     "runs": [
       {
@@ -3095,9 +3095,33 @@
         "items": 0,
         "error": null,
         "meta": {}
+      },
+      {
+        "id": "dashboard-1795620093-339688",
+        "stage": "dashboard",
+        "status": "ok",
+        "started": "2026-11-25T15:21:33+00:00",
+        "started_ts": 1795620093.9654858,
+        "ended": "2026-11-25T15:21:33+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "analytics-1795627850-4d7c63",
+        "stage": "analytics",
+        "status": "ok",
+        "started": "2026-11-25T17:30:50+00:00",
+        "started_ts": 1795627850.6884522,
+        "ended": "2026-11-25T17:30:50+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
       }
     ],
-    "updated": "2026-11-25T15:21:33+00:00"
+    "updated": "2026-11-25T17:30:50+00:00"
   },
   "queue": {
     "date": "2026-11-25",
@@ -3490,7 +3514,7 @@
         "clips": 0
       }
     },
-    "updated": "2026-11-25T15:21:32+00:00"
+    "updated": "2026-11-25T17:30:50+00:00"
   },
   "log": {
     "entries": [
@@ -4105,6 +4129,27 @@
         "sources": 0,
         "state_files": 0,
         "remote": 0
+      },
+      {
+        "t": "2026-11-25T15:21:33+00:00",
+        "level": "info",
+        "stage": "dashboard",
+        "message": "completed (1 items)",
+        "job_id": "dashboard-1795620093-339688"
+      },
+      {
+        "t": "2026-11-25T15:21:34+00:00",
+        "level": "warn",
+        "stage": "discover",
+        "message": "giving up on a video that keeps failing",
+        "url": "https://www.twitch.tv/videos/2933247628"
+      },
+      {
+        "t": "2026-11-25T17:30:50+00:00",
+        "level": "info",
+        "stage": "analytics",
+        "message": "completed (0 items)",
+        "job_id": "analytics-1795627850-4d7c63"
       }
     ]
   },
@@ -4131,8 +4176,8 @@
     "storage_backend": {
       "backend": "Nextcloud",
       "bucket": "Clips",
-      "configured": true,
-      "public": true,
+      "configured": false,
+      "public": false,
       "folder": "Clips"
     },
     "campaigns": [
