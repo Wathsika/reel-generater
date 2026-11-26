@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-25T17:30:50+00:00",
+  "generated": "2026-11-26T00:49:55+00:00",
   "jobs": {
     "runs": [
       {
@@ -3119,381 +3119,152 @@
         "items": 0,
         "error": null,
         "meta": {}
+      },
+      {
+        "id": "dashboard-1795627850-7300a1",
+        "stage": "dashboard",
+        "status": "ok",
+        "started": "2026-11-25T17:30:50+00:00",
+        "started_ts": 1795627850.7940676,
+        "ended": "2026-11-25T17:30:50+00:00",
+        "duration_s": 0.0,
+        "items": 1,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "discover-1795654190-7fe514",
+        "stage": "discover",
+        "status": "ok",
+        "started": "2026-11-26T00:49:50+00:00",
+        "started_ts": 1795654190.872629,
+        "ended": "2026-11-26T00:49:50+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "waiting list empty"
+        }
+      },
+      {
+        "id": "transcribe-1795654190-8a35d0",
+        "stage": "transcribe",
+        "status": "ok",
+        "started": "2026-11-26T00:49:50+00:00",
+        "started_ts": 1795654190.9626641,
+        "ended": "2026-11-26T00:49:50+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "select-1795654191-65f5f8",
+        "stage": "select",
+        "status": "ok",
+        "started": "2026-11-26T00:49:51+00:00",
+        "started_ts": 1795654191.0260923,
+        "ended": "2026-11-26T00:49:51+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "render-1795654191-3ae7d7",
+        "stage": "render",
+        "status": "ok",
+        "started": "2026-11-26T00:49:51+00:00",
+        "started_ts": 1795654191.0953622,
+        "ended": "2026-11-26T00:49:51+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "qa-1795654191-46efa0",
+        "stage": "qa",
+        "status": "ok",
+        "started": "2026-11-26T00:49:51+00:00",
+        "started_ts": 1795654191.1609228,
+        "ended": "2026-11-26T00:49:51+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0
+        }
+      },
+      {
+        "id": "upload-1795654191-7c29b4",
+        "stage": "upload",
+        "status": "ok",
+        "started": "2026-11-26T00:49:51+00:00",
+        "started_ts": 1795654191.2258663,
+        "ended": "2026-11-26T00:49:53+00:00",
+        "duration_s": 2.4,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "failed": 0,
+          "repaired": 0
+        }
+      },
+      {
+        "id": "publish-1795654193-223735",
+        "stage": "publish",
+        "status": "ok",
+        "started": "2026-11-26T00:49:53+00:00",
+        "started_ts": 1795654193.7185533,
+        "ended": "2026-11-26T00:49:53+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {
+          "note": "no platform credentials"
+        }
+      },
+      {
+        "id": "analytics-1795654193-759efe",
+        "stage": "analytics",
+        "status": "ok",
+        "started": "2026-11-26T00:49:53+00:00",
+        "started_ts": 1795654193.7988245,
+        "ended": "2026-11-26T00:49:53+00:00",
+        "duration_s": 0.0,
+        "items": 0,
+        "error": null,
+        "meta": {}
+      },
+      {
+        "id": "cleanup-1795654193-1cf9aa",
+        "stage": "cleanup",
+        "status": "ok",
+        "started": "2026-11-26T00:49:53+00:00",
+        "started_ts": 1795654193.858664,
+        "ended": "2026-11-26T00:49:55+00:00",
+        "duration_s": 1.3,
+        "items": 0,
+        "error": null,
+        "meta": {}
       }
     ],
-    "updated": "2026-11-25T17:30:50+00:00"
+    "updated": "2026-11-26T00:49:55+00:00"
   },
   "queue": {
-    "date": "2026-11-25",
-    "clips": [
-      {
-        "source_key": "https://www.twitch.tv/videos/2933247628|00:00:00-01:15:00",
-        "source_url": "https://www.twitch.tv/videos/2933247628",
-        "source_section": "00:00:00-01:15:00",
-        "source_title": "IM IN GTA 6 🌴 BEST GAMEPLAY 🌴 LETS LOCK IN 🌴",
-        "source_uploader": "bendadonnn",
-        "auto_section": false,
-        "path": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
-        "campaign": "bendadonn-puffco",
-        "settings": {
-          "layout": "auto",
-          "min_crop_keep": 0.3,
-          "crop_mode": "center",
-          "min_duration": 18,
-          "max_duration": 60,
-          "max_clips_per_video": 10,
-          "caption_style": "chunk",
-          "caption_font": "Anton",
-          "caption_font_size": 92,
-          "caption_accent": "#FACC15",
-          "caption_color": "#FFFFFF",
-          "caption_outline": "#0A0A0F",
-          "caption_uppercase": true,
-          "hook_font": "Archivo Black",
-          "hook_size": 54,
-          "hook_bg": "#7C3AED",
-          "hook_color": "#FFFFFF",
-          "hook_seconds": 3.4,
-          "hook_y": 300,
-          "watermark": "",
-          "require_original_audio": true,
-          "trim_silence": true,
-          "id": "bendadonn-puffco",
-          "name": "BenDaDonnn x Puffco GTA 6",
-          "enabled": true,
-          "source_type": "yt-dlp",
-          "source_section": "00:00:00-01:15:00",
-          "rate_cpm": 1.0,
-          "payout_model": "cpm",
-          "required_hashtags": [],
-          "keywords": [
-            "puffco",
-            "puffco peak",
-            "proxy",
-            "hash butler",
-            "jar",
-            "clouds",
-            "dab",
-            "hits"
-          ],
-          "must_mention": true,
-          "rules": "Only moments from Ben's Puffco GTA stream. Positive moments only: genuine first-hit and in-session reactions, natural wonder and energy at GTA, clouds / big hits, impressed moments where Ben or chat is hyped, tips and banter about the Hash Butler, and any shoutout or positive energy toward Puffco. Never use complaints, weak hits, frustration, negative framing of the device or sponsor, gambling (slots, blackjack), or anything highly offensive.\n"
-        },
-        "stage": "rendered",
-        "transcript": "/home/runner/work/reel-generater/reel-generater/work/sources/https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.words.json",
-        "duration": 4500.010688,
-        "clips": [
-          {
-            "start": 383.7,
-            "end": 404.2,
-            "score": 8,
-            "quote": "Do y'all see this shit right here? These is dabs.",
-            "verify": "quote",
-            "hook": "Epic dab cloud! 😲🔥",
-            "title": "First puffco dab hit – massive clouds on stream!",
-            "caption": "Did you see those clouds? This dab was insane!",
-            "hashtags": [
-              "#Puffco",
-              "#DabHits",
-              "#GTAStream"
-            ],
-            "reason": "Shows a genuine, excited reaction to a dab hit, mentions dabs (Puffco product), creates instant visual intrigue and encourages viewers to rewatch the cloud moment.",
-            "stage": "qa_passed",
-            "clip_id": "bendadonn-puffco_383_0",
-            "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_383_0.mp4",
-            "duration": 20.5,
-            "layout": "crop",
-            "hash": "ac09649eedbbe9beb8e8cc94",
-            "meta": {
-              "width": 1080,
-              "height": 1920,
-              "duration": 20.566667,
-              "size": 10186588
-            }
-          },
-          {
-            "start": 1217.48,
-            "end": 1252.4,
-            "score": 8,
-            "quote": "we gotta take a hit or a dab",
-            "verify": "quote",
-            "hook": "First dab after a kill! 🚀",
-            "title": "Taking the dab after every death",
-            "caption": "Every time I die we hit a dab—it's the hype!",
-            "hashtags": [
-              "#Puffco",
-              "#DabLife",
-              "#GTAStream"
-            ],
-            "reason": "Shows a positive, hype‑filled reaction to a dab, includes the required word and stands alone as a fun moment.",
-            "stage": "qa_passed",
-            "clip_id": "bendadonn-puffco_1217_1",
-            "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_1217_1.mp4",
-            "duration": 34.92,
-            "layout": "crop",
-            "hash": "43d26df27b763158b155bade",
-            "meta": {
-              "width": 1080,
-              "height": 1920,
-              "duration": 35.0,
-              "size": 17494807
-            }
-          },
-          {
-            "start": 1630.06,
-            "end": 1690.06,
-            "score": 9,
-            "quote": "W, Puffco, chat. Yeah, W, Puffco. I'm not going to lie",
-            "verify": "quote",
-            "hook": "Puffco hype in the chat!",
-            "title": "Puffco shoutout while gaming",
-            "caption": "Chat goes wild for Puffco as we fire up the game.",
-            "hashtags": [
-              "#Puffco",
-              "#GTA",
-              "#StreamerLife"
-            ],
-            "reason": "Direct, enthusiastic mention of Puffco with the streamer hyped, perfect short‑form clip that’s instantly understandable.",
-            "stage": "qa_passed",
-            "clip_id": "bendadonn-puffco_1630_2",
-            "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_1630_2.mp4",
-            "duration": 60.0,
-            "layout": "crop",
-            "hash": "5e6766a3c9a01cd4171e80fd",
-            "meta": {
-              "width": 1080,
-              "height": 1920,
-              "duration": 60.066016,
-              "size": 14938451
-            }
-          }
-        ],
-        "windows": 6,
-        "source_size": [
-          1920,
-          1080
-        ],
-        "reel_fit": 0.316,
-        "layout": "crop",
-        "source_deleted": true
-      }
-    ],
-    "updated": "2026-11-25T15:21:32+00:00",
-    "campaigns": [
-      "bendadonn-puffco"
-    ]
+    "date": "2026-11-26",
+    "clips": [],
+    "updated": "2026-11-26T00:49:53+00:00"
   },
   "rendered": {
-    "date": "2026-11-25",
-    "clips": [
-      {
-        "clip_id": "bendadonn-puffco_385_0",
-        "campaign": "bendadonn-puffco",
-        "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_385_0.mp4",
-        "hash": "bfcfe17ebdfad31bd90c09e6",
-        "hook": "Do y'all see this? These is dabs!",
-        "title": "First dabs on stream – massive hype!",
-        "caption": "Caught the moment we pulled out the dabs – the vibe was insane! 🚀",
-        "hashtags": [
-          "#Puffco",
-          "#Dabs",
-          "#GTAStream"
-        ],
-        "duration": 19.78,
-        "meta": {
-          "width": 1080,
-          "height": 1920,
-          "duration": 19.833333,
-          "size": 9710278
-        },
-        "layout": "crop",
-        "source_size": [
-          1920,
-          1080
-        ],
-        "reel_fit": 0.316,
-        "crop": null,
-        "stage": "uploaded",
-        "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-25/bendadonn-puffco_385_0.mp4",
-        "storage_key": "2026-11-25/bendadonn-puffco_385_0.mp4",
-        "storage_backend": "nextcloud",
-        "url_ok": true,
-        "local_deleted": true
-      },
-      {
-        "clip_id": "bendadonn-puffco_1216_1",
-        "campaign": "bendadonn-puffco",
-        "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_1216_1.mp4",
-        "hash": "fd898ba6931c73c342a463d9",
-        "hook": "Every GTA death = a fresh dab!",
-        "title": "Dying in GTA? Time for a hit or dab!",
-        "caption": "We turn every in‑game death into a hit – the hype is real! Who else does this?",
-        "hashtags": [
-          "#GTA",
-          "#Dab",
-          "#Hits"
-        ],
-        "duration": 29.92,
-        "meta": {
-          "width": 1080,
-          "height": 1920,
-          "duration": 30.0,
-          "size": 15737349
-        },
-        "layout": "crop",
-        "source_size": [
-          1920,
-          1080
-        ],
-        "reel_fit": 0.316,
-        "crop": null,
-        "stage": "uploaded",
-        "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-25/bendadonn-puffco_1216_1.mp4",
-        "storage_key": "2026-11-25/bendadonn-puffco_1216_1.mp4",
-        "storage_backend": "nextcloud",
-        "url_ok": true,
-        "local_deleted": true
-      },
-      {
-        "clip_id": "bendadonn-puffco_1635_2",
-        "campaign": "bendadonn-puffco",
-        "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_1635_2.mp4",
-        "hash": "7330a0ae5221b4320d6119ab",
-        "hook": "What's the situation? What's happening here?",
-        "title": "Clip 1: Puffco GTA Stream - Surprise!",
-        "caption": "Get ready for an unexpected moment in Ben's Puffco GTA stream!",
-        "hashtags": [
-          "Ben's Puffco GTA stream",
-          "Ben's GTA stream",
-          "Puffco GTA stream",
-          "Ben's stream",
-          "Clips from Ben's Puffco GTA stream"
-        ],
-        "duration": 60.0,
-        "meta": {
-          "width": 1080,
-          "height": 1920,
-          "duration": 60.066016,
-          "size": 16555721
-        },
-        "layout": "crop",
-        "source_size": [
-          1920,
-          1080
-        ],
-        "reel_fit": 0.316,
-        "crop": null,
-        "stage": "uploaded",
-        "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-25/bendadonn-puffco_1635_2.mp4",
-        "storage_key": "2026-11-25/bendadonn-puffco_1635_2.mp4",
-        "storage_backend": "nextcloud",
-        "url_ok": true,
-        "local_deleted": true
-      },
-      {
-        "clip_id": "bendadonn-puffco_383_0",
-        "campaign": "bendadonn-puffco",
-        "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_383_0.mp4",
-        "hash": "ac09649eedbbe9beb8e8cc94",
-        "hook": "Epic dab cloud! 😲🔥",
-        "title": "First puffco dab hit – massive clouds on stream!",
-        "caption": "Did you see those clouds? This dab was insane!",
-        "hashtags": [
-          "#Puffco",
-          "#DabHits",
-          "#GTAStream"
-        ],
-        "duration": 20.5,
-        "meta": {
-          "width": 1080,
-          "height": 1920,
-          "duration": 20.566667,
-          "size": 10186588
-        },
-        "layout": "crop",
-        "source_size": [
-          1920,
-          1080
-        ],
-        "reel_fit": 0.316,
-        "crop": null,
-        "stage": "uploaded",
-        "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-25/bendadonn-puffco_383_0.mp4",
-        "storage_key": "2026-11-25/bendadonn-puffco_383_0.mp4",
-        "storage_backend": "nextcloud",
-        "url_ok": true,
-        "local_deleted": true
-      },
-      {
-        "clip_id": "bendadonn-puffco_1217_1",
-        "campaign": "bendadonn-puffco",
-        "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_1217_1.mp4",
-        "hash": "43d26df27b763158b155bade",
-        "hook": "First dab after a kill! 🚀",
-        "title": "Taking the dab after every death",
-        "caption": "Every time I die we hit a dab—it's the hype!",
-        "hashtags": [
-          "#Puffco",
-          "#DabLife",
-          "#GTAStream"
-        ],
-        "duration": 34.92,
-        "meta": {
-          "width": 1080,
-          "height": 1920,
-          "duration": 35.0,
-          "size": 17494807
-        },
-        "layout": "crop",
-        "source_size": [
-          1920,
-          1080
-        ],
-        "reel_fit": 0.316,
-        "crop": null,
-        "stage": "uploaded",
-        "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-25/bendadonn-puffco_1217_1.mp4",
-        "storage_key": "2026-11-25/bendadonn-puffco_1217_1.mp4",
-        "storage_backend": "nextcloud",
-        "url_ok": true,
-        "local_deleted": true
-      },
-      {
-        "clip_id": "bendadonn-puffco_1630_2",
-        "campaign": "bendadonn-puffco",
-        "path": "/home/runner/work/reel-generater/reel-generater/out/2026-11-25/bendadonn-puffco_1630_2.mp4",
-        "hash": "5e6766a3c9a01cd4171e80fd",
-        "hook": "Puffco hype in the chat!",
-        "title": "Puffco shoutout while gaming",
-        "caption": "Chat goes wild for Puffco as we fire up the game.",
-        "hashtags": [
-          "#Puffco",
-          "#GTA",
-          "#StreamerLife"
-        ],
-        "duration": 60.0,
-        "meta": {
-          "width": 1080,
-          "height": 1920,
-          "duration": 60.066016,
-          "size": 14938451
-        },
-        "layout": "crop",
-        "source_size": [
-          1920,
-          1080
-        ],
-        "reel_fit": 0.316,
-        "crop": null,
-        "stage": "uploaded",
-        "r2_url": "https://wathsika-drive.duckdns.org/public.php/dav/files/Fs7JXcNMgsH9qW6/2026-11-25/bendadonn-puffco_1630_2.mp4",
-        "storage_key": "2026-11-25/bendadonn-puffco_1630_2.mp4",
-        "storage_backend": "nextcloud",
-        "url_ok": true,
-        "local_deleted": true
-      }
-    ],
-    "updated": "2026-11-25T15:21:32+00:00"
+    "date": "2026-11-26",
+    "clips": [],
+    "updated": "2026-11-26T00:49:53+00:00"
   },
   "posted": {
     "posts": []
@@ -3512,644 +3283,117 @@
       "2026-11-25": {
         "views": 0,
         "clips": 0
+      },
+      "2026-11-26": {
+        "views": 0,
+        "clips": 0
       }
     },
-    "updated": "2026-11-25T17:30:50+00:00"
+    "updated": "2026-11-26T00:49:53+00:00"
   },
   "log": {
     "entries": [
       {
-        "t": "2026-11-25T01:15:33+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "downloaded https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
-        "size_mb": 4057.6,
-        "duration_s": 4500,
-        "size": "1920x1080"
-      },
-      {
-        "t": "2026-11-25T01:15:33+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (1 items)",
-        "job_id": "discover-1795569301-a0f091"
-      },
-      {
-        "t": "2026-11-25T01:15:33+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "1 more video(s) waiting",
-        "waiting": 1
-      },
-      {
-        "t": "2026-11-25T01:16:42+00:00",
-        "level": "info",
-        "stage": "transcribe",
-        "message": "completed (1 items)",
-        "job_id": "transcribe-1795569333-e2e827"
-      },
-      {
-        "t": "2026-11-25T01:16:46+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:16:54+00:00",
-        "level": "warn",
-        "stage": "select",
-        "message": "every groq model is rate-limited - waiting, then retrying once",
-        "seconds": 45,
-        "part": "part 2 of 6 of the recording"
-      },
-      {
-        "t": "2026-11-25T01:17:53+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:17:53+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: allam-2-7b"
-      },
-      {
-        "t": "2026-11-25T01:17:54+00:00",
-        "level": "warn",
-        "stage": "select",
-        "message": "every groq model is rate-limited - waiting, then retrying once",
-        "seconds": 45,
-        "part": "part 4 of 6 of the recording"
-      },
-      {
-        "t": "2026-11-25T01:18:44+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:18:45+00:00",
-        "level": "warn",
-        "stage": "select",
-        "message": "every groq model is rate-limited - waiting, then retrying once",
-        "seconds": 45,
-        "part": "part 4 of 6 of the recording"
-      },
-      {
-        "t": "2026-11-25T01:19:33+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:19:35+00:00",
-        "level": "warn",
-        "stage": "select",
-        "message": "every groq model is rate-limited - waiting, then retrying once",
-        "seconds": 45,
-        "part": "part 5 of 6 of the recording"
-      },
-      {
-        "t": "2026-11-25T01:20:22+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:20:28+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:20:28+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: allam-2-7b"
-      },
-      {
-        "t": "2026-11-25T01:20:29+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: allam-2-7b"
-      },
-      {
-        "t": "2026-11-25T01:20:29+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "dropped moments that never mention the product",
-        "dropped": 10,
-        "kept": 3
-      },
-      {
-        "t": "2026-11-25T01:20:29+00:00",
-        "level": "warn",
-        "stage": "select",
-        "message": "some clips could not be checked against the transcript",
-        "clips": 1,
-        "total": 3
-      },
-      {
-        "t": "2026-11-25T01:20:29+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "completed (3 items)",
-        "job_id": "select-1795569402-2fa8f7"
-      },
-      {
-        "t": "2026-11-25T01:20:29+00:00",
-        "level": "info",
-        "stage": "render",
-        "message": "source 1920x1080 keeps 31% in a 9:16 crop",
-        "layout": "crop"
-      },
-      {
-        "t": "2026-11-25T01:21:34+00:00",
-        "level": "info",
-        "stage": "render",
-        "message": "completed (3 items)",
-        "job_id": "render-1795569629-cfed21"
-      },
-      {
-        "t": "2026-11-25T01:21:34+00:00",
-        "level": "info",
-        "stage": "qa",
-        "message": "completed (3 items)",
-        "job_id": "qa-1795569694-65157e"
-      },
-      {
-        "t": "2026-11-25T01:21:46+00:00",
-        "level": "info",
-        "stage": "upload",
-        "message": "completed (3 items)",
-        "job_id": "upload-1795569694-536cd3"
-      },
-      {
-        "t": "2026-11-25T01:21:47+00:00",
-        "level": "warn",
-        "stage": "publish",
-        "message": "instagram is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
-      },
-      {
-        "t": "2026-11-25T01:21:47+00:00",
-        "level": "warn",
-        "stage": "publish",
-        "message": "facebook is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
-      },
-      {
-        "t": "2026-11-25T01:21:47+00:00",
-        "level": "warn",
-        "stage": "publish",
-        "message": "tiktok is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
-      },
-      {
-        "t": "2026-11-25T01:21:47+00:00",
-        "level": "info",
-        "stage": "publish",
-        "message": "no platform is connected yet - clips stay in storage, nothing is lost; add the tokens and they will post next run"
-      },
-      {
-        "t": "2026-11-25T01:21:47+00:00",
-        "level": "info",
-        "stage": "publish",
-        "message": "completed (0 items)",
-        "job_id": "publish-1795569706-3b2fe7"
-      },
-      {
-        "t": "2026-11-25T01:21:47+00:00",
-        "level": "info",
-        "stage": "analytics",
-        "message": "completed (0 items)",
-        "job_id": "analytics-1795569707-be343f"
-      },
-      {
-        "t": "2026-11-25T01:21:47+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "completed (9 items)",
-        "job_id": "cleanup-1795569707-6dc136"
-      },
-      {
-        "t": "2026-11-25T01:21:47+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "freed 4123.81 MB across 9 file(s)",
-        "sources": 1,
-        "state_files": 0,
-        "remote": 0
-      },
-      {
-        "t": "2026-11-25T01:21:47+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795569707-78bf27"
-      },
-      {
-        "t": "2026-11-25T01:21:48+00:00",
-        "level": "warn",
-        "stage": "discover",
-        "message": "video did not finish - queued again once",
-        "url": "https://www.twitch.tv/videos/2933247628",
-        "item_stage": "rendered"
-      },
-      {
-        "t": "2026-11-25T01:21:48+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "1 unfinished video(s) queued again"
-      },
-      {
-        "t": "2026-11-25T01:22:40+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "cutting this video again - its earlier clips are no longer in storage",
-        "url": "https://www.twitch.tv/videos/2933247628"
-      },
-      {
-        "t": "2026-11-25T01:22:57+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "downloaded https___www_twitch_tv_videos_2933247628_00_00_00_01_15_00.mp4",
-        "size_mb": 4057.6,
-        "duration_s": 4500,
-        "size": "1920x1080"
-      },
-      {
-        "t": "2026-11-25T01:22:57+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "completed (1 items)",
-        "job_id": "discover-1795569759-216e21"
-      },
-      {
-        "t": "2026-11-25T01:22:57+00:00",
-        "level": "info",
-        "stage": "discover",
-        "message": "1 more video(s) waiting",
-        "waiting": 1
-      },
-      {
-        "t": "2026-11-25T01:24:07+00:00",
-        "level": "info",
-        "stage": "transcribe",
-        "message": "completed (1 items)",
-        "job_id": "transcribe-1795569778-18635b"
-      },
-      {
-        "t": "2026-11-25T01:24:10+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:24:13+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:24:15+00:00",
-        "level": "warn",
-        "stage": "select",
-        "message": "every groq model is rate-limited - waiting, then retrying once",
-        "seconds": 45,
-        "part": "part 2 of 6 of the recording"
-      },
-      {
-        "t": "2026-11-25T01:25:07+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:25:09+00:00",
-        "level": "warn",
-        "stage": "select",
-        "message": "every groq model is rate-limited - waiting, then retrying once",
-        "seconds": 45,
-        "part": "part 3 of 6 of the recording"
-      },
-      {
-        "t": "2026-11-25T01:25:57+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:25:58+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:26:00+00:00",
-        "level": "warn",
-        "stage": "select",
-        "message": "every groq model is rate-limited - waiting, then retrying once",
-        "seconds": 45,
-        "part": "part 4 of 6 of the recording"
-      },
-      {
-        "t": "2026-11-25T01:26:47+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:26:53+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:26:55+00:00",
-        "level": "warn",
-        "stage": "select",
-        "message": "every groq model is rate-limited - waiting, then retrying once",
-        "seconds": 45,
-        "part": "part 5 of 6 of the recording"
-      },
-      {
-        "t": "2026-11-25T01:27:44+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:27:46+00:00",
-        "level": "warn",
-        "stage": "select",
-        "message": "every groq model is rate-limited - waiting, then retrying once",
-        "seconds": 45,
-        "part": "part 5 of 6 of the recording"
-      },
-      {
-        "t": "2026-11-25T01:28:36+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:28:37+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:28:38+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "groq model in use: openai/gpt-oss-120b"
-      },
-      {
-        "t": "2026-11-25T01:28:38+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "dropped moments that never mention the product",
-        "dropped": 5,
-        "kept": 3
-      },
-      {
-        "t": "2026-11-25T01:28:38+00:00",
-        "level": "info",
-        "stage": "select",
-        "message": "completed (3 items)",
-        "job_id": "select-1795569847-efda65"
-      },
-      {
-        "t": "2026-11-25T01:28:38+00:00",
-        "level": "info",
-        "stage": "render",
-        "message": "source 1920x1080 keeps 31% in a 9:16 crop",
-        "layout": "crop"
-      },
-      {
-        "t": "2026-11-25T01:29:33+00:00",
-        "level": "info",
-        "stage": "render",
-        "message": "completed (3 items)",
-        "job_id": "render-1795570118-3d3471"
-      },
-      {
-        "t": "2026-11-25T01:29:33+00:00",
-        "level": "info",
-        "stage": "qa",
-        "message": "completed (3 items)",
-        "job_id": "qa-1795570173-9cff36"
-      },
-      {
-        "t": "2026-11-25T01:29:48+00:00",
-        "level": "info",
-        "stage": "upload",
-        "message": "completed (3 items)",
-        "job_id": "upload-1795570173-17b5f4"
-      },
-      {
-        "t": "2026-11-25T01:29:48+00:00",
-        "level": "warn",
-        "stage": "publish",
-        "message": "instagram is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
-      },
-      {
-        "t": "2026-11-25T01:29:48+00:00",
-        "level": "warn",
-        "stage": "publish",
-        "message": "facebook is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
-      },
-      {
-        "t": "2026-11-25T01:29:48+00:00",
-        "level": "warn",
-        "stage": "publish",
-        "message": "tiktok is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
-      },
-      {
-        "t": "2026-11-25T01:29:48+00:00",
-        "level": "info",
-        "stage": "publish",
-        "message": "no platform is connected yet - clips stay in storage, nothing is lost; add the tokens and they will post next run"
-      },
-      {
-        "t": "2026-11-25T01:29:48+00:00",
-        "level": "info",
-        "stage": "publish",
-        "message": "completed (0 items)",
-        "job_id": "publish-1795570188-242265"
-      },
-      {
-        "t": "2026-11-25T01:29:48+00:00",
-        "level": "info",
-        "stage": "analytics",
-        "message": "completed (0 items)",
-        "job_id": "analytics-1795570188-f4be48"
-      },
-      {
-        "t": "2026-11-25T01:29:49+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "completed (9 items)",
-        "job_id": "cleanup-1795570188-c0f912"
-      },
-      {
-        "t": "2026-11-25T01:29:49+00:00",
-        "level": "info",
-        "stage": "cleanup",
-        "message": "freed 4124.4 MB across 9 file(s)",
-        "sources": 1,
-        "state_files": 0,
-        "remote": 0
-      },
-      {
-        "t": "2026-11-25T01:29:49+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795570189-4cf164"
-      },
-      {
-        "t": "2026-11-25T01:29:49+00:00",
-        "level": "warn",
-        "stage": "discover",
-        "message": "giving up on a video that keeps failing",
-        "url": "https://www.twitch.tv/videos/2933247628"
-      },
-      {
-        "t": "2026-11-25T02:43:27+00:00",
-        "level": "info",
-        "stage": "analytics",
-        "message": "completed (0 items)",
-        "job_id": "analytics-1795574607-cfc3f4"
-      },
-      {
-        "t": "2026-11-25T02:43:27+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795574607-51df62"
-      },
-      {
-        "t": "2026-11-25T15:21:30+00:00",
+        "t": "2026-11-26T00:49:50+00:00",
         "level": "info",
         "stage": "discover",
         "message": "completed (0 items)",
-        "job_id": "discover-1795620090-3eeb29"
+        "job_id": "discover-1795654190-7fe514"
       },
       {
-        "t": "2026-11-25T15:21:30+00:00",
+        "t": "2026-11-26T00:49:50+00:00",
         "level": "info",
         "stage": "discover",
         "message": "nothing waiting - paste a link or add one to campaigns.yaml"
       },
       {
-        "t": "2026-11-25T15:21:30+00:00",
+        "t": "2026-11-26T00:49:50+00:00",
         "level": "info",
         "stage": "transcribe",
         "message": "completed (0 items)",
-        "job_id": "transcribe-1795620090-468eb5"
+        "job_id": "transcribe-1795654190-8a35d0"
       },
       {
-        "t": "2026-11-25T15:21:30+00:00",
+        "t": "2026-11-26T00:49:51+00:00",
         "level": "info",
         "stage": "select",
         "message": "completed (0 items)",
-        "job_id": "select-1795620090-ebe204"
+        "job_id": "select-1795654191-65f5f8"
       },
       {
-        "t": "2026-11-25T15:21:30+00:00",
+        "t": "2026-11-26T00:49:51+00:00",
         "level": "info",
         "stage": "render",
         "message": "completed (0 items)",
-        "job_id": "render-1795620090-9aedc2"
+        "job_id": "render-1795654191-3ae7d7"
       },
       {
-        "t": "2026-11-25T15:21:30+00:00",
+        "t": "2026-11-26T00:49:51+00:00",
         "level": "info",
         "stage": "qa",
         "message": "completed (0 items)",
-        "job_id": "qa-1795620090-79aab6"
+        "job_id": "qa-1795654191-46efa0"
       },
       {
-        "t": "2026-11-25T15:21:32+00:00",
+        "t": "2026-11-26T00:49:53+00:00",
         "level": "info",
         "stage": "upload",
         "message": "completed (0 items)",
-        "job_id": "upload-1795620090-ddef92"
+        "job_id": "upload-1795654191-7c29b4"
       },
       {
-        "t": "2026-11-25T15:21:32+00:00",
+        "t": "2026-11-26T00:49:53+00:00",
         "level": "warn",
         "stage": "publish",
         "message": "instagram is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
       },
       {
-        "t": "2026-11-25T15:21:32+00:00",
+        "t": "2026-11-26T00:49:53+00:00",
         "level": "warn",
         "stage": "publish",
         "message": "facebook is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
       },
       {
-        "t": "2026-11-25T15:21:32+00:00",
+        "t": "2026-11-26T00:49:53+00:00",
         "level": "warn",
         "stage": "publish",
         "message": "tiktok is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
       },
       {
-        "t": "2026-11-25T15:21:32+00:00",
+        "t": "2026-11-26T00:49:53+00:00",
         "level": "info",
         "stage": "publish",
         "message": "no platform is connected yet - clips stay in storage, nothing is lost; add the tokens and they will post next run"
       },
       {
-        "t": "2026-11-25T15:21:32+00:00",
+        "t": "2026-11-26T00:49:53+00:00",
         "level": "info",
         "stage": "publish",
         "message": "completed (0 items)",
-        "job_id": "publish-1795620092-7c97aa"
+        "job_id": "publish-1795654193-223735"
       },
       {
-        "t": "2026-11-25T15:21:32+00:00",
+        "t": "2026-11-26T00:49:53+00:00",
         "level": "info",
         "stage": "analytics",
         "message": "completed (0 items)",
-        "job_id": "analytics-1795620092-07f24e"
+        "job_id": "analytics-1795654193-759efe"
       },
       {
-        "t": "2026-11-25T15:21:33+00:00",
+        "t": "2026-11-26T00:49:55+00:00",
         "level": "info",
         "stage": "cleanup",
         "message": "completed (0 items)",
-        "job_id": "cleanup-1795620092-3878d9"
+        "job_id": "cleanup-1795654193-1cf9aa"
       },
       {
-        "t": "2026-11-25T15:21:33+00:00",
+        "t": "2026-11-26T00:49:55+00:00",
         "level": "info",
         "stage": "cleanup",
         "message": "freed 0.0 MB across 0 file(s)",
         "sources": 0,
         "state_files": 0,
         "remote": 0
-      },
-      {
-        "t": "2026-11-25T15:21:33+00:00",
-        "level": "info",
-        "stage": "dashboard",
-        "message": "completed (1 items)",
-        "job_id": "dashboard-1795620093-339688"
-      },
-      {
-        "t": "2026-11-25T15:21:34+00:00",
-        "level": "warn",
-        "stage": "discover",
-        "message": "giving up on a video that keeps failing",
-        "url": "https://www.twitch.tv/videos/2933247628"
-      },
-      {
-        "t": "2026-11-25T17:30:50+00:00",
-        "level": "info",
-        "stage": "analytics",
-        "message": "completed (0 items)",
-        "job_id": "analytics-1795627850-4d7c63"
       }
     ]
   },
@@ -4176,8 +3420,8 @@
     "storage_backend": {
       "backend": "Nextcloud",
       "bucket": "Clips",
-      "configured": false,
-      "public": false,
+      "configured": true,
+      "public": true,
       "folder": "Clips"
     },
     "campaigns": [
@@ -4185,7 +3429,7 @@
     ]
   },
   "storage": {
-    "updated": "2026-11-25T15:21:33+00:00",
+    "updated": "2026-11-26T00:49:55+00:00",
     "freed_mb": 0.0,
     "files_deleted": 0,
     "sources_deleted": 0,

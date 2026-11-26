@@ -21,8 +21,8 @@
   "storage_backend": {
     "backend": "Nextcloud",
     "bucket": "Clips",
-    "configured": false,
-    "public": false,
+    "configured": true,
+    "public": true,
     "folder": "Clips"
   },
   "campaigns": [
