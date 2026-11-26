@@ -3262,7 +3262,31 @@
       "items": 1,
       "error": null,
       "meta": {}
+    },
+    {
+      "id": "analytics-1795658075-562b8d",
+      "stage": "analytics",
+      "status": "ok",
+      "started": "2026-11-26T01:54:35+00:00",
+      "started_ts": 1795658075.1466963,
+      "ended": "2026-11-26T01:54:35+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "dashboard-1795658075-a09c8a",
+      "stage": "dashboard",
+      "status": "ok",
+      "started": "2026-11-26T01:54:35+00:00",
+      "started_ts": 1795658075.2119544,
+      "ended": "2026-11-26T01:54:35+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
     }
   ],
-  "updated": "2026-11-26T00:49:55+00:00"
+  "updated": "2026-11-26T01:54:35+00:00"
 }
