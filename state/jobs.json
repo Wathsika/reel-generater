@@ -3733,7 +3733,31 @@
       "items": 1,
       "error": null,
       "meta": {}
+    },
+    {
+      "id": "analytics-1795798513-269941",
+      "stage": "analytics",
+      "status": "ok",
+      "started": "2026-11-27T16:55:13+00:00",
+      "started_ts": 1795798513.0731137,
+      "ended": "2026-11-27T16:55:13+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "dashboard-1795798513-6b0dd9",
+      "stage": "dashboard",
+      "status": "ok",
+      "started": "2026-11-27T16:55:13+00:00",
+      "started_ts": 1795798513.1662574,
+      "ended": "2026-11-27T16:55:13+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
     }
   ],
-  "updated": "2026-11-27T14:45:38+00:00"
+  "updated": "2026-11-27T16:55:13+00:00"
 }
