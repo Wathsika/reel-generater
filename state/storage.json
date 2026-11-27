@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27T00:56:43+00:00",
+  "updated": "2026-11-27T14:45:38+00:00",
   "freed_mb": 0.0,
   "files_deleted": 0,
   "sources_deleted": 0,
@@ -8,6 +8,6 @@
   "remote_days": 7,
   "work_mb": 0.0,
   "out_mb": 0.0,
-  "state_mb": 0.2,
+  "state_mb": 0.21,
   "dry_run": false
 }

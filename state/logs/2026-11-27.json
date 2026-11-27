@@ -129,6 +129,122 @@
       "stage": "dashboard",
       "message": "completed (1 items)",
       "job_id": "dashboard-1795744366-b1edc9"
+    },
+    {
+      "t": "2026-11-27T14:45:35+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "completed (0 items)",
+      "job_id": "discover-1795790735-b16044"
+    },
+    {
+      "t": "2026-11-27T14:45:35+00:00",
+      "level": "info",
+      "stage": "discover",
+      "message": "nothing waiting - paste a link or add one to campaigns.yaml"
+    },
+    {
+      "t": "2026-11-27T14:45:35+00:00",
+      "level": "info",
+      "stage": "transcribe",
+      "message": "completed (0 items)",
+      "job_id": "transcribe-1795790735-0badaf"
+    },
+    {
+      "t": "2026-11-27T14:45:35+00:00",
+      "level": "info",
+      "stage": "select",
+      "message": "completed (0 items)",
+      "job_id": "select-1795790735-473a0d"
+    },
+    {
+      "t": "2026-11-27T14:45:36+00:00",
+      "level": "info",
+      "stage": "render",
+      "message": "completed (0 items)",
+      "job_id": "render-1795790736-369e7a"
+    },
+    {
+      "t": "2026-11-27T14:45:36+00:00",
+      "level": "info",
+      "stage": "qa",
+      "message": "completed (0 items)",
+      "job_id": "qa-1795790736-9197b7"
+    },
+    {
+      "t": "2026-11-27T14:45:37+00:00",
+      "level": "info",
+      "stage": "upload",
+      "message": "completed (0 items)",
+      "job_id": "upload-1795790736-51e92a"
+    },
+    {
+      "t": "2026-11-27T14:45:37+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "instagram is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-27T14:45:37+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "facebook is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-27T14:45:37+00:00",
+      "level": "warn",
+      "stage": "publish",
+      "message": "tiktok is enabled but has neither direct credentials nor a Postiz channel - skipped until one is added"
+    },
+    {
+      "t": "2026-11-27T14:45:37+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "no platform is connected yet - clips stay in storage, nothing is lost; add the tokens and they will post next run"
+    },
+    {
+      "t": "2026-11-27T14:45:37+00:00",
+      "level": "info",
+      "stage": "publish",
+      "message": "completed (0 items)",
+      "job_id": "publish-1795790737-450416"
+    },
+    {
+      "t": "2026-11-27T14:45:37+00:00",
+      "level": "info",
+      "stage": "analytics",
+      "message": "completed (0 items)",
+      "job_id": "analytics-1795790737-cfc8bb"
+    },
+    {
+      "t": "2026-11-27T14:45:38+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "completed (0 items)",
+      "job_id": "cleanup-1795790737-5d67fb"
+    },
+    {
+      "t": "2026-11-27T14:45:38+00:00",
+      "level": "info",
+      "stage": "cleanup",
+      "message": "freed 0.0 MB across 0 file(s)",
+      "sources": 0,
+      "state_files": 0,
+      "remote": 0
+    },
+    {
+      "t": "2026-11-27T14:45:38+00:00",
+      "level": "info",
+      "stage": "dashboard",
+      "message": "completed (1 items)",
+      "job_id": "dashboard-1795790738-fc0c85"
+    },
+    {
+      "t": "2026-11-27T14:45:38+00:00",
+      "level": "warn",
+      "stage": "discover",
+      "message": "giving up on a video that keeps failing",
+      "url": "https://www.twitch.tv/videos/2933247628"
     }
   ]
 }

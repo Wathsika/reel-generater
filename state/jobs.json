@@ -3600,7 +3600,140 @@
       "items": 1,
       "error": null,
       "meta": {}
+    },
+    {
+      "id": "discover-1795790735-b16044",
+      "stage": "discover",
+      "status": "ok",
+      "started": "2026-11-27T14:45:35+00:00",
+      "started_ts": 1795790735.7766545,
+      "ended": "2026-11-27T14:45:35+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "note": "waiting list empty"
+      }
+    },
+    {
+      "id": "transcribe-1795790735-0badaf",
+      "stage": "transcribe",
+      "status": "ok",
+      "started": "2026-11-27T14:45:35+00:00",
+      "started_ts": 1795790735.8894453,
+      "ended": "2026-11-27T14:45:35+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 0
+      }
+    },
+    {
+      "id": "select-1795790735-473a0d",
+      "stage": "select",
+      "status": "ok",
+      "started": "2026-11-27T14:45:35+00:00",
+      "started_ts": 1795790735.963437,
+      "ended": "2026-11-27T14:45:35+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "render-1795790736-369e7a",
+      "stage": "render",
+      "status": "ok",
+      "started": "2026-11-27T14:45:36+00:00",
+      "started_ts": 1795790736.0450857,
+      "ended": "2026-11-27T14:45:36+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 0
+      }
+    },
+    {
+      "id": "qa-1795790736-9197b7",
+      "stage": "qa",
+      "status": "ok",
+      "started": "2026-11-27T14:45:36+00:00",
+      "started_ts": 1795790736.122542,
+      "ended": "2026-11-27T14:45:36+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 0
+      }
+    },
+    {
+      "id": "upload-1795790736-51e92a",
+      "stage": "upload",
+      "status": "ok",
+      "started": "2026-11-27T14:45:36+00:00",
+      "started_ts": 1795790736.198323,
+      "ended": "2026-11-27T14:45:37+00:00",
+      "duration_s": 1.2,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "failed": 0,
+        "repaired": 0
+      }
+    },
+    {
+      "id": "publish-1795790737-450416",
+      "stage": "publish",
+      "status": "ok",
+      "started": "2026-11-27T14:45:37+00:00",
+      "started_ts": 1795790737.5110025,
+      "ended": "2026-11-27T14:45:37+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {
+        "note": "no platform credentials"
+      }
+    },
+    {
+      "id": "analytics-1795790737-cfc8bb",
+      "stage": "analytics",
+      "status": "ok",
+      "started": "2026-11-27T14:45:37+00:00",
+      "started_ts": 1795790737.6059172,
+      "ended": "2026-11-27T14:45:37+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "cleanup-1795790737-5d67fb",
+      "stage": "cleanup",
+      "status": "ok",
+      "started": "2026-11-27T14:45:37+00:00",
+      "started_ts": 1795790737.675954,
+      "ended": "2026-11-27T14:45:38+00:00",
+      "duration_s": 1.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "dashboard-1795790738-fc0c85",
+      "stage": "dashboard",
+      "status": "ok",
+      "started": "2026-11-27T14:45:38+00:00",
+      "started_ts": 1795790738.8091812,
+      "ended": "2026-11-27T14:45:38+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
     }
   ],
-  "updated": "2026-11-27T01:52:46+00:00"
+  "updated": "2026-11-27T14:45:38+00:00"
 }
