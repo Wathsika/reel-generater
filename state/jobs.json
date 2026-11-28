@@ -3890,7 +3890,31 @@
       "items": 1,
       "error": null,
       "meta": {}
+    },
+    {
+      "id": "analytics-1795829746-67dbd1",
+      "stage": "analytics",
+      "status": "ok",
+      "started": "2026-11-28T01:35:46+00:00",
+      "started_ts": 1795829746.9197843,
+      "ended": "2026-11-28T01:35:46+00:00",
+      "duration_s": 0.0,
+      "items": 0,
+      "error": null,
+      "meta": {}
+    },
+    {
+      "id": "dashboard-1795829746-439cf8",
+      "stage": "dashboard",
+      "status": "ok",
+      "started": "2026-11-28T01:35:46+00:00",
+      "started_ts": 1795829746.9872742,
+      "ended": "2026-11-28T01:35:46+00:00",
+      "duration_s": 0.0,
+      "items": 1,
+      "error": null,
+      "meta": {}
     }
   ],
-  "updated": "2026-11-28T00:21:19+00:00"
+  "updated": "2026-11-28T01:35:46+00:00"
 }
